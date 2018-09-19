@@ -20,7 +20,8 @@ class CreateDaftarCpTable extends Migration
             $table->text('alamat');
             $table->string('ttl', 50);
             $table->string('foto', 250);
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent();
         });
     }
 

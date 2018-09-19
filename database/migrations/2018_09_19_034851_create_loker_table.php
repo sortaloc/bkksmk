@@ -22,7 +22,8 @@ class CreateLokerTable extends Migration
             $table->text('jam_kerja');
             $table->text('keterangan_loker');
             $table->string('brosur', 250);
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent();
         });
     }
 

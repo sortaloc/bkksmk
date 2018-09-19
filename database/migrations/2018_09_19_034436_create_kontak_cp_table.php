@@ -20,7 +20,8 @@ class CreateKontakCpTable extends Migration
             $table->string('no_telepon', 20)->nullable();
             $table->string('id_line', 50)->nullable();
             $table->text('kontak_dll')->nullable();
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent();
         });
     }
 

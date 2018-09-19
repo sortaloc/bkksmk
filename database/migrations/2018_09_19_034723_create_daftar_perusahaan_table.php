@@ -20,7 +20,8 @@ class CreateDaftarPerusahaanTable extends Migration
             $table->text('alamat');
             $table->text('bio');
             $table->string('foto', 250);
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent();
         });
     }
 
