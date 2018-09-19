@@ -1,2 +1,0 @@
-# bkksmk
-Bursa Kerja Khusus
