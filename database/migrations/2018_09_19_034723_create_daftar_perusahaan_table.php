@@ -15,11 +15,11 @@ class CreateDaftarPerusahaanTable extends Migration
     {
         Schema::create('daftar_perusahaan', function (Blueprint $table) {
             $table->increments('id_perusahaan');
-            $table->integer('id_users')->references('id_users')->on('users');
+            $table->integer('id_user')->references('id_user')->on('users');
             $table->string('nama', 100);
-            $table->text('alamat');
-            $table->text('bio');
-            $table->string('foto', 250);
+            $table->text('alamat')->nullable();
+            $table->text('bio')->nullable();
+            $table->string('foto', 255)->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();
         });

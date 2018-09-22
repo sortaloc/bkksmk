@@ -19,6 +19,23 @@ class CreateStatusTable extends Migration
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();
         });
+
+        // Insert some stuff
+        DB::table('status')->insert(
+            array(
+                'nama' => 'admin'
+            )
+        );
+        DB::table('status')->insert(
+            array(
+                'nama' => 'perusahaan'
+            )
+        );
+        DB::table('status')->insert(
+            array(
+                'nama' => 'cp'
+            )
+        );
     }
 
     /**

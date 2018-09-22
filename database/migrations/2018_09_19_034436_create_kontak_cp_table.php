@@ -15,7 +15,7 @@ class CreateKontakCpTable extends Migration
     {
         Schema::create('kontak_cp', function (Blueprint $table) {
             $table->increments('id_kontak');
-            $table->string('nip', 20)->references('nip')->on('daftar_cp');
+            $table->string('nis', 20)->references('nis')->on('daftar_cp');
             $table->string('no_hp', 20)->nullable();
             $table->string('no_telepon', 20)->nullable();
             $table->string('id_line', 50)->nullable();

@@ -14,12 +14,13 @@ class CreateDaftarCpTable extends Migration
     public function up()
     {
         Schema::create('daftar_cp', function (Blueprint $table) {
-            $table->string('nip', 20)->primary('nip');
-            $table->integer('id_users')->references('id_users')->on('users');
+            $table->string('nis', 20)->primary('nis');
+            $table->integer('id_user')->references('id_user')->on('users');
             $table->string('nama', 50);
-            $table->text('alamat');
-            $table->string('ttl', 50);
-            $table->string('foto', 250);
+            $table->string('jenis_kelamin', 25);
+            $table->text('alamat')->nullable();
+            $table->string('ttl', 50)->nullable();
+            $table->string('foto', 250)->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();
         });
