@@ -7,6 +7,7 @@ use App\Loker;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+
 use Auth;
 
 class LokerController extends Controller
@@ -54,6 +55,10 @@ class LokerController extends Controller
     protected function deleteLoker($id){
         $loker = Loker::find(base64_decode($id));
 
+        if($loker->brosur !== 'nophoto.jpg'){
+            unlink('storage/brosur/'.$loker->brosur);
+        }
+
         if($loker->delete()){
             return redirect('/home');
         }
@@ -85,5 +90,11 @@ class LokerController extends Controller
         if($loker->save()){
             return redirect('/home');
         }
+    }
+
+    protected function daftarPelamar($id){
+        $loker = Loker::find(base64_decode($id));
+
+        return view('perusahaan.daftarPelamar', compact('loker'));
     }
 }

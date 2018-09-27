@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\User;
 use App\DaftarPerusahaan;
 use App\DaftarCP;
+use App\Kontak;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterCPRequest;
@@ -55,13 +56,19 @@ class RegisterController extends Controller
         $user->email = $request['email'];
         $user->password = Hash::make($request['password']);
         if($user->save()){
-            $perusahaan = new DaftarPerusahaan;
-            $perusahaan->id_user = $user->id_user;
-            $perusahaan->nama = $request['nama_perusahaan'];
-            $perusahaan->foto = 'nophoto.jpg';
+            $kontak = new Kontak;
+            $kontak->no_hp = $request['no_hp'];
 
-            if($perusahaan->save()){
-                return redirect('/home');
+            if($kontak->save()){
+                $perusahaan = new DaftarPerusahaan;
+                $perusahaan->id_user = $user->id_user;
+                $perusahaan->id_kontak = $kontak->id_kontak;
+                $perusahaan->nama = $request['nama_perusahaan'];
+                $perusahaan->foto = 'nophoto.jpg';
+
+                if($perusahaan->save()){
+                    return redirect('/home');
+                }
             }
         }
     }
@@ -77,14 +84,21 @@ class RegisterController extends Controller
         $user->email = $request['email'];
         $user->password = Hash::make($request['password']);
         if($user->save()){
-            $cp = new DaftarCP;
-            $cp->nis = $request['nis'];
-            $cp->id_user = $user->id_user;
-            $cp->nama = $request['nama'];
-            $cp->jenis_kelamin = $request['jk'];
+            $kontak = new Kontak;
+            $kontak->no_hp = $request['no_hp'];
 
-            if($cp->save()){
-                return redirect('/home');
+            if($kontak->save()){
+                $cp = new DaftarCP;
+                $cp->nis = $request['nis'];
+                $cp->id_user = $user->id_user;
+                $cp->id_kontak = $kontak->id_kontak;
+                $cp->nama = $request['nama'];
+                $cp->jenis_kelamin = $request['jk'];
+                $cp->foto = 'nophoto.jpg';
+
+                if($cp->save()){
+                    return redirect('/home');
+                }
             }
         }
     }

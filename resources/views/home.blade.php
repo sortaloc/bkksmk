@@ -1,28 +1,5 @@
 @extends('layouts.app')
 
-@section('css')
-<style>
-    .relative{
-        position: relative;
-    }
-    .close-btn{
-        color: red;
-        position: absolute;
-        top: 10px;
-        right: 30px;
-        transition: 0.5s;
-        z-index: 999;
-    }
-    .close-btn:hover{
-        color: rgba(255, 0, 0, 0.5);
-        transition: 0.5s;
-    }
-    .bisaHover{
-        cursor: pointer;
-    }
-</style>
-@endsection
-
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
@@ -40,7 +17,15 @@
                         @endif
 
                         <a href="{{ url('admin/loker/add') }}" class="btn btn-primary">Buat Lowongan Kerja</a>
-                        <hr>
+                        <a href="{{ url('admin/perusahaan') }}" class="btn btn-primary">Daftar Perusahaan</a>
+                        <a href="{{ url('admin/cp') }}" class="btn btn-primary">Daftar Calon Pegawai</a>
+                    </div>
+                </div>
+
+                <div class="card mt-3">
+                    <div class="card-header">Daftar Loker</div>
+
+                    <div class="card-body">
                         @foreach($loker as $l)
                             <div class="relative row">
                                 <div class="close-btn bisaHover">
@@ -51,14 +36,20 @@
                                         <img @if($l->brosur === 'nophoto.jpg') src="{{ 'assets/images/nophoto.jpg' }}" alt="nophoto" @else src="{{ asset('storage/brosur/'.$l->brosur) }}" alt="{{ $l->judul }}" @endif width="220px">
                                     </a>
                                 </div>
-                                <div class="col-md-9 text-center">
-                                    <a href="{{ url('admin/loker/edit', base64_encode($l->id_loker)) }}">
+                                <div class="col-md-9">
+                                    <a class="text-center" href="{{ url('admin/loker/edit', base64_encode($l->id_loker)) }}">
                                         <h1> {{ $l->judul }} </h1>
                                     </a>
-                                    <p> {{ $l->persyaratan }} </p>
-                                    <p> {{ $l->gaji }} </p>
-                                    <p> {{ $l->jam_kerja }} </p>
-                                    <p> {{ $l->keterangan_loker }} </p>
+                                    @if(isset($l->id_perusahaan))
+                                        <p> Nama Perusahaan : {{ $l->perusahaan->nama }} </p>
+                                    @else
+                                        <p> Nama Perusahaan : Admin </p>
+                                    @endif
+                                    <p> Persyaratan : {{ $l->persyaratan }} </p>
+                                    <p> Gaji : {{ $l->gaji }} </p>
+                                    <p> Jam Kerja : {{ $l->jam_kerja }} </p>
+                                    <p> Keterangan : {{ $l->keterangan_loker }} </p>
+                                    <a href="{{ url('admin/loker/daftar_pelamar', base64_encode($l->id_loker)) }}"> Jumlah Pelamar : {{ count($l->lamaran) }} </a>
                                 </div>
                             </div>
                             <hr>
@@ -79,7 +70,12 @@
                         @endif
 
                         <a href="{{ url('perusahaan/loker/add') }}" class="btn btn-primary">Buat Lowongan Kerja</a>
-                        <hr>
+                    </div>
+                </div>
+                <div class="card mt-3">
+                    <div class="card-header">Daftar Loker Saya</div>
+
+                    <div class="card-body">
                         @foreach($loker as $l)
                             <div class="relative row">
                                 <div class="close-btn bisaHover">
@@ -90,14 +86,16 @@
                                         <img @if($l->brosur === 'nophoto.jpg') src="{{ asset('assets/images/nophoto.jpg') }}" alt="nophoto" @else src="{{ asset('storage/brosur/'.$l->brosur) }}" alt="{{ $l->judul }}" @endif width="220px">
                                     </a>
                                 </div>
-                                <div class="col-md-9 text-center">
-                                    <a href="{{ url('perusahaan/loker/edit', base64_encode($l->id_loker)) }}">
+                                <div class="col-md-8">
+                                    <a class="text-center" href="{{ url('perusahaan/loker/edit', base64_encode($l->id_loker)) }}">
                                         <h1> {{ $l->judul }} </h1>
                                     </a>
-                                    <p> {{ $l->persyaratan }} </p>
-                                    <p> {{ $l->gaji }} </p>
-                                    <p> {{ $l->jam_kerja }} </p>
-                                    <p> {{ $l->keterangan_loker }} </p>
+                                    <p> Nama Perusahaan : {{ $l->perusahaan['nama'] }} </p>
+                                    <p> Persyaratan : {{ $l->persyaratan }} </p>
+                                    <p> Gaji : {{ $l->gaji }} </p>
+                                    <p> Jam Kerja : {{ $l->jam_kerja }} </p>
+                                    <p> Keterangan : {{ $l->keterangan_loker }} </p>
+                                    <a href="{{ url('perusahaan/loker/daftar_pelamar', base64_encode($l->id_loker)) }}"> Jumlah Pelamar : {{ count($l->lamaran) }} </a>
                                 </div>
                             </div>
                             <hr>
@@ -117,40 +115,65 @@
                             </div>
                         @endif
 
-                        <div class="row justify-content-center">
-                            @foreach($loker as $l)
-                            <div class="col-md-5 border m-1">
-                                <h1> {{ $l->judul }} </h1>
-                                <p> {{ $l->persyaratan }} </p>
-                                <p> {{ $l->gaji }} </p>
-                                <p> {{ $l->jam_kerja }} </p>
-                                <p> {{ $l->keterangan_loker }} </p>
+                        @foreach($belumDiLamar as $l)
+                            <div class="relative row">
+                                <div class="col-md-3">
+                                    <a @if($l->brosur !== 'nophoto.jpg') href="{{ url('storage/brosur/'.$l->brosur) }}" @else href="{{ url('assets/images/nophoto.jpg') }}" @endif>
+                                        <img @if($l->brosur === 'nophoto.jpg') src="{{ asset('assets/images/nophoto.jpg') }}" alt="nophoto" @else src="{{ asset('storage/brosur/'.$l->brosur) }}" alt="{{ $l->judul }}" @endif width="220px">
+                                    </a>
+                                </div>
+
+                                <div class="col-md-8">
+                                    <h1 class="text-center"> {{ $l->judul }} </h1>
+                                    @if(isset($l->id_perusahaan))
+                                        <p> Nama Perusahaan : {{ $l->perusahaan->nama }} </p>
+                                    @else
+                                        <p> Nama Perusahaan : Admin </p>
+                                    @endif
+                                    <p> Persyaratan: {{ $l->persyaratan }} </p>
+                                    <p> Gaji: {{ $l->gaji }} </p>
+                                    <p> Jam Kerja: {{ $l->jam_kerja }} </p>
+                                    <p> Keterangan: {{ $l->keterangan_loker }} </p>
+                                    <a href="{{ url('cp/lamaran', base64_encode($l->id_loker)) }}">
+                                        Lamar pekerjaan ini
+                                    </a>
+                                </div>
                             </div>
-                            @endforeach
-                        </div>
+                            <hr>
+                        @endforeach
+
+                        @foreach($sudahDiLamar as $l)
+                            <div class="relative row">
+                                <div class="col-md-3">
+                                    <a @if($l->brosur !== 'nophoto.jpg') href="{{ url('storage/brosur/'.$l->brosur) }}" @else href="{{ url('assets/images/nophoto.jpg') }}" @endif>
+                                        <img @if($l->brosur === 'nophoto.jpg') src="{{ asset('assets/images/nophoto.jpg') }}" alt="nophoto" @else src="{{ asset('storage/brosur/'.$l->brosur) }}" alt="{{ $l->judul }}" @endif width="220px">
+                                    </a>
+                                </div>
+
+                                <div class="col-md-8">
+                                    <h1 class="text-center"> {{ $l->judul }} </h1>
+                                    @if(isset($l->id_perusahaan))
+                                        <p> Nama Perusahaan : {{ $l->perusahaan->nama }} </p>
+                                    @else
+                                        <p> Nama Perusahaan : Admin </p>
+                                    @endif
+                                    <p> Persyaratan: {{ $l->persyaratan }} </p>
+                                    <p> Gaji: {{ $l->gaji }} </p>
+                                    <p> Jam Kerja: {{ $l->jam_kerja }} </p>
+                                    <p> Keterangan: {{ $l->keterangan_loker }} </p>
+                                    @foreach($l->lamaran as $la)
+                                        @if($la->nis == $cp->nis)
+                                            <p> Anda sudah melamar kesini dengan status '{{ $la->status }}'</p>
+                                        @endif
+                                    @endforeach
+                                </div>
+                            </div>
+                            <hr>
+                        @endforeach
                     </div>
                 </div>
             @endif
         </div>
     </div>
 </div>
-@endsection
-
-@section('js')
-<script type="text/javascript">
-    $('.deleteButton').on('click', function(){
-        var $url = $(this).attr('href');
-        swal({
-            title: 'Hapus data ?',
-            text: 'Jika data dihapus maka data yang bersangkutan akan ikut terhapus juga.',
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Okelah, hapus aja!',
-        }).then((result) =>{
-            window.location.replace($url);
-        });
-    });
-</script>
 @endsection

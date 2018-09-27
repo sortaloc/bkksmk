@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateKontakCpTable extends Migration
+class CreateKontakTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,8 @@ class CreateKontakCpTable extends Migration
      */
     public function up()
     {
-        Schema::create('kontak_cp', function (Blueprint $table) {
+        Schema::create('kontak', function (Blueprint $table) {
             $table->increments('id_kontak');
-            $table->string('nis', 20)->references('nis')->on('daftar_cp');
             $table->string('no_hp', 20)->nullable();
             $table->string('no_telepon', 20)->nullable();
             $table->string('id_line', 50)->nullable();
@@ -32,6 +31,6 @@ class CreateKontakCpTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('kontak_cp');
+        Schema::dropIfExists('kontak');
     }
 }

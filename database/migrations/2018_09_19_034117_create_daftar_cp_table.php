@@ -16,6 +16,7 @@ class CreateDaftarCpTable extends Migration
         Schema::create('daftar_cp', function (Blueprint $table) {
             $table->string('nis', 20)->primary('nis');
             $table->integer('id_user')->references('id_user')->on('users');
+            $table->integer('id_kontak')->references('id_kontak')->on('kontak');
             $table->string('nama', 50);
             $table->string('jenis_kelamin', 25);
             $table->text('alamat')->nullable();

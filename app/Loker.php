@@ -20,6 +20,10 @@ class Loker extends Model
     public $timestamps = true;
 
     public function perusahaan(){
-        return $this->hasOne('App/DaftarPerusahaan');
+        return $this->belongsTo('App\DaftarPerusahaan', 'id_perusahaan');
+    }
+
+    public function lamaran(){
+        return $this->hasMany('App\Lamaran', 'id_loker');
     }
 }

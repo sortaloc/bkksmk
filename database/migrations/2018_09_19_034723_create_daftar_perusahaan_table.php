@@ -16,6 +16,7 @@ class CreateDaftarPerusahaanTable extends Migration
         Schema::create('daftar_perusahaan', function (Blueprint $table) {
             $table->increments('id_perusahaan');
             $table->integer('id_user')->references('id_user')->on('users');
+            $table->integer('id_kontak')->references('id_kontak')->on('kontak');
             $table->string('nama', 100);
             $table->text('alamat')->nullable();
             $table->text('bio')->nullable();

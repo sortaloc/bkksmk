@@ -10,16 +10,24 @@ class DaftarCP extends Model
     protected $table = 'daftar_cp';
 
     // Mendefinisikan primary key
-    protected $primaryKey = "nip";
+    protected $primaryKey = "nis";
 
     protected $fillable = [
-        'nip', 'id_user', 'nama', 'alamat', 'ttl', 'foto',
+        'nis', 'id_user', 'id_kontak', 'nama', 'alamat', 'ttl', 'foto',
     ];
 
     // Memberitahu laravel bahwa table ini tidak memiliki kolom created_at & updated_at
     public $timestamps = true;
 
     public function user(){
-        return $this->hasOne('App/User');
+        return $this->belongsTo('App\User', 'id_user');
+    }
+
+    public function kontak(){
+        return $this->belongsTo('App\Kontak', 'id_kontak');
+    }
+
+    public function lamaran(){
+        return $this->hasMany('App\Lamaran', 'nis');
     }
 }

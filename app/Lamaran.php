@@ -13,16 +13,17 @@ class Lamaran extends Model
     protected $primaryKey = "id_lamaran";
 
     protected $fillable = [
-    	'id_lamaran', 'nip', 'id_loker', 'cv', 'surat_lamaran', 'keterangan_lamaran', 'status',
+    	'id_lamaran', 'nis', 'id_loker', 'cv', 'surat_lamaran', 'keterangan_lamaran', 'status',
     ];
 
     // Memberitahu laravel bahwa table ini tidak memiliki kolom created_at & updated_at
     public $timestamps = true;
 
-    public function cp(){
-        return $this->hasOne('App/DaftarCP');
+    public function daftarcp(){
+        return $this->belongsTo('App\DaftarCP', 'nis');
     }
+
     public function loker(){
-        return $this->hasOne('App/Loker');
+        return $this->hasOne('App\Loker', 'id_loker');
     }
 }

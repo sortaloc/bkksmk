@@ -14,13 +14,36 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
 
     <!-- Styles -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/sweetalert2.min.css') }}">
+    <style>
+        .relative{
+            position: relative;
+        }
+        .close-btn{
+            color: red;
+            position: absolute;
+            top: 10px;
+            right: 30px;
+            transition: 0.5s;
+            z-index: 999;
+        }
+        .close-btn:hover{
+            color: rgba(255, 0, 0, 0.5);
+            transition: 0.5s;
+        }
+        .bisaHover{
+            cursor: pointer;
+        }
+    </style>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    <!-- <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap.min.css') }}"> -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/DataTables/datatables.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/sweetalert2.min.css') }}">
     @yield('css')
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
+        <nav class="navbar navbar-expand-md navbar-light bg-light navbar-laravel">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name') }}
@@ -108,8 +131,27 @@
     <!-- Scripts -->
     <!-- <script type="text/javascript" src="{{ asset('js/app.js') }}" defer></script> -->
     <script type="text/javascript" src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
+    <!-- <script type="text/javascript" src="{{ asset('assets/DataTables/DataTables-1.10.18/js/dataTables.bootstrap4.min.js') }}"></script> -->
+    <script type="text/javascript" src="{{ asset('assets/DataTables/datatables.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/sweetalert2.js') }}"></script>
     @yield('js')
+    <script type="text/javascript">
+        $('.deleteButton').on('click', function(e){
+            e.preventDefault();
+            var $url = $(this).attr('href');
+            swal({
+                title: 'Hapus data ?',
+                text: 'Jika data dihapus maka data yang bersangkutan akan ikut terhapus juga.',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Okelah, hapus aja!',
+            }).then((result) =>{
+                window.location.replace($url);
+            });
+        });
+    </script>
 </body>
 </html>
