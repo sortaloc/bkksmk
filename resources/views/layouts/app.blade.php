@@ -79,6 +79,7 @@
                                         <i class="fas fa-key"></i>
                                         <span class="ml-2">{{ __('Edit Password') }}</span>
                                     </a>
+                                    <div class="dropdown-divider"></div>
                                     @elseif(Auth::user()->id_status === 2)
                                     <a class="dropdown-item" href="{{ url('perusahaan/settings/datadiri') }}">
                                         <i class="fas fa-address-card"></i>
@@ -98,6 +99,7 @@
                                         <i class="fas fa-key"></i>
                                         <span class="ml-2">{{ __('Edit Password') }}</span>
                                     </a>
+                                    <div class="dropdown-divider"></div>
                                     @endif
 
                                     <a class="dropdown-item" href="{{ route('logout') }}"

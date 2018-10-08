@@ -4,8 +4,8 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-11">
-            <div class="card">
-                <div class="card-header">Daftar Calon Pegawai <a href="{{ url('admin/cp/add') }}" class="float-right">Tambah Data Calon Pegawai</a></div>
+            <div class="card box btn-square">
+                <div class="card-header h3">Daftar Calon Pegawai <a href="{{ url('admin/cp/add') }}" class="float-right">Tambah Data Calon Pegawai</a></div>
                 <div class="card-body">
                     <table id="tabel" class="table table-striped table-bordered" style="width:100%">
                         <thead>

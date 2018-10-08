@@ -38,7 +38,7 @@ class HomeController extends Controller
         } else if (Auth::user()->id_status === 3) {
             $cp = DaftarCP::where('id_user', Auth::user()->id_user)->get()->first();
             $lamaran = Lamaran::where('nis', $cp->nis)->get();
-            $loker = Loker::all();
+            $loker = Loker::paginate(4);
 
             $sudahDiLamar = [];
             $belumDiLamar = $loker;
@@ -56,7 +56,7 @@ class HomeController extends Controller
             }
             return view('home', compact('loker', 'sudahDiLamar', 'belumDiLamar', 'cp'));
         } else {
-            $loker = Loker::all();
+            $loker = Loker::paginate(4);
             return view('home', compact('loker'));
         }
     }

@@ -5,8 +5,8 @@
     <div class="row justify-content-center">
         <div class="col-11">
 
-            <div class="card">
-                <div class="card-header"><a href="{{ url('admin/cp') }}">Back</a> | Data Calon Pegawai | {{ $cp->nama }}</div>
+            <div class="card box btn-square">
+                <div class="card-header h3"><a href="{{ url('admin/cp') }}">Back</a> | Data Calon Pegawai | {{ $cp->nama }}</div>
                 <div class="card-body">
                     <form method="post" action="{{ url('admin/cp/edit', base64_encode($cp->nis)) }}" enctype="multipart/form-data">
                         @csrf

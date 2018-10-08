@@ -9,7 +9,8 @@ use App\DaftarCP;
 use App\Kontak;
 
 use App\Http\Requests\GantiPasswordRequest;
-use App\Http\Requests\dataDiriPerusahaanRequest;
+use App\Http\Requests\DataDiriPerusahaanRequest;
+use App\Http\Requests\DataDiriCPRequest;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -86,13 +87,19 @@ class SettingController extends Controller
         return view('settings.dataCP', compact('cp'));
     }
 
-    protected function updateDataDiriCP(Request $request){
+    protected function updateDataDiriCP(DataDiriCPRequest $request){
         $cp = DaftarCP::where('id_user', Auth::user()->id_user)->get()->first();
+        $kontak = Kontak::find($cp->id_kontak);
 
         $cp->nama = $request['nama'];
         $cp->alamat = $request['alamat'];
         $cp->jenis_kelamin = $request['jk'];
         $cp->ttl = $request['ttl'];
+
+        $kontak->no_hp = $request['no_hp'];
+        $kontak->no_telepon = $request['no_telepon'];
+        $kontak->id_line = $request['id_line'];
+        $kontak->kontak_dll = $request['kontak'];
 
         if($request->file('foto')){
             if($cp->foto !== 'nophoto.jpg'){
@@ -103,21 +110,7 @@ class SettingController extends Controller
             $cp->foto = $nameToStore;
         }
 
-        if($cp->save()){
-            return redirect('/home');
-        }
-    }
-
-    protected function updateDataKontakCP(Request $request){
-        $cp = DaftarCP::where('id_user', Auth::user()->id_user)->get()->first();
-        $kontak = Kontak::find($cp->id_kontak);
-
-        $kontak->no_hp = $request['hp'];
-        $kontak->no_telepon = $request['telepon'];
-        $kontak->id_line = $request['line'];
-        $kontak->kontak_dll = $request['kontak'];
-
-        if($kontak->save()){
+        if($cp->save() && $kontak->save()){
             return redirect('/home');
         }
     }

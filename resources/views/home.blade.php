@@ -6,8 +6,8 @@
         <div class="col-12">
 
             @if(Auth::user()->id_status === 1)
-                <div class="card">
-                    <div class="card-header">Dashboard</div>
+                <div class="card box btn-square">
+                    <div class="card-header h3 text-center">Dashboard</div>
 
                     <div class="card-body">
                         @if (session('status'))
@@ -22,10 +22,10 @@
                     </div>
                 </div>
 
-                <div class="card mt-3">
-                    <div class="card-header">Daftar Loker</div>
+                <div class="card mt-3 box btn-square">
+                    <div class="card-header h3 text-center">Daftar Loker</div>
 
-                    <div class="card-body">
+                    <div class="card-body pb-0">
                         @foreach($loker as $l)
                             <div class="relative row">
                                 <div class="close-btn bisaHover">
@@ -45,15 +45,18 @@
                                     @else
                                         <p> Nama Perusahaan : Admin </p>
                                     @endif
-                                    <p> Persyaratan : {{ $l->persyaratan }} </p>
-                                    <p> Gaji : {{ $l->gaji }} </p>
-                                    <p> Jam Kerja : {{ $l->jam_kerja }} </p>
-                                    <p> Keterangan : {{ $l->keterangan_loker }} </p>
+                                    <ul>
+                                        <li><span class="h4">Persyaratan</span> <br>{!! $l->persyaratan !!}</li>
+                                        <li><span class="h4">Gaji</span> <br>{!! $l->gaji !!}</li>
+                                        <li><span class="h4">Jam Kerja</span> <br>{!! $l->jam_kerja !!}</li>
+                                        <li><span class="h4">Keterangan</span> <br>{!! $l->keterangan_loker !!}</li>
+                                    </ul>
                                     <a href="{{ url('admin/loker/daftar_pelamar', base64_encode($l->id_loker)) }}"> Jumlah Pelamar : {{ count($l->lamaran) }} </a>
                                 </div>
                             </div>
                             <hr>
                         @endforeach
+                        {{ $loker->links() }}
                     </div>
                 </div>
             @endif
@@ -92,10 +95,10 @@
             @endif
 
             @if(Auth::user()->id_status === 3)
-                <div class="card">
-                    <div class="card-header">Daftar Loker</div>
+                <div class="card box btn-square">
+                    <div class="card-header h3 text-center">Daftar Loker</div>
 
-                    <div class="card-body">
+                    <div class="card-body pb-0">
                         @if (session('status'))
                             <div class="alert alert-success" role="alert">
                                 {{ session('status') }}
@@ -104,26 +107,27 @@
 
                         @foreach($belumDiLamar as $l)
                             <div class="relative row">
-                                <div class="col-md-3">
+                                <div class="col-md-3 border-right">
                                     <a @if($l->brosur !== 'nophoto.jpg') href="{{ url('storage/brosur/'.$l->brosur) }}" @else href="{{ url('assets/images/nophoto.jpg') }}" @endif>
-                                        <img @if($l->brosur === 'nophoto.jpg') src="{{ asset('assets/images/nophoto.jpg') }}" alt="nophoto" @else src="{{ asset('storage/brosur/'.$l->brosur) }}" alt="{{ $l->judul }}" @endif width="220px">
+                                        <img @if($l->brosur === 'nophoto.jpg') src="{{ asset('assets/images/nophoto.jpg') }}" alt="nophoto" @else src="{{ asset('storage/brosur/'.$l->brosur) }}" alt="{{ $l->judul }}" @endif width="220px" class="box">
                                     </a>
                                 </div>
 
                                 <div class="col-md-8">
                                     <h1 class="text-center"> {{ $l->judul }} </h1>
+                                    <hr>
                                     @if(isset($l->id_perusahaan))
-                                        <p> Nama Perusahaan : {{ $l->perusahaan->nama }} </p>
+                                        <p class="text-muted"> Dipost oleh : {{ $l->perusahaan->nama }} </p>
                                     @else
-                                        <p> Nama Perusahaan : Admin </p>
+                                        <p class="text-muted"> Dipost oleh : Admin </p>
                                     @endif
-                                    <p> Persyaratan: {!! $l->persyaratan !!} </p>
-                                    <p> Gaji: {{ $l->gaji }} </p>
-                                    <p> Jam Kerja: {{ $l->jam_kerja }} </p>
-                                    <p> Keterangan: {{ $l->keterangan_loker }} </p>
-                                    <a href="{{ url('cp/lamaran', base64_encode($l->id_loker)) }}">
-                                        Lamar pekerjaan ini
-                                    </a>
+                                    <ul>
+                                        <li><span class="h4">Persyaratan</span> <br>{!! $l->persyaratan !!}</li>
+                                        <li><span class="h4">Gaji</span> <br>{!! $l->gaji !!}</li>
+                                        <li><span class="h4">Jam Kerja</span> <br>{!! $l->jam_kerja !!}</li>
+                                        <li><span class="h4">Keterangan</span> <br>{!! $l->keterangan_loker !!}</li>
+                                    </ul>
+                                    <a href="{{ url('cp/lamaran', base64_encode($l->id_loker)) }}" class="btn btn-primary btn-block">Lamar pekerjaan ini</a>
                                 </div>
                             </div>
                             <hr>
@@ -131,32 +135,36 @@
 
                         @foreach($sudahDiLamar as $l)
                             <div class="relative row">
-                                <div class="col-md-3">
+                                <div class="col-md-3 border-right">
                                     <a @if($l->brosur !== 'nophoto.jpg') href="{{ url('storage/brosur/'.$l->brosur) }}" @else href="{{ url('assets/images/nophoto.jpg') }}" @endif>
-                                        <img @if($l->brosur === 'nophoto.jpg') src="{{ asset('assets/images/nophoto.jpg') }}" alt="nophoto" @else src="{{ asset('storage/brosur/'.$l->brosur) }}" alt="{{ $l->judul }}" @endif width="220px">
+                                        <img @if($l->brosur === 'nophoto.jpg') src="{{ asset('assets/images/nophoto.jpg') }}" alt="nophoto" @else src="{{ asset('storage/brosur/'.$l->brosur) }}" alt="{{ $l->judul }}" @endif width="220px" class="box">
                                     </a>
                                 </div>
 
                                 <div class="col-md-8">
                                     <h1 class="text-center"> {{ $l->judul }} </h1>
+                                    <hr>
                                     @if(isset($l->id_perusahaan))
-                                        <p> Nama Perusahaan : {{ $l->perusahaan->nama }} </p>
+                                        <p class="text-muted"> Dipost oleh : {{ $l->perusahaan->nama }} </p>
                                     @else
-                                        <p> Nama Perusahaan : Admin </p>
+                                        <p class="text-muted"> Dipost oleh : Admin </p>
                                     @endif
-                                    <p> Persyaratan: {{ $l->persyaratan }} </p>
-                                    <p> Gaji: {{ $l->gaji }} </p>
-                                    <p> Jam Kerja: {{ $l->jam_kerja }} </p>
-                                    <p> Keterangan: {{ $l->keterangan_loker }} </p>
+                                    <ul>
+                                        <li><span class="h4">Persyaratan</span> <br>{!! $l->persyaratan !!}</li>
+                                        <li><span class="h4">Gaji</span> <br>{!! $l->gaji !!}</li>
+                                        <li><span class="h4">Jam Kerja</span> <br>{!! $l->jam_kerja !!}</li>
+                                        <li><span class="h4">Keterangan</span> <br>{!! $l->keterangan_loker !!}</li>
+                                    </ul>
                                     @foreach($l->lamaran as $la)
                                         @if($la->nis == $cp->nis)
-                                            <p> Anda sudah melamar kesini dengan status '{{ $la->status }}'</p>
+                                            <p class="text-center"> Anda sudah melamar kesini dengan status <span class="">'{{ $la->status }}'</span></p>
                                         @endif
                                     @endforeach
                                 </div>
                             </div>
                             <hr>
                         @endforeach
+                        {{ $loker->links() }}
                     </div>
                 </div>
             @endif

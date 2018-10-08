@@ -5,8 +5,8 @@
     <div class="row justify-content-center">
         <div class="col-11">
 
-            <div class="card">
-                <div class="card-header"> <a href="{{ url('admin/perusahaan') }}"> Back </a> | Data Perusahaan | {{ $perusahaan->nama }}</div>
+            <div class="card box btn-square">
+                <div class="card-header h3"> <a href="{{ url('admin/perusahaan') }}"> Back </a> | Data Perusahaan | {{ $perusahaan->nama }}</div>
                 <div class="card-body">
                     <form method="POST" action="{{ url('admin/perusahaan/edit', base64_encode($perusahaan->id_perusahaan)) }}" enctype="multipart/form-data">
                         @csrf

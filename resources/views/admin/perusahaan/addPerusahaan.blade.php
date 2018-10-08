@@ -4,8 +4,8 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-11">
-            <div class="card">
-                <div class="card-header"> <a href="{{ url('admin/perusahaan') }}"> Back </a> | Form Tambah Data Perusahaan</div>
+            <div class="card box btn-square">
+                <div class="card-header h3"> <a href="{{ url('admin/perusahaan') }}"> Back </a> | Form Tambah Data Perusahaan</div>
                 <div class="card-body">
                     <form method="POST" action="{{ url('admin/perusahaan/add') }}" enctype="multipart/form-data">
                         @csrf
