@@ -59,47 +59,34 @@
             @endif
 
             @if(Auth::user()->id_status === 2)
-                <div class="card">
-                    <div class="card-header">Dashboard</div>
-
-                    <div class="card-body">
-                        @if (session('status'))
-                            <div class="alert alert-success" role="alert">
-                                {{ session('status') }}
-                            </div>
-                        @endif
-
-                        <a href="{{ url('perusahaan/loker/add') }}" class="btn btn-primary">Buat Lowongan Kerja</a>
+            <div class="row">
+                <div class="col-md-3">
+                    <img class="img-fluid fotoProfil box" @if ($perusahaan->foto !== 'nophoto.jpg') src="{{ asset('storage/fotoPerusahaan/'.$perusahaan->foto) }}" alt="{{ $perusahaan->nama }}" @else src="{{ asset('assets/images/nophoto.jpg') }}" alt="nophoto" @endif>
+                    <div class="menu mt-3 mb-3 box p-3">
+                        <div class="menuTitle text-center h4">Main Menu</div>
+                        <hr>
+                        <a href="{{ url('perusahaan/loker/add') }}" class="text-white btn btn-primary btn-block" >Buat Loker</a>
                     </div>
                 </div>
-                <div class="card mt-3">
-                    <div class="card-header">Daftar Loker Saya</div>
+                <div class="col-md-9">
+                    <div class="card box btn-square">
+                        <div class="card-header text-center h3">Daftar Loker Saya</div>
 
-                    <div class="card-body">
-                        @foreach($loker as $l)
-                            <div class="relative row">
-                                <div class="close-btn bisaHover">
-                                    <span href="{{ url('perusahaan/loker/delete', base64_encode($l->id_loker)) }}" class="deleteButton"><i class="text-danger">&times</i></span>
-                                </div>
-                                <div class="col-md-3">
-                                    <a @if($l->brosur !== 'nophoto.jpg') href="{{ url('storage/brosur/'.$l->brosur) }}" @else href="{{ url('assets/images/nophoto.jpg') }}" @endif>
-                                        <img @if($l->brosur === 'nophoto.jpg') src="{{ asset('assets/images/nophoto.jpg') }}" alt="nophoto" @else src="{{ asset('storage/brosur/'.$l->brosur) }}" alt="{{ $l->judul }}" @endif width="220px">
+                        <div class="card-body">
+                            <div class="row justify-content-center">
+                                @foreach($loker as $l)
+                                    <a href="{{ url('perusahaan/loker/edit', base64_encode($l->id_loker)) }}" class="relative d-inline-block col-md-4 col-sm-5 mr-3 mb-3 p-0" id="boxLoker">
+                                        <img @if($l->brosur === 'nophoto.jpg') src="{{ asset('assets/images/nophoto.jpg') }}" alt="nophoto" @else src="{{ asset('storage/brosur/'.$l->brosur) }}" alt="{{ $l->judul }}" @endif class="box brosur">
+                                        <span href="{{ url('perusahaan/loker/delete', base64_encode($l->id_loker)) }}" class="close-btn deleteButton bisaHover"><i class="fas fa-times text-danger"></i></span>
+                                        <span href="{{ url('perusahaan/loker/daftar_pelamar', base64_encode($l->id_loker)) }}" class="jumlahPelamar btn-square badge badge-primary">{{ count($l->lamaran) }}</span>
+                                        <span class="judulBrosur"> {{ $l->judul }} </span>
                                     </a>
-                                </div>
-                                <div class="col-md-8">
-                                    <a class="text-center" href="{{ url('perusahaan/loker/edit', base64_encode($l->id_loker)) }}">
-                                        <h1> {{ $l->judul }} </h1>
-                                    </a>
-                                    <p> Nama Perusahaan : {{ $l->perusahaan['nama'] }} </p>
-                                    <p> Persyaratan : {{ $l->persyaratan }} </p>
-                                    <p> Gaji : {{ $l->gaji }} </p>
-                                    <p> Jam Kerja : {{ $l->jam_kerja }} </p>
-                                    <p> Keterangan : {{ $l->keterangan_loker }} </p>
-                                    <a href="{{ url('perusahaan/loker/daftar_pelamar', base64_encode($l->id_loker)) }}"> Jumlah Pelamar : {{ count($l->lamaran) }} </a>
-                                </div>
+                                @endforeach
                             </div>
-                            <hr>
-                        @endforeach
+                            <div class="text-center">
+                                {{ $loker->links()  }}
+                            </div>
+                        </div>
                     </div>
                 </div>
             @endif
@@ -130,7 +117,7 @@
                                     @else
                                         <p> Nama Perusahaan : Admin </p>
                                     @endif
-                                    <p> Persyaratan: {{ $l->persyaratan }} </p>
+                                    <p> Persyaratan: {!! $l->persyaratan !!} </p>
                                     <p> Gaji: {{ $l->gaji }} </p>
                                     <p> Jam Kerja: {{ $l->jam_kerja }} </p>
                                     <p> Keterangan: {{ $l->keterangan_loker }} </p>

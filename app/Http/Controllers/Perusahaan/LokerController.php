@@ -7,7 +7,10 @@ use App\Loker;
 use App\Lamaran;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AddLokerRequest;
+
 use Illuminate\Http\Request;
+
 use Auth;
 
 class LokerController extends Controller
@@ -29,7 +32,7 @@ class LokerController extends Controller
         return view('perusahaan.addLoker', compact('perusahaan'));
     }
 
-    protected function addLoker(Request $request){
+    protected function addLoker(AddLokerRequest $request){
         $loker = new Loker;
         $loker->id_perusahaan = DaftarPerusahaan::where('id_user', Auth::user()->id_user)->get()->first()->id_perusahaan;
         $loker->judul = $request['judul'];
@@ -67,11 +70,11 @@ class LokerController extends Controller
 
     protected function editLoker($id){
         $loker = Loker::find(base64_decode($id));
-
+        // return $loker;
         return view('perusahaan.editLoker', compact('loker'));
     }
 
-    protected function updateLoker(Request $request, $id){
+    protected function updateLoker(AddLokerRequest $request, $id){
         $loker = Loker::find(base64_decode($id));
         $loker->judul = $request['judul'];
         $loker->persyaratan = $request['persyaratan'];

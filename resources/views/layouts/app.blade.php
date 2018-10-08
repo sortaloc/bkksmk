@@ -14,36 +14,19 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
 
     <!-- Styles -->
-    <style>
-        .relative{
-            position: relative;
-        }
-        .close-btn{
-            color: red;
-            position: absolute;
-            top: 10px;
-            right: 30px;
-            transition: 0.5s;
-            z-index: 999;
-        }
-        .close-btn:hover{
-            color: rgba(255, 0, 0, 0.5);
-            transition: 0.5s;
-        }
-        .bisaHover{
-            cursor: pointer;
-        }
-    </style>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
-    <!-- <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap.min.css') }}"> -->
+    {{-- <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap.min.css') }}"> --}}
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/DataTables/datatables.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/sweetalert2.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/summernote-bs4.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/bkk.css') }}">
     @yield('css')
 </head>
-<body>
+<body class="bg-1">
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-light navbar-laravel">
+        <nav class="navbar navbar-expand-md navbar-light bg-2 navbar-laravel">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name') }}
@@ -65,7 +48,12 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                             </li>
-                            <li class="nav-item dropdown">
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('register') }}">{{ __('Daftar') }}</a>
+                            </li>
+
+                            <!-- <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     Register
                                 </a>
@@ -78,7 +66,7 @@
                                         Calon Pegawai
                                     </a>
                                 </div>
-                            </li>
+                            </li> -->
                         @else
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -88,28 +76,35 @@
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     @if(Auth::user()->id_status === 1)
                                     <a class="dropdown-item" href="{{ url('admin/settings/password') }}">
-                                        {{ __('Ganti Password') }}
+                                        <i class="fas fa-key"></i>
+                                        <span class="ml-2">{{ __('Edit Password') }}</span>
                                     </a>
                                     @elseif(Auth::user()->id_status === 2)
                                     <a class="dropdown-item" href="{{ url('perusahaan/settings/datadiri') }}">
-                                        {{ __('Edit Data Diri') }}
+                                        <i class="fas fa-address-card"></i>
+                                        <span class="ml-2">{{ __('Edit Data Diri') }}</span>
                                     </a>
                                     <a class="dropdown-item" href="{{ url('perusahaan/settings/password') }}">
-                                        {{ __('Edit Password') }}
+                                        <i class="fas fa-key"></i>
+                                        <span class="ml-2">{{ __('Edit Password') }}</span>
                                     </a>
+                                    <div class="dropdown-divider"></div>
                                     @else
                                     <a class="dropdown-item" href="{{ url('cp/settings/datadiri') }}">
-                                        {{ __('Edit Data Diri') }}
+                                        <i class="fas fa-address-card"></i>
+                                        <span class="ml-2">{{ __('Edit Data Diri') }}</span>
                                     </a>
                                     <a class="dropdown-item" href="{{ url('cp/settings/password') }}">
-                                        {{ __('Edit Password') }}
+                                        <i class="fas fa-key"></i>
+                                        <span class="ml-2">{{ __('Edit Password') }}</span>
                                     </a>
                                     @endif
 
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
+                                        <i class="fas fa-power-off"></i>
+                                        <span class="ml-2">Logout</span>
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -123,20 +118,32 @@
             </div>
         </nav>
 
-        <main class="py-4">
+        <main class="py-4 bg-1">
             @yield('content')
         </main>
     </div>
 
     <!-- Scripts -->
     <!-- <script type="text/javascript" src="{{ asset('js/app.js') }}" defer></script> -->
-    <script type="text/javascript" src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
     <!-- <script type="text/javascript" src="{{ asset('assets/DataTables/DataTables-1.10.18/js/dataTables.bootstrap4.min.js') }}"></script> -->
-    <script type="text/javascript" src="{{ asset('assets/DataTables/datatables.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/sweetalert2.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/DataTables/datatables.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/summernote-bs4.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/bkk.js') }}"></script>
     @yield('js')
     <script type="text/javascript">
+        $(document).ready(() => {
+            $('#persyaratan').summernote();
+            $('#keterangan').summernote();
+        });
+
+        $('.jumlahPelamar').on('click', function(e){
+            e.preventDefault();
+            window.location.replace($(this).attr('href'));
+        });
+
         $('.deleteButton').on('click', function(e){
             e.preventDefault();
             var $url = $(this).attr('href');

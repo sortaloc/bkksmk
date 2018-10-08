@@ -4,149 +4,147 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-11">
-            <div class="card">
-                <div class="card-header">Data Perusahaan</div>
+            <!-- <div class="card mt-3">
+                <div class="card-header">To-do List</div>
                 <div class="card-body">
+                    <ol>
+                        <li>Merge Data Perusahaan and Data Kontak form.</li>
+                        <li>Adding image preview for uploading.</li>
+                        <li>Changing the form design.</li>
+                        <li>Don't forget about the validation.</li>
+                        <li>And error messages.</li>
+                    </ol>
+                </div>
+            </div> -->
+
+            <div class="card box btn-square">
+                <div class="card-header text-center h3">Data Perusahaan</div>
+                <div class="card-body p-0">
                     <form method="POST" action="{{ url('perusahaan/settings/datadiri') }}" enctype="multipart/form-data">
                         @csrf
 
-                        <div class="form-group row">
-                            <label for="nama_perusahaan" class="col-md-4 col-form-label text-md-right">{{ __('Nama Perusahaan') }}</label>
+                        <input type="hidden" name="id_kontak" value="{{ $perusahaan->kontak->id_kontak }}"/>
 
-                            <div class="col-md-6">
-                                <input id="nama_perusahaan" type="text" class="form-control{{ $errors->has('nama_perusahaan') ? ' is-invalid' : '' }}" name="nama_perusahaan" value="{{ $perusahaan->nama }}" required autofocus>
+                        <div class="p-3">
+                            <div class="form-group row">
+                                <label for="nama_perusahaan" class="col-md-3 col-form-label text-md-right">{{ __('Nama Perusahaan') }}</label>
 
-                                @if ($errors->has('nama_perusahaan'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('nama_perusahaan') }}</strong>
-                                    </span>
-                                @endif
+                                <div class="col-md-8">
+                                    <input id="nama_perusahaan" type="text" class="form-control{{ $errors->has('nama_perusahaan') ? ' is-invalid' : '' }}" name="nama_perusahaan" value="{{ $perusahaan->nama }}" required autofocus>
+
+                                    @if ($errors->has('nama_perusahaan'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('nama_perusahaan') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-group row">
-                            <label for="alamat" class="col-md-4 col-form-label text-md-right">{{ __('Alamat') }}</label>
+                            <div class="form-group row">
+                                <label for="alamat" class="col-md-3 col-form-label text-md-right">{{ __('Alamat') }}</label>
 
-                            <div class="col-md-6">
-                                <textarea id="alamat" type="text" class="form-control{{ $errors->has('alamat') ? ' is-invalid' : '' }}" name="alamat">{{ $perusahaan->alamat }}</textarea>
+                                <div class="col-md-8">
+                                    <textarea id="alamat" type="text" class="form-control{{ $errors->has('alamat') ? ' is-invalid' : '' }}" name="alamat">{{ $perusahaan->alamat }}</textarea>
 
-                                @if ($errors->has('alamat'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('alamat') }}</strong>
-                                    </span>
-                                @endif
+                                    @if ($errors->has('alamat'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('alamat') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-group row">
-                            <label for="bio" class="col-md-4 col-form-label text-md-right">{{ __('Bio') }}</label>
+                            <div class="form-group row">
+                                <label for="bio" class="col-md-3 col-form-label text-md-right">{{ __('Bio') }}</label>
 
-                            <div class="col-md-6">
-                                <textarea id="bio" type="text" class="form-control{{ $errors->has('bio') ? ' is-invalid' : '' }}" name="bio">{{ $perusahaan->bio }}</textarea>
+                                <div class="col-md-8">
+                                    <textarea id="bio" type="text" class="form-control{{ $errors->has('bio') ? ' is-invalid' : '' }}" name="bio">{{ $perusahaan->bio }}</textarea>
 
-                                @if ($errors->has('bio'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('bio') }}</strong>
-                                    </span>
-                                @endif
+                                    @if ($errors->has('bio'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('bio') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-group row">
-                            <label for="foto" class="col-md-4 col-form-label text-md-right">{{ __('Foto') }}</label>
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label text-md-right">{{ __('Foto') }}</label>
 
-                            <div class="col-md-6">
-                                <label for="foto">{{ $perusahaan->foto }}</label>
-                                <input type="file" id="foto" class="form-control{{ $errors->has('foto') ? ' is-invalid' : '' }}" name="foto">
+                                <div class="col-md-8">
+                                    <img @if($perusahaan->foto === 'nophoto.jpg') src="{{ asset('assets/images/nophoto.jpg') }}" alt="nophoto" @else src="{{ asset('storage/fotoPerusahaan/'.$perusahaan->foto) }}" alt="{{ $perusahaan->nama }}" @endif class="img-thumbnail mb-2" id="profile-img-tag" width="220px">
 
-                                @if ($errors->has('foto'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('foto') }}</strong>
-                                    </span>
-                                @endif
+                                    <input type="file" id="foto" class="form-control{{ $errors->has('foto') ? ' is-invalid' : '' }}" name="foto">
+
+                                    @if ($errors->has('foto'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('foto') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Ubah Data Diri') }}
-                                </button>
+                            <div class="form-group row">
+                                <label for="no_hp" class="col-md-3 col-form-label text-md-right">{{ __('No HP') }}</label>
+
+                                <div class="col-md-8">
+                                    <input id="no_hp" type="text" class="form-control{{ $errors->has('no_hp') ? ' is-invalid' : '' }}" name="no_hp" value="{{ $perusahaan->kontak->no_hp }}">
+
+                                    @if ($errors->has('no_hp'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('no_hp') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
                             </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
 
-            <div class="card mt-3">
-                <div class="card-header">Data Kontak</div>
+                            <div class="form-group row">
+                                <label for="no_telepon" class="col-md-3 col-form-label text-md-right">{{ __('No Telepon') }}</label>
 
-                <div class="card-body">
-                    <form method="post" action="{{ url('perusahaan/settings/kontak') }}">
-                        @csrf
+                                <div class="col-md-8">
+                                    <input id="no_telepon" type="text" class="form-control{{ $errors->has('no_telepon') ? ' is-invalid' : '' }}" name="no_telepon" value="{{ $perusahaan->kontak->no_telepon }}">
 
-                        <div class="form-group row">
-                            <label for="hp" class="col-md-4 col-form-label text-md-right">{{ __('No HP') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="hp" type="text" class="form-control{{ $errors->has('hp') ? ' is-invalid' : '' }}" name="hp" value="{{ $perusahaan->kontak->no_hp }}">
-
-                                @if ($errors->has('hp'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('hp') }}</strong>
-                                    </span>
-                                @endif
+                                    @if ($errors->has('no_telepon'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('no_telepon') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-group row">
-                            <label for="telepon" class="col-md-4 col-form-label text-md-right">{{ __('No Telepon') }}</label>
+                            <div class="form-group row">
+                                <label for="id_line" class="col-md-3 col-form-label text-md-right">{{ __('ID Line') }}</label>
 
-                            <div class="col-md-6">
-                                <input id="telepon" type="text" class="form-control{{ $errors->has('telepon') ? ' is-invalid' : '' }}" name="telepon" value="{{ $perusahaan->kontak->no_telepon }}">
+                                <div class="col-md-8">
+                                    <input id="id_line" type="text" class="form-control{{ $errors->has('id_line') ? ' is-invalid' : '' }}" name="id_line" value="{{ $perusahaan->kontak->id_line }}">
 
-                                @if ($errors->has('telepon'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('telepon') }}</strong>
-                                    </span>
-                                @endif
+                                    @if ($errors->has('id_line'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('id_line') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-group row">
-                            <label for="line" class="col-md-4 col-form-label text-md-right">{{ __('ID Line') }}</label>
+                            <div class="form-group row">
+                                <label for="kontak" class="col-md-3 col-form-label text-md-right">{{ __('Kontak Lainnya') }}</label>
 
-                            <div class="col-md-6">
-                                <input id="line" type="text" class="form-control{{ $errors->has('line') ? ' is-invalid' : '' }}" name="line" value="{{ $perusahaan->kontak->id_line }}">
+                                <div class="col-md-8">
+                                    <textarea id="kontak" type="text" class="form-control{{ $errors->has('kontak') ? ' is-invalid' : '' }}" name="kontak">{{ $perusahaan->kontak->kontak_dll }}</textarea>
 
-                                @if ($errors->has('line'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('line') }}</strong>
-                                    </span>
-                                @endif
+                                    @if ($errors->has('kontak'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('kontak') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
                             </div>
-                        </div>
+                       </div>
 
-                        <div class="form-group row">
-                            <label for="kontak" class="col-md-4 col-form-label text-md-right">{{ __('Kontak Lainnya') }}</label>
-
-                            <div class="col-md-6">
-                                <textarea id="kontak" type="text" class="form-control{{ $errors->has('kontak') ? ' is-invalid' : '' }}" name="kontak">{{ $perusahaan->kontak->kontak_dll }}</textarea>
-
-                                @if ($errors->has('kontak'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('kontak') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Ubah Data Kontak') }}
-                                </button>
-                            </div>
+                       <div class="form-group row m-0 p-0">
+                            <button type="submit" class="btn btn-primary btn-block btn-square">
+                                {{ __('Ubah Data Diri') }}
+                            </button>
                         </div>
                     </form>
                 </div>

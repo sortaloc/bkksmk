@@ -30,23 +30,24 @@ class HomeController extends Controller
      */
     public function index()
     {
-        if(Auth::user()->id_status === 2){
-            $loker = Loker::where('id_perusahaan', DaftarPerusahaan::where('id_user', Auth::user()->id_user)->get()->first()->id_perusahaan)->get();
-        }else{
-            $loker = Loker::all();
-        }
+        if (Auth::user()->id_status === 2) {
+            $perusahaan = DaftarPerusahaan::where('id_user', Auth::user()->id_user)->get()->first();
+            $loker = Loker::where('id_perusahaan', $perusahaan->id_perusahaan)->paginate(4);
 
-        if(Auth::user()->id_status === 3){
+            return view('home', compact('loker', 'perusahaan'));
+        } else if (Auth::user()->id_status === 3) {
             $cp = DaftarCP::where('id_user', Auth::user()->id_user)->get()->first();
             $lamaran = Lamaran::where('nis', $cp->nis)->get();
+            $loker = Loker::all();
 
-            $sudahDiLamar = [];$belumDiLamar = $loker;
+            $sudahDiLamar = [];
+            $belumDiLamar = $loker;
 
-            for($i = count($loker)-1; $i >= 0 ; $i--){
-                for($j = count($lamaran)-1; $j >= 0 ; $j--){
-                    if($loker[$i]->id_loker === $lamaran[$j]->id_loker){
+            for ($i = count($loker) - 1; $i >= 0; $i--) {
+                for ($j = count($lamaran) - 1; $j >= 0; $j--) {
+                    if ($loker[$i]->id_loker === $lamaran[$j]->id_loker) {
                         array_push($sudahDiLamar, $loker[$i]);
-                        if(isset($belumDiLamar[$i])){
+                        if (isset($belumDiLamar[$i])) {
                             unset($belumDiLamar[$i]);
                             $i--;
                         }
@@ -54,8 +55,9 @@ class HomeController extends Controller
                 }
             }
             return view('home', compact('loker', 'sudahDiLamar', 'belumDiLamar', 'cp'));
+        } else {
+            $loker = Loker::all();
+            return view('home', compact('loker'));
         }
-
-        return view('home', compact('loker', 'sudahDiLamar', 'belumDiLamar'));
     }
 }

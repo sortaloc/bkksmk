@@ -4,14 +4,14 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-11">
-            <div class="card">
-                <div class="card-header">Daftar Pelamar Loker {{ $loker->judul }}</div>
+            <div class="card box btn-square">
+                <div class="card-header text-center h3">Daftar Pelamar Loker | {{ $loker->judul }}</div>
                 <div class="card-body">
-                    <div class="row">
+                    <div class="row justify-content-center">
                     @foreach($loker->lamaran as $l)
-                        <div class="col-md-3 border p-3 text-center">
+                        <div class="col-md-3 p-3 text-center box btn-square">
                             <a @if($l->daftarcp->foto !== 'nophoto.jpg') href="{{ url('storage/fotoCP/'.$l->daftarcp->foto) }}" @else href="{{ url('assets/images/nophoto.jpg') }}" @endif>
-                                <img @if($l->daftarcp === 'nophoto.jpg') src="{{ asset('assets/images/nophoto.jpg') }}" alt="nophoto" @else src="{{ asset('storage/fotoCP/'.$l->daftarcp->foto) }}" alt="{{ $l->daftarcp->nama }}" @endif width="220px">
+                                <img @if($l->daftarcp->foto === 'nophoto.jpg') src="{{ asset('assets/images/nophoto.jpg') }}" alt="nophoto" @else src="{{ asset('storage/fotoCP/'.$l->daftarcp->foto) }}" alt="{{ $l->daftarcp->nama }}" @endif width="220px">
                             </a>
 
                             <p>
@@ -29,13 +29,11 @@
                             {{ $l->daftarcp->kontak->kontak_dll }}<br><br>
                             Status: {{ $l->status }}<br><br>
 
-                            <a href="{{ url('perusahaan/loker/verif_pelamar', base64_encode($l->id_lamaran)) }}">
-                                Terima orang ini
-                            </a>
+                            <hr>
+
+                            <a href="{{ url('perusahaan/loker/verif_pelamar', base64_encode($l->id_lamaran)) }}">Terima orang ini</a>
                             <br>
-                            <a href="{{ url('perusahaan/loker/tolak_pelamar', base64_encode($l->id_lamaran)) }}">
-                                Tolak orang ini
-                            </a>
+                            <a href="{{ url('perusahaan/loker/tolak_pelamar', base64_encode($l->id_lamaran)) }}">Tolak orang ini</a>
                         </div>
                     @endforeach
                     </div>

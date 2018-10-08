@@ -80,12 +80,12 @@ class RegisterController extends Controller
     protected function registerCP(RegisterCPRequest $request){
         $user = new User;
         $user->id_status = 3;
-        $user->username = $request['username'];
-        $user->email = $request['email'];
-        $user->password = Hash::make($request['password']);
+        $user->username = $request['usernameCP'];
+        $user->email = $request['emailCP'];
+        $user->password = Hash::make($request['passwordCP']);
         if($user->save()){
             $kontak = new Kontak;
-            $kontak->no_hp = $request['no_hp'];
+            $kontak->no_hp = $request['no_hp_cp'];
 
             if($kontak->save()){
                 $cp = new DaftarCP;
