@@ -38,6 +38,7 @@ class LokerController extends Controller
         $loker->judul = $request['judul'];
         $loker->persyaratan = $request['persyaratan'];
         $loker->jam_kerja = $request['jam_kerja'];
+        $loker->status = 'Aktif';
         $loker->gaji = $request['gaji'];
         $loker->keterangan_loker = $request['keterangan'];
 
@@ -79,6 +80,7 @@ class LokerController extends Controller
         $loker->judul = $request['judul'];
         $loker->persyaratan = $request['persyaratan'];
         $loker->jam_kerja = $request['jam_kerja'];
+        $loker->status = $request['status'];
         $loker->gaji = $request['gaji'];
         $loker->keterangan_loker = $request['keterangan'];
 

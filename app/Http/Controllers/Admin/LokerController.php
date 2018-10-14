@@ -23,6 +23,12 @@ class LokerController extends Controller
         return $nameFinal;
     }
 
+    protected function indexLoker(){
+        $loker = Loker::orderBy('created_at', 'descending')->paginate(4);
+
+        return view('admin.loker', compact('loker'));
+    }
+
     protected function index(){
         $perusahaan = DaftarPerusahaan::where('id_user', Auth::user()->id_user)->get()->first();
 

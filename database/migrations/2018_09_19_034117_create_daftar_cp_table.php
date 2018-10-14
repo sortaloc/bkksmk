@@ -19,6 +19,7 @@ class CreateDaftarCpTable extends Migration
             $table->integer('id_kontak')->references('id_kontak')->on('kontak');
             $table->string('nama', 50);
             $table->string('jenis_kelamin', 25);
+            $table->string('cv', 255)->nullable();
             $table->text('alamat')->nullable();
             $table->string('ttl', 50)->nullable();
             $table->string('foto', 250)->nullable();

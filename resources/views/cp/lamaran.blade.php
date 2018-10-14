@@ -12,7 +12,7 @@
                         @csrf
 
                         <div class="p-3">
-                            <div class="form-group row">
+                            {{-- <div class="form-group row">
                                 <label for="cv" class="col-md-4 col-form-label text-md-right">{{ __('Curicullum Vitae') }}</label>
 
                                 <div class="col-md-6">
@@ -24,13 +24,13 @@
                                         </span>
                                     @endif
                                 </div>
-                            </div>
+                            </div> --}}
 
                             <div class="form-group row">
-                                <label for="surat_lamaran" class="col-md-4 col-form-label text-md-right">{{ __('Surat Lamaran') }}</label>
+                                <label for="surat_lamaran" class="col-md-4 col-form-label text-md-right">{{ __('Surat Lamaran*') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="surat_lamaran" type="file" class="form-control{{ $errors->has('surat_lamaran') ? ' is-invalid' : '' }}" name="surat_lamaran">
+                                    <input id="surat_lamaran" type="text" class="form-control{{ $errors->has('surat_lamaran') ? ' is-invalid' : '' }}" name="surat_lamaran" value="{{ old('surat_lamaran') }}" required autofocus>
 
                                     @if ($errors->has('surat_lamaran'))
                                         <span class="invalid-feedback" role="alert">
@@ -44,7 +44,7 @@
                                 <label for="keterangan" class="col-md-4 col-form-label text-md-right">{{ __('Keterangan Lainnya') }}</label>
 
                                 <div class="col-md-6">
-                                    <textarea id="keterangan" type="text" class="form-control{{ $errors->has('keterangan') ? ' is-invalid' : '' }}" name="keterangan" value="{{ old('keterangan') }}" required autofocus></textarea>
+                                    <textarea id="keterangan" type="text" class="form-control{{ $errors->has('keterangan') ? ' is-invalid' : '' }}" name="keterangan" value="{{ old('keterangan') }}" autofocus></textarea>
 
                                     @if ($errors->has('keterangan'))
                                         <span class="invalid-feedback" role="alert">

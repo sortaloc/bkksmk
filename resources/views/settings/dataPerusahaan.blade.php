@@ -27,7 +27,7 @@
 
                         <div class="p-3">
                             <div class="form-group row">
-                                <label for="nama_perusahaan" class="col-md-3 col-form-label text-md-right">{{ __('Nama Perusahaan') }}</label>
+                                <label for="nama_perusahaan" class="col-md-3 col-form-label text-md-right">{{ __('Nama Perusahaan*') }}</label>
 
                                 <div class="col-md-8">
                                     <input id="nama_perusahaan" type="text" class="form-control{{ $errors->has('nama_perusahaan') ? ' is-invalid' : '' }}" name="nama_perusahaan" value="{{ $perusahaan->nama }}" required autofocus>
@@ -84,8 +84,10 @@
                                 </div>
                             </div>
 
+                            <hr />
+
                             <div class="form-group row">
-                                <label for="no_hp" class="col-md-3 col-form-label text-md-right">{{ __('No HP') }}</label>
+                                <label for="no_hp" class="col-md-3 col-form-label text-md-right">{{ __('No HP*') }}</label>
 
                                 <div class="col-md-8">
                                     <input id="no_hp" type="text" class="form-control{{ $errors->has('no_hp') ? ' is-invalid' : '' }}" name="no_hp" value="{{ $perusahaan->kontak->no_hp }}">

@@ -17,7 +17,6 @@ class CreateLamaranTable extends Migration
             $table->increments('id_lamaran');
             $table->string('nis', 20)->references('nis')->on('daftar_cp');
             $table->integer('id_loker')->references('id_loker')->on('loker');
-            $table->string('cv', 255);
             $table->string('surat_lamaran', 255);
             $table->text('keterangan_lamaran')->nullable();
             $table->string('status', 20);

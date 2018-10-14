@@ -29,6 +29,7 @@ Route::get('/perusahaan/loker/daftar_pelamar/{id}', 'Perusahaan\LokerController@
 Route::get('/perusahaan/loker/verif_pelamar/{id}', 'Perusahaan\LokerController@verifPelamar');
 Route::get('/perusahaan/loker/tolak_pelamar/{id}', 'Perusahaan\LokerController@tolakPelamar');
 
+Route::get('/admin/loker', 'Admin\LokerController@indexLoker');
 Route::get('/admin/loker/add', 'Admin\LokerController@index');
 Route::post('/admin/loker/add', 'Admin\LokerController@addLoker');
 Route::get('/admin/loker/delete/{id}', 'Admin\LokerController@deleteLoker');
@@ -70,3 +71,6 @@ Route::post('/cp/settings/kontak', 'SettingController@updateDataKontakCP');
 
 Route::get('/cp/lamaran/{id}', 'LamaranController@index');
 Route::post('/cp/lamaran/{id}', 'LamaranController@uploadLamaran');
+
+Route::get('/cp/perusahaan/{id}', 'HomeController@profilPerusahaan');
+Route::get('/cp/tutorial', 'HomeController@tutorialUpload');

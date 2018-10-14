@@ -34,21 +34,7 @@ class LamaranController extends Controller
         $lamaran = new Lamaran;
         $lamaran->nis = DaftarCP::where('id_user', Auth::user()->id_user)->get()->first()->nis;
         $lamaran->id_loker = Loker::find(base64_decode($id))->id_loker;
-
-        if($request->file('cv')){
-            $nameToStoreCV = $this->ambil('public/cv', $request->file('cv'));
-        }else{
-            $nameToStoreCV = 'nophoto.jpg';
-        }
-
-        if($request->file('surat_lamaran')){
-            $nameToStoreSL = $this->ambil('public/suratLamaran', $request->file('surat_lamaran'));
-        }else{
-            $nameToStoreSL = 'nophoto.jpg';
-        }
-
-        $lamaran->cv = $nameToStoreCV;
-        $lamaran->surat_lamaran = $nameToStoreSL;
+        $lamaran->surat_lamaran = substr($request['surat_lamaran'], 0, 25) . 'file/d/' . substr($request['surat_lamaran'], 33) . '/preview';
         $lamaran->keterangan_lamaran = $request['keterangan'];
         $lamaran->status = 'pending';
 

@@ -45,6 +45,9 @@ class SettingController extends Controller
             if($akun->save()){
                 return redirect('/home');
             }
+        }else{
+            // Tambah notif password lama tidak valid / salah.
+            return back();
         }
     }
 
@@ -91,9 +94,17 @@ class SettingController extends Controller
         $cp = DaftarCP::where('id_user', Auth::user()->id_user)->get()->first();
         $kontak = Kontak::find($cp->id_kontak);
 
+        // https://drive.google.com/open?id=1B813HfAypuzExfg-nZ0XlEAt81DDHn7a
+        // https://drive.google.com/open?id=0B3cZyBMnU_jNUm9adjh2WUxuYjA
+        // https://drive.google.com/file/d/1B813HfAypuzExfg-nZ0XlEAt81DDHn7a/preview
+        // https://drive.google.com/file/d/0B3cZyBMnU_jNUm9adjh2WUxuYjA/preview
+
+        // substr($request['cv'], 0, 25) . 'file/d/' . substr($request['cv'], 33) . '/preview'
+
         $cp->nama = $request['nama'];
         $cp->alamat = $request['alamat'];
         $cp->jenis_kelamin = $request['jk'];
+        $cp->cv = substr($request['cv'], 0, 25) . 'file/d/' . substr($request['cv'], 33) . '/preview';
         $cp->ttl = $request['ttl'];
 
         $kontak->no_hp = $request['no_hp'];

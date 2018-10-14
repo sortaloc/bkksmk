@@ -92,6 +92,18 @@
                             </div>
 
                             <div class="form-group row">
+                                <label for="status" class="col-md-3 col-form-label text-md-right">{{ __('Status*') }}</label>
+
+                                <div class="col-md-8">
+                                    <input type="radio" name="status" id="aktif" value="Aktif" class="ml-3" @if($loker->status === 'Aktif') checked @endif>
+                                    <label for="aktif" class="col-form-label text-md-right ml-2">Aktif</label>
+
+                                    <input type="radio" name="status" id="tAktif" value="Tidak Aktif" class="ml-2" @if($loker->status === 'Tidak Aktif') checked @endif>
+                                    <label for="tAKtif"  class="col-form-label text-md-right ml-2">Tidak Aktif</label>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
                                 <label for="keterangan" class="col-md-3 col-form-label text-md-right">{{ __('Keterangan Lainnya') }}</label>
 
                                 <div class="col-md-8">

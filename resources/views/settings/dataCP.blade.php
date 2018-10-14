@@ -14,7 +14,7 @@
 
                         <div class="p-3">
                             <div class="form-group row">
-                                <label for="nama" class="col-md-4 col-form-label text-md-right">{{ __('Nama Perusahaan') }}</label>
+                                <label for="nama" class="col-md-4 col-form-label text-md-right">{{ __('Nama*') }}</label>
 
                                 <div class="col-md-6">
                                     <input id="nama" type="text" class="form-control{{ $errors->has('nama') ? ' is-invalid' : '' }}" name="nama" value="{{ $cp->nama }}" required autofocus>
@@ -28,28 +28,28 @@
                             </div>
 
                             <div class="form-group row">
+                                <label for="jk" class="col-md-4 col-form-label text-md-right">{{ __('Jenis Kelamin*') }}</label>
+
+                                <div class="col-md-6">
+                                    <input type="radio" name="jk" id="laki" value="L" @if($cp->jenis_kelamin === 'L') checked @endif>
+                                    <label for="laki" class="col-form-label text-md-right ml-2">Laki-Laki</label>
+
+                                    <input type="radio" name="jk" id="perempuan" value="P" class="ml-2" @if($cp->jenis_kelamin === 'P') checked @endif>
+                                    <label for="perempuan"  class="col-form-label text-md-right ml-2">Perempuan</label>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
                                 <label for="ttl" class="col-md-4 col-form-label text-md-right">{{ __('Tanggal Lahir') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="ttl" type="date" class="form-control{{ $errors->has('ttl') ? ' is-invalid' : '' }}" name="ttl" value="{{ $cp->ttl }}" required autofocus>
+                                    <input id="ttl" type="date" class="form-control{{ $errors->has('ttl') ? ' is-invalid' : '' }}" name="ttl" value="{{ $cp->ttl }}" autofocus>
 
                                     @if ($errors->has('ttl'))
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $errors->first('ttl') }}</strong>
                                         </span>
                                     @endif
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <label for="jk" class="col-md-4 col-form-label text-md-right">{{ __('Jenis Kelamin') }}</label>
-
-                                <div class="col-md-6">
-                                    <input type="radio" name="jk" id="laki" value="L" class="ml-3" @if($cp->jenis_kelamin === 'L') checked @endif>
-                                    <label for="laki" class="col-form-label text-md-right ml-2">Laki-Laki</label>
-
-                                    <input type="radio" name="jk" id="perempuan" value="P" class="ml-2" @if($cp->jenis_kelamin === 'P') checked @endif>
-                                    <label for="perempuan"  class="col-form-label text-md-right ml-2">Perempuan</label>
                                 </div>
                             </div>
 
@@ -62,6 +62,27 @@
                                     @if ($errors->has('alamat'))
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $errors->first('alamat') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            @if($cp->cv)
+                            <div class="embed-responsive embed-responsive-16by9 box col-md-6 offset-md-4 mb-2">
+                                <iframe src="{{ $cp->cv }}" class="embed-responsive-item"></iframe>
+                            </div>
+                            @endif
+
+                            <div class="form-group row">
+                                <label for="cv" class="col-md-4 col-form-label text-md-right">{{ __('CV') }}</label>
+
+                                <div class="col-md-6">
+                                    <input id="cv" type="text" class="form-control{{ $errors->has('cv') ? ' is-invalid' : '' }}" name="cv" value="{{ $cp->cv }}" autofocus>
+                                    <small id="cvHelpBlock" class="form-text text-muted">Masukkan link Google Drive CV anda. <a href="{{ url('cp/tutorial') }}" class="a-normal">Baca Disini</a></small>
+
+                                    @if ($errors->has('cv'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('cv') }}</strong>
                                         </span>
                                     @endif
                                 </div>
@@ -81,8 +102,10 @@
                                 </div>
                             </div>
 
+                            <hr />
+
                             <div class="form-group row">
-                                <label for="no_hp" class="col-md-4 col-form-label text-md-right">{{ __('No HP') }}</label>
+                                <label for="no_hp" class="col-md-4 col-form-label text-md-right">{{ __('No HP*') }}</label>
 
                                 <div class="col-md-6">
                                     <input id="no_hp" type="text" class="form-control{{ $errors->has('no_hp') ? ' is-invalid' : '' }}" name="no_hp" value="{{ $cp->kontak->no_hp }}">

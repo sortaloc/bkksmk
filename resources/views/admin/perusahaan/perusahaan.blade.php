@@ -2,16 +2,37 @@
 
 @section('css')
 <style type="text/css">
-
+    .tambah {
+        position: absolute;
+        z-index: 999;
+        bottom: 0;
+        right: 15px;
+    }
+    .tambah:hover{
+        background-color: black;
+        color: white;
+        transition: 0.5s;
+    }
 </style>
 @endsection
 
 @section('content')
 <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-12">
+    <a href="{{ url('admin/perusahaan/add') }}" class="tambah h2 btn btn-primary"><i class="fas fa-plus"></i></a>
+    <div class="row">
+        <section class="col-md-3 mb-2" id="menu">
             <div class="card box btn-square">
-                <div class="card-header h3">Daftar Perusahaan <a href="{{ url('admin/perusahaan/add') }}" class="float-right"> Tambah Data Perusahaan </a></div>
+                <div class="card-header h3 text-center">Menu</div>
+                <div class="card-body">
+                    <a href="{{ url('/') }}" class="btn btn-primary btn-block btn-square">Beranda</a>
+                    <a href="{{ url('admin/loker') }}" class="btn btn-primary btn-block btn-square">Daftar Lowongan Kerja</a>
+                    <a href="{{ url('admin/cp') }}" class="btn btn-primary btn-block btn-square">Daftar Calon Pegawai</a>
+                </div>
+            </div>
+        </section>
+        <section class="col-md-9">
+            <div class="card box btn-square">
+                <div class="card-header h3 text-center">Daftar Perusahaan</div>
                 <div class="card-body">
                     <table id="tabel" class="table table-striped table-bordered" style="width:100%">
                         <thead>
@@ -48,7 +69,7 @@
                     </table>
                 </div>
             </div>
-        </div>
+        </section>
     </div>
 </div>
 @endsection

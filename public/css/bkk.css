@@ -1,3 +1,8 @@
+.a-normal:hover {
+    background-color: #111;
+}
+
+/* Background */
 .bg-1 {
     background-color: #d6d6d6;
 }
@@ -6,6 +11,7 @@
     background-color: #ebebeb;
 }
 
+/* Override */
 a {
     text-decoration: none;
     color: #111;
@@ -15,6 +21,8 @@ a:hover {
     text-decoration: none;
     color: #fff;
 }
+
+/* App-only */
 
 .btn-square {
     border-radius: 0;
@@ -59,19 +67,86 @@ a:hover {
     color: #333 !important;
 }
 
+.judulLoker {
+    margin-bottom: -5px;
+}
+
+.judulLoker a:hover {
+    color: #d6d6d6;
+}
+
+/* Home */
+.jumlahPelamar {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    z-index: 999;
+    transition: 0.5s;
+    font-size: 20px;
+}
+
+.jumlahPelamar:hover {
+    transition: 0.5s;
+}
+
+#fotoProfil {
+    width: 100%;
+}
+
+/* Pagination */
+ul.pagination {
+    justify-content: center;
+}
+
+@media (max-width: 768px) {
+    #fotoProfil {
+        display: none;
+    }
+    .brosur {
+        display: none;
+        margin: 0;
+    }
+}
+
+/* Jang delete button */
+.relative {
+    position: relative;
+}
+.close-btn {
+    position: absolute;
+    color: red;
+    top: 0px;
+    right: 0px;
+    padding: 5px;
+    line-height: 1;
+    transition: 0.5s;
+    /* background: #fff; */
+    z-index: 999;
+}
+.close-btn:hover {
+    font-size: 20px;
+    transition: 0.5s;
+    background: #bbb;
+}
+.bisaHover {
+    cursor: pointer;
+}
+
+/* Not Used */
+/*
 .judulBrosur {
     position: absolute;
     bottom: 0px;
     left: 0px;
     z-index: 999;
-    color: black;
-    background-color: #888;
+    background-color: #d6d6d6;
     width: 100%;
-    text-align: center;
 }
 
-.judulBrosur > p {
-    overflow: hidden;
+.judulBrosur span {
+    font-size: 12px;
+    color: #000;
+    margin: 0 5px;
 }
 
 .judulBrosur:hover {
@@ -118,57 +193,4 @@ a:hover {
         width: 100%;
     }
 }
-
-/* Pagination */
-ul.pagination {
-    justify-content: center;
-}
-
-/* Home */
-.jumlahPelamar {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    z-index: 999;
-    transition: 0.5s;
-    font-size: 20px;
-}
-
-.jumlahPelamar:hover {
-    transition: 0.5s;
-}
-
-.fotoProfil {
-    width: 100%;
-}
-
-@media (max-width: 768px) {
-    .fotoProfil {
-        display: none;
-    }
-}
-
-/* Jang delete button */
-.relative {
-    position: relative;
-}
-.close-btn {
-    position: absolute;
-    color: red;
-    top: 0px;
-    right: 0px;
-    padding: 5px;
-    line-height: 1;
-    transition: 0.5s;
-    /* background: #fff; */
-    z-index: 999;
-}
-.close-btn:hover {
-    font-size: 20px;
-    transition: 0.5s;
-    background: #bbb;
-}
-.bisaHover {
-    cursor: pointer;
-}
-/* END */
+*/

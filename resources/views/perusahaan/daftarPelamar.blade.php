@@ -1,39 +1,92 @@
 @extends('layouts.app')
 
+@section('css')
+<style>
+    .profilPelamar {
+        max-height: 220px;
+    }
+
+    @media (max-width: 768px) and (min-width: 370px) {
+        .profilPelamar {
+            margin: 0 25%;
+        }
+    }
+
+    @media (max-width: 768px) {
+        #pelamarDesc,
+        #pelamarShow {
+            text-align: center;
+        }
+        #slButton {
+            margin-top: 1em;
+        }
+        #tolak {
+            float: right;
+        }
+        #pelamarJudul {
+            font-size: 20px;
+        }
+    }
+
+    @media (max-width: 520px) {
+        #pelamarJudul {
+            font-size: 16px;
+        }
+    }
+</style>
+@endsection
+
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-11">
             <div class="card box btn-square">
-                <div class="card-header text-center h3">Daftar Pelamar Loker | {{ $loker->judul }}</div>
+                <div class="card-header text-center h3" id="pelamarJudul">Daftar Pelamar Loker | {{ $loker->judul }}</div>
                 <div class="card-body">
-                    <div class="row justify-content-center">
+                    <div class="row">
                     @foreach($loker->lamaran as $l)
-                        <div class="col-md-3 p-3 text-center box btn-square">
+                        <div class="col-md-3">
                             <a @if($l->daftarcp->foto !== 'nophoto.jpg') href="{{ url('storage/fotoCP/'.$l->daftarcp->foto) }}" @else href="{{ url('assets/images/nophoto.jpg') }}" @endif>
-                                <img @if($l->daftarcp->foto === 'nophoto.jpg') src="{{ asset('assets/images/nophoto.jpg') }}" alt="nophoto" @else src="{{ asset('storage/fotoCP/'.$l->daftarcp->foto) }}" alt="{{ $l->daftarcp->nama }}" @endif width="220px">
+                                <img @if($l->daftarcp->foto === 'nophoto.jpg') src="{{ asset('assets/images/nophoto.jpg') }}" alt="nophoto" @else src="{{ asset('storage/fotoCP/'.$l->daftarcp->foto) }}" alt="{{ $l->daftarcp->nama }}" @endif class="profilPelamar box img-fluid">
                             </a>
-
-                            <p>
-                                NIS: {{ $l->daftarcp->nis }}<br>
-                                Nama: {{ $l->daftarcp->nama }}<br>
-                                Jenis Kelamin: {{ $l->daftarcp->jenis_kelamin }}<br>
-                                Alamat: {{ $l->daftarcp->alamat }}<br>
-                                Tanggal Lahir: {{ $l->daftarcp->ttl }}</p>
-                            <p>
-                                No HP: {{ $l->daftarcp->kontak->no_hp }}<br>
-                                No Telepon: {{ $l->daftarcp->kontak->no_telepon }}<br>
-                                ID Line: {{ $l->daftarcp->kontak->id_line }}<br>
-                            </p>
-                            Kontak Lainnya:<br>
-                            {{ $l->daftarcp->kontak->kontak_dll }}<br><br>
-                            Status: {{ $l->status }}<br><br>
-
+                            <p class="text-center">{{ $l->daftarcp->nama }}</p>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="row" id="pelamarDesc">
+                                <div class="col-md-6">
+                                    <h4>Alamat</h4>
+                                    <p>{{ $l->daftarcp->alamat }}</p>
+                                    <h4>No HP</h4>
+                                    <p>{{ $l->daftarcp->kontak->no_hp }}</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <h4>Status</h4>
+                                    <p>{{ $l->status }}</p>
+                                    <h4>Keterangan</h4>
+                                    <p>@if($l->keterangan_lamaran) {{ $l->keterangan_lamaran }} @else Tidak ada keterangan. @endif</p>
+                                </div>
+                            </div>
+                            <div class="row" id="pelamarShow">
+                                <div class="col-md-6">
+                                    <button id="cvButton" class="btn btn-primary btn-square">Show CV</button>
+                                    <div id="cv" class="embed-responsive embed-responsive-16by9 box" style="display:none">
+                                        <iframe src="{{ $l->daftarCP->cv }}" class="embed-responsive-item"></iframe>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <button id="slButton" class="btn btn-primary btn-square">Show SL</button>
+                                    <div id="sl" class="embed-responsive embed-responsive-16by9 box" style="display:none">
+                                        <iframe src="{{ $l->surat_lamaran }}" class="embed-responsive-item"></iframe>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-2">
+                                @if($l->status === 'pending')
+                                    <a href="{{ url('perusahaan/loker/verif_pelamar', base64_encode($l->id_lamaran)) }}" class="btn btn-success btn-square" id="terima">Terima</a>
+                                    <a href="{{ url('perusahaan/loker/tolak_pelamar', base64_encode($l->id_lamaran)) }}" class="btn btn-danger btn-square" id="tolak">Tolak</a>
+                                @endif
+                            </div>
                             <hr>
-
-                            <a href="{{ url('perusahaan/loker/verif_pelamar', base64_encode($l->id_lamaran)) }}">Terima orang ini</a>
-                            <br>
-                            <a href="{{ url('perusahaan/loker/tolak_pelamar', base64_encode($l->id_lamaran)) }}">Tolak orang ini</a>
                         </div>
                     @endforeach
                     </div>
@@ -42,4 +95,37 @@
         </div>
     </div>
 </div>
+@endsection
+@section('js')
+<script type="text/javascript">
+    let cvToggle = false;
+    let slToggle = false;
+    $('#cvButton').on('click', () => {
+        $('#cv').slideToggle(250);
+        // if(cvToggle){
+        //     $('#cv').removeClass('d-block');
+        //     $('#cv').addClass('d-none');
+        //     cvToggle = false;
+        // }else{
+        //     $('#cv').removeClass('d-none');
+        //     $('#cv').addClass('d-block').slideToggle(500);
+        //     cvToggle = true;
+        // }
+        // console.log('cv');
+    });
+
+    $('#slButton').on('click', () => {
+        $('#sl').slideToggle(250);
+        // if(slToggle){
+        //     $('#sl').removeClass('d-block');
+        //     $('#sl').addClass('d-none');
+        //     slToggle = false;
+        // }else{
+        //     $('#sl').removeClass('d-none');
+        //     $('#sl').addClass('d-block');
+        //     slToggle = true;
+        // }
+        // console.log('sl');
+    });
+</script>
 @endsection
