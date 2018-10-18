@@ -6,8 +6,12 @@ use App\DaftarPerusahaan;
 use App\Loker;
 use App\User;
 use App\Kontak;
+use App\Lamaran;
+use App\Pengaturan;
 
 use App\Http\Requests\GantiPasswordRequest;
+use App\Http\Requests\RegisterPerusahaanRequest;
+use App\Http\Requests\DataDiriPerusahaanRequest;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -29,28 +33,30 @@ class PerusahaanController extends Controller
     }
 
     protected function index(){
+        $pengaturan = Pengaturan::all()->first();
         $perusahaan = DaftarPerusahaan::all();
 
-        return view('admin.perusahaan.perusahaan', compact('perusahaan'));
+        return view('admin.perusahaan.perusahaan', compact('perusahaan', 'pengaturan'));
     }
 
     protected function edit($id){
+        $pengaturan = Pengaturan::all()->first();
         $perusahaan = DaftarPerusahaan::find(base64_decode($id));
 
-        return view('admin.perusahaan.editPerusahaan', compact('perusahaan'));
+        return view('admin.perusahaan.editPerusahaan', compact('perusahaan', 'pengaturan'));
     }
 
-    protected function update(Request $request, $id){
+    protected function update(DataDiriPerusahaanRequest $request, $id){
         $perusahaan = DaftarPerusahaan::find(base64_decode($id));
         $kontak = Kontak::find($perusahaan->id_kontak);
 
-        $perusahaan->nama = $request['nama'];
+        $perusahaan->nama = $request['nama_perusahaan'];
         $perusahaan->alamat = $request['alamat'];
         $perusahaan->bio = $request['bio'];
 
-        $kontak->no_hp = $request['hp'];
-        $kontak->no_telepon = $request['telepon'];
-        $kontak->id_line = $request['line'];
+        $kontak->no_hp = $request['no_hp'];
+        $kontak->no_telepon = $request['no_telepon'];
+        $kontak->id_line = $request['id_line'];
         $kontak->kontak_dll = $request['kontak'];
 
         if($request->file('foto')){
@@ -63,7 +69,7 @@ class PerusahaanController extends Controller
         }
 
         if($perusahaan->save() && $kontak->save()){
-            return redirect('/admin/perusahaan');
+            return redirect('/admin/perusahaan')->with('success', 'Data berhasil diubah!');
         }
     }
 
@@ -77,15 +83,17 @@ class PerusahaanController extends Controller
         $user->password = Hash::make($request['password']);
 
         if($user->save()){
-            return redirect('/admin/perusahaan');
+            return redirect('/admin/perusahaan')->with('success', 'Password berhasil diubah!');
         }
     }
 
     protected function add(){
-        return view('admin.perusahaan.addPerusahaan');
+        $pengaturan = Pengaturan::all()->first();
+
+        return view('admin.perusahaan.addPerusahaan', compact('pengaturan'));
     }
 
-    protected function store(Request $request){
+    protected function store(RegisterPerusahaanRequest $request){
         $user = new User;
         $user->username = $request['username'];
         $user->id_status = 2;
@@ -94,16 +102,16 @@ class PerusahaanController extends Controller
 
         if($user->save()){
             $kontak = new Kontak;
-            $kontak->no_hp = $request['hp'];
-            $kontak->no_telepon = $request['telepon'];
-            $kontak->id_line = $request['line'];
+            $kontak->no_hp = $request['no_hp'];
+            $kontak->no_telepon = $request['no_telepon'];
+            $kontak->id_line = $request['id_line'];
             $kontak->kontak_dll = $request['kontak'];
 
             if($kontak->save()){
                 $perusahaan = new DaftarPerusahaan;
                 $perusahaan->id_user = $user->id_user;
                 $perusahaan->id_kontak = $kontak->id_kontak;
-                $perusahaan->nama = $request['nama'];
+                $perusahaan->nama = $request['nama_perusahaan'];
                 $perusahaan->alamat = $request['alamat'];
                 $perusahaan->bio = $request['bio'];
 
@@ -116,7 +124,7 @@ class PerusahaanController extends Controller
                 $perusahaan->foto = $nameToStore;
 
                 if($perusahaan->save()){
-                    return redirect('/admin/perusahaan');
+                    return redirect('/admin/perusahaan')->with('success', 'Data berhasil ditambahkan!');
                 }
             }
         }
@@ -127,10 +135,12 @@ class PerusahaanController extends Controller
         $kontak = Kontak::find($perusahaan->id_kontak);
         $user = User::find($perusahaan->id_user);
         $loker = Loker::where('id_perusahaan', $perusahaan->id_perusahaan)->get();
-        $lamaran = Lamaran::where('id_loker', $loker->id_loker)->get();
+        if(count($loker) > 0){
+            $lamaran = Lamaran::where('id_loker', $loker->id_loker)->get();
+        }
 
         if(count($loker) > 0){
-            return redirect('/admin/perusahaan');
+            return redirect('/admin/perusahaan')->with('error', 'Data tidak bisa dihapus, karena perusahaan sudah mempunyai lowongan pekerjaan!');
         }else{
             // foreach($lamaran as $la){
             //     if($la->cv !== 'nophoto.jpg'){
@@ -157,7 +167,7 @@ class PerusahaanController extends Controller
 
                         if($user->delete()){
                             if($perusahaan->delete()){
-                                return redirect('/admin/perusahaan');
+                                return redirect('/admin/perusahaan')->with('success', 'Data berhasil dihapus!');
                             }
                         }
                     // }

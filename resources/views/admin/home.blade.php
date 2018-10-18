@@ -1,14 +1,5 @@
 <div class="row">
-    <section class="col-md-3 mb-2" id="menu">
-        <div class="card box btn-square">
-            <div class="card-header h3 text-center">Menu</div>
-            <div class="card-body">
-                <a href="{{ url('admin/loker/') }}" class="btn btn-primary btn-block btn-square">Daftar Lowongan Kerja</a>
-                <a href="{{ url('admin/perusahaan') }}" class="btn btn-primary btn-block btn-square">Daftar Perusahaan</a>
-                <a href="{{ url('admin/cp') }}" class="btn btn-primary btn-block btn-square">Daftar Calon Pegawai</a>
-            </div>
-        </div>
-    </section>
+    @include('layouts.adminmenu')
     <section class="col-md-9" id="dashboard">
         <div class="card box btn-square">
             <div class="card-header h3 text-center">Dashboard</div>
@@ -18,6 +9,11 @@
         </div>
     </section>
 </div>
+@section('js')
+<script type="text/javascript">
+    $('.adminmenu_beranda').addClass('active');
+</script>
+@endsection
 {{-- <div class="card box btn-square">
     <div class="card-header h3 text-center">Dashboard</div>
 

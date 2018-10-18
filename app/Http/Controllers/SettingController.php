@@ -7,6 +7,7 @@ use App\Loker;
 use App\DaftarPerusahaan;
 use App\DaftarCP;
 use App\Kontak;
+use App\Pengaturan;
 
 use App\Http\Requests\GantiPasswordRequest;
 use App\Http\Requests\DataDiriPerusahaanRequest;
@@ -31,9 +32,10 @@ class SettingController extends Controller
     }
 
     protected function index(){
+        $pengaturan = Pengaturan::all()->first();
         $akun = User::find(Auth::user()->id_user);
 
-        return view('settings.password', compact('akun'));
+        return view('settings.password', compact('akun', 'pengaturan'));
     }
 
     protected function gantiPassword(GantiPasswordRequest $request){
@@ -43,18 +45,19 @@ class SettingController extends Controller
             $akun->password = Hash::make($request['password']);
 
             if($akun->save()){
-                return redirect('/home');
+                return redirect('/home')->with('success', 'Password berhasil diubah!');
             }
         }else{
             // Tambah notif password lama tidak valid / salah.
-            return back();
+            return back()->with('error', 'Password lama salah');
         }
     }
 
     protected function dataDiriPerusahaan(){
+        $pengaturan = Pengaturan::all()->first();
         $perusahaan = DaftarPerusahaan::where('id_user', Auth::user()->id_user)->get()->first();
 
-        return view('settings.dataPerusahaan', compact('perusahaan'));
+        return view('settings.dataPerusahaan', compact('perusahaan', 'pengaturan'));
     }
 
     protected function updateDataDiriPerusahaan(dataDiriPerusahaanRequest $request){
@@ -80,17 +83,22 @@ class SettingController extends Controller
         }
 
         if($perusahaan->save() && $kontak->save()){
-            return redirect('/home');
+            return redirect('/home')->with('success', 'Data berhasil diubah!');
         }
     }
 
     protected function dataDiriCP(){
+        $pengaturan = Pengaturan::all()->first();
         $cp = DaftarCP::where('id_user', Auth::user()->id_user)->get()->first();
 
-        return view('settings.dataCP', compact('cp'));
+        return view('settings.dataCP', compact('cp', 'pengaturan'));
     }
 
     protected function updateDataDiriCP(DataDiriCPRequest $request){
+        if(substr($request['cv'], 0, 33) !== 'https://drive.google.com/open?id='){
+            return back()->with('error', 'CV tidak valid, silahkan ikut tata cara mengambil link google drive.');
+        }
+
         $cp = DaftarCP::where('id_user', Auth::user()->id_user)->get()->first();
         $kontak = Kontak::find($cp->id_kontak);
 
@@ -122,7 +130,7 @@ class SettingController extends Controller
         }
 
         if($cp->save() && $kontak->save()){
-            return redirect('/home');
+            return redirect('/home')->with('success', 'Data berhasil diubah!');
         }
     }
 }

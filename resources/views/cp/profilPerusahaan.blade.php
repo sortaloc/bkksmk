@@ -44,7 +44,7 @@
                 <div class="card-body row justify-content-center">
                     @foreach($belumDiLamar as $l)
                         <div class="col-md-3 mb-3 brosur">
-                            <img @if($l->brosur === 'nophoto.jpg') src="{{ asset('assets/images/nophoto.jpg') }}" alt="nophoto" @else src="{{ asset('storage/brosur/'.$l->brosur) }}" alt="{{ $l->judul }}" @endif class="box img-fluid">
+                            <img @if($l->brosur === 'nophoto.jpg') src="{{ asset('assets/images/nophoto.jpg') }}" alt="nophoto" @else src="{{ asset('storage/brosur/'.$l->brosur) }}" alt="{{ $l->judul }}" @endif class="box img-fluid imgZoom">
                         </div>
                         <div class="col-md-9">
                             <h1 class="judulLoker">{{$l->judul}}</h1>
@@ -69,9 +69,7 @@
                     @endforeach
                     @foreach($sudahDiLamar as $l)
                         <div class="col-md-3 brosur">
-                            <a @if($l->brosur !== 'nophoto.jpg') href="{{ url('storage/brosur/'.$l->brosur) }}" @else href="{{ url('assets/images/nophoto.jpg') }}" @endif>
-                                <img @if($l->brosur === 'nophoto.jpg') src="{{ asset('assets/images/nophoto.jpg') }}" alt="nophoto" @else src="{{ asset('storage/brosur/'.$l->brosur) }}" alt="{{ $l->judul }}" @endif class="box img-fluid">
-                            </a>
+                            <img @if($l->brosur === 'nophoto.jpg') src="{{ asset('assets/images/nophoto.jpg') }}" alt="nophoto" @else src="{{ asset('storage/brosur/'.$l->brosur) }}" alt="{{ $l->judul }}" @endif class="box img-fluid imgZoom">
                         </div>
 
                         <div class="col-md-8">

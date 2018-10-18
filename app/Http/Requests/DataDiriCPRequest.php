@@ -30,8 +30,8 @@ class DataDiriCPRequest extends FormRequest
             'nama' => 'required|max:255',
             'jk' => 'required',
             'no_hp' => 'required|max:13|unique:kontak,no_hp,'.$id.',id_kontak',
-            'no_telepon' => 'unique:kontak,no_telepon,'.$id.',id_kontak',
-            'id_line' => 'unique:kontak,id_line,'.$id.',id_kontak'
+            // 'no_telepon' => 'unique:kontak,no_telepon,'.$id.',id_kontak',
+            // 'id_line' => 'unique:kontak,id_line,'.$id.',id_kontak'
         ];
     }
 
@@ -44,8 +44,8 @@ class DataDiriCPRequest extends FormRequest
             'no_hp.required' => 'No HP harus diisi',
             'no_hp.max' => 'No HP maksimal 13 karakter',
             'no_hp.unique' => 'No HP sudah terdaftar',
-            'no_telepon.unique' => 'No Telepon sudah terdaftar',
-            'id_line.unique' => 'ID Line sudah terdaftar'
+            // 'no_telepon.unique' => 'No Telepon sudah terdaftar',
+            // 'id_line.unique' => 'ID Line sudah terdaftar'
         ];
     }
 }

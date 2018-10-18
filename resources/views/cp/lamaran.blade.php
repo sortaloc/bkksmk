@@ -31,6 +31,7 @@
 
                                 <div class="col-md-6">
                                     <input id="surat_lamaran" type="text" class="form-control{{ $errors->has('surat_lamaran') ? ' is-invalid' : '' }}" name="surat_lamaran" value="{{ old('surat_lamaran') }}" required autofocus>
+                                    <small id="surat_lamaranHelpBlock" class="form-text text-muted">Masukkan link Google Drive CV anda. <a href="{{ url('cp/tutorial') }}" class="a-normal">Baca Disini</a></small>
 
                                     @if ($errors->has('surat_lamaran'))
                                         <span class="invalid-feedback" role="alert">

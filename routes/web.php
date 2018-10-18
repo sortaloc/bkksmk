@@ -14,7 +14,9 @@
 
 Auth::routes();
 
-Route::get('/', 'HomeController@index');
+Route::get('/login', 'Auth\LoginController@index')->name('login');
+Route::get('/register', 'Auth\RegisterController@index')->name('register');
+Route::get('/', 'LPController@lp')->name('lp');
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/registerCP', 'Auth\RegisterController@showRegisterCP')->name('registerCP');
@@ -74,3 +76,6 @@ Route::post('/cp/lamaran/{id}', 'LamaranController@uploadLamaran');
 
 Route::get('/cp/perusahaan/{id}', 'HomeController@profilPerusahaan');
 Route::get('/cp/tutorial', 'HomeController@tutorialUpload');
+Route::get('/admin/tutorial', 'HomeController@tutorialUpload');
+Route::get('/admin/pengaturan', 'HomeController@pengaturanIndex');
+Route::post('/admin/pengaturan', 'HomeController@ubahPengaturan');

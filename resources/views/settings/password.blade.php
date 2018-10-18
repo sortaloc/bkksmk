@@ -5,7 +5,10 @@
         <div class="row justify-content-center">
             <div class="col-11">
                 <div class="card box btn-square">
-                    <div class="card-header text-center h3">Ganti Password</div>
+                    <div class="card-header text-center h3">
+                        <a href="{{ url('/') }}" class="backButton"><i class="fas fa-arrow-left float-left"></i></a>
+                        Ganti Password
+                    </div>
 
                     <div class="card-body p-0">
                         @if($akun->id_status === 1)

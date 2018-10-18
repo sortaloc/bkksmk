@@ -6,6 +6,7 @@ use App\User;
 use App\DaftarPerusahaan;
 use App\DaftarCP;
 use App\Kontak;
+use App\Pengaturan;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterCPRequest;
@@ -49,6 +50,13 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
+    protected function index()
+    {
+        $pengaturan = Pengaturan::all()->first();
+
+        return view('auth.register', compact('pengaturan'));
+    }
+
     protected function register(RegisterPerusahaanRequest $request){
         $user = new User;
         $user->id_status = 2;
@@ -67,14 +75,16 @@ class RegisterController extends Controller
                 $perusahaan->foto = 'nophoto.jpg';
 
                 if($perusahaan->save()){
-                    return redirect('/home');
+                    return redirect('/')->with('success', 'Pendaftaran berhasil, silahkan login');
                 }
             }
         }
     }
 
     protected function showRegisterCP(){
-        return view('auth.registerCP');
+        $pengaturan = Pengaturan::all()->first();
+
+        return view('auth.registerCP', compact('pengaturan'));
     }
 
     protected function registerCP(RegisterCPRequest $request){
@@ -97,7 +107,7 @@ class RegisterController extends Controller
                 $cp->foto = 'nophoto.jpg';
 
                 if($cp->save()){
-                    return redirect('/home');
+                    return redirect('/')->with('success', 'Berhasil mendaftar, Silahkan login.');
                 }
             }
         }

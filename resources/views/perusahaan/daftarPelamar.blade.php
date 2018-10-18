@@ -17,7 +17,7 @@
         #pelamarShow {
             text-align: center;
         }
-        #slButton {
+        .slButton {
             margin-top: 1em;
         }
         #tolak {
@@ -41,14 +41,15 @@
     <div class="row justify-content-center">
         <div class="col-11">
             <div class="card box btn-square">
-                <div class="card-header text-center h3" id="pelamarJudul">Daftar Pelamar Loker | {{ $loker->judul }}</div>
+                <div class="card-header text-center h3" id="pelamarJudul">
+                    <a href="{{ url('/') }}" class="backButton"><i class="fas fa-arrow-left float-left"></i></a>
+                    Daftar Pelamar Loker | {{ $loker->judul }}
+                </div>
                 <div class="card-body">
                     <div class="row">
-                    @foreach($loker->lamaran as $l)
+                    @foreach($loker->lamaran as $index => $l)
                         <div class="col-md-3">
-                            <a @if($l->daftarcp->foto !== 'nophoto.jpg') href="{{ url('storage/fotoCP/'.$l->daftarcp->foto) }}" @else href="{{ url('assets/images/nophoto.jpg') }}" @endif>
-                                <img @if($l->daftarcp->foto === 'nophoto.jpg') src="{{ asset('assets/images/nophoto.jpg') }}" alt="nophoto" @else src="{{ asset('storage/fotoCP/'.$l->daftarcp->foto) }}" alt="{{ $l->daftarcp->nama }}" @endif class="profilPelamar box img-fluid">
-                            </a>
+                            <img @if($l->daftarcp->foto === 'nophoto.jpg') src="{{ asset('assets/images/nophoto.jpg') }}" alt="nophoto" @else src="{{ asset('storage/fotoCP/'.$l->daftarcp->foto) }}" alt="{{ $l->daftarcp->nama }}" @endif class="box img-fluid">
                             <p class="text-center">{{ $l->daftarcp->nama }}</p>
                         </div>
                         <div class="col-md-9">
@@ -61,21 +62,21 @@
                                 </div>
                                 <div class="col-md-6">
                                     <h4>Status</h4>
-                                    <p>{{ $l->status }}</p>
+                                    <p>@if($l->status === 'diterima') <span class="text-success">{{ $l->status }}</span> @elseif($l->status === 'ditolak') <span class="text-danger">{{ $l->status }} @else {{ $l->status }} @endif</p>
                                     <h4>Keterangan</h4>
-                                    <p>@if($l->keterangan_lamaran) {{ $l->keterangan_lamaran }} @else Tidak ada keterangan. @endif</p>
+                                    <p>@if($l->keterangan_lamaran) {!! $l->keterangan_lamaran !!} @else Tidak ada keterangan. @endif</p>
                                 </div>
                             </div>
                             <div class="row" id="pelamarShow">
                                 <div class="col-md-6">
-                                    <button id="cvButton" class="btn btn-primary btn-square">Show CV</button>
-                                    <div id="cv" class="embed-responsive embed-responsive-16by9 box" style="display:none">
+                                    <button class="btn btn-primary btn-square cvButton" data-toggle="{{ $index }}">Show CV</button>
+                                    <div id="cv_{{$index}}" class="embed-responsive embed-responsive-16by9 box" style="display:none">
                                         <iframe src="{{ $l->daftarCP->cv }}" class="embed-responsive-item"></iframe>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <button id="slButton" class="btn btn-primary btn-square">Show SL</button>
-                                    <div id="sl" class="embed-responsive embed-responsive-16by9 box" style="display:none">
+                                    <button class="btn btn-primary btn-square slButton" data-toggle="{{ $index }}">Show SL</button>
+                                    <div id="sl_{{$index}}" class="embed-responsive embed-responsive-16by9 box" style="display:none">
                                         <iframe src="{{ $l->surat_lamaran }}" class="embed-responsive-item"></iframe>
                                     </div>
                                 </div>
@@ -98,34 +99,16 @@
 @endsection
 @section('js')
 <script type="text/javascript">
-    let cvToggle = false;
-    let slToggle = false;
-    $('#cvButton').on('click', () => {
-        $('#cv').slideToggle(250);
-        // if(cvToggle){
-        //     $('#cv').removeClass('d-block');
-        //     $('#cv').addClass('d-none');
-        //     cvToggle = false;
-        // }else{
-        //     $('#cv').removeClass('d-none');
-        //     $('#cv').addClass('d-block').slideToggle(500);
-        //     cvToggle = true;
-        // }
-        // console.log('cv');
+
+
+    $('.cvButton').on('click', function(){
+        let $index = $(this).attr('data-toggle');
+        $('#cv_'+$index).slideToggle(250);
     });
 
-    $('#slButton').on('click', () => {
-        $('#sl').slideToggle(250);
-        // if(slToggle){
-        //     $('#sl').removeClass('d-block');
-        //     $('#sl').addClass('d-none');
-        //     slToggle = false;
-        // }else{
-        //     $('#sl').removeClass('d-none');
-        //     $('#sl').addClass('d-block');
-        //     slToggle = true;
-        // }
-        // console.log('sl');
+    $('.slButton').on('click', function(){
+        let $index = $(this).attr('data-toggle');
+        $('#sl_'+$index).slideToggle(250);
     });
 </script>
 @endsection

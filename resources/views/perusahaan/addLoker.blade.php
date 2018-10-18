@@ -5,7 +5,10 @@
         <div class="row justify-content-center">
             <div class="col-11">
                 <div class="card box btn-square">
-                    <div class="card-header text-center h3">Buat Lowongan Kerja</div>
+                    <div class="card-header text-center h3">
+                        <a href="{{ url('/') }}" class="backButton"><i class="fas fa-arrow-left float-left"></i></a>
+                        Buat Lowongan Kerja
+                    </div>
 
                     <div class="card-body p-0">
                         @if(Auth::user()->id_status === 1)
@@ -128,7 +131,7 @@
 
                             <div class="form-group row m-0 p-0">
                                 <button type="submit" class="btn btn-primary btn-block btn-square">
-                                    {{ __('Buat Loker') }}
+                                    <i class="fas fa-plus"></i> {{ __('Buat Loker') }}
                                 </button>
                             </div>
                         </form>

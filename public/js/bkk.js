@@ -34,4 +34,8 @@ $(document).ready(function() {
     $("#foto").change(function() {
         readURL(this);
     });
+
+    $("#foto1").change(function() {
+        readURL(this);
+    });
 });

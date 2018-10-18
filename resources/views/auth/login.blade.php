@@ -1,11 +1,25 @@
 @extends('layouts.app')
 
+@section('css')
+<style>
+    @media only screen and (max-width: 767px) {
+        #photo {
+            display: none;
+        }
+    }
+    .img-full {
+        height: 100%;
+        width: 100%;
+    }
+</style>
+@endsection
+
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
         <div class="box row col-10 p-0">
-            <div class="col-md-5 col-sm-12 p-0 m-0">
-                <img src="{{ asset('assets/images/nophoto.jpg') }}" class="img-fluid">
+            <div class="col-md-5 col-sm-12 p-0 m-0" id="photo">
+                <img src="{{ asset('assets/images/login.jpg') }}" class="img-full">
             </div>
             <div class="box-container float-right col-md-7 col-sm-12">
                 <h1 class="text-center"> Login </h1>

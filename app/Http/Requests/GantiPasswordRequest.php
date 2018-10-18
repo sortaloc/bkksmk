@@ -24,8 +24,19 @@ class GantiPasswordRequest extends FormRequest
     public function rules()
     {
         return [
-            'passLama' => 'required|string|min:6',
-            'password' => 'required|string|min:6|confirmed',
+            'passLama' => 'required|min:6',
+            'password' => 'required|min:6|confirmed',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'passLama.required' => 'Password lama harus diisi',
+            'passLama.min' => 'Password lama minimal 6 karakter',
+            'password.required' => 'Password baru harus diisi',
+            'password.min' => 'Password baru minimal 6 karakter',
+            'password.confirmed' => 'Password baru dan konfirmasi password baru tidak sama'
         ];
     }
 }

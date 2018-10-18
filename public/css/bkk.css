@@ -11,6 +11,10 @@
     background-color: #ebebeb;
 }
 
+.bg-3 {
+    background-color: rgba(240, 240, 240, 0.75);
+}
+
 /* Override */
 a {
     text-decoration: none;
@@ -20,6 +24,10 @@ a {
 a:hover {
     text-decoration: none;
     color: #fff;
+}
+
+.backButton:hover {
+    color: #777;
 }
 
 /* App-only */
@@ -79,7 +87,7 @@ a:hover {
 .jumlahPelamar {
     position: absolute;
     top: 0px;
-    right: 0px;
+    right: 1px;
     z-index: 999;
     transition: 0.5s;
     font-size: 20px;
@@ -129,6 +137,73 @@ ul.pagination {
     background: #bbb;
 }
 .bisaHover {
+    cursor: pointer;
+}
+
+/* Zoom */
+
+.imgZoom:hover {
+    opacity: 0.7;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.modal {
+    display: none;
+    position: fixed !important;
+    z-index: 9999999 !important;
+    padding-top: 50px !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-height: 100% !important;
+    background-color: rgb(0, 0, 0) !important;
+    background-color: rgba(0, 0, 0, 0.9) !important;
+    overflow-y: visible !important;
+}
+.modal-content {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+}
+#caption {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+    text-align: center;
+    color: #ccc;
+    padding: 10px 0;
+    height: 150px;
+}
+.modal-content,
+#caption {
+    animation-name: zoom;
+    animation-duration: 0.6s;
+}
+@keyframes zoom {
+    from {
+        transform: scale(0);
+    }
+    to {
+        transform: scale(1);
+    }
+}
+.close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+.close:hover,
+.close:focus {
+    color: #bbb;
+    text-decoration: none;
     cursor: pointer;
 }
 

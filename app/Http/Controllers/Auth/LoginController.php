@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Pengaturan;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
@@ -17,6 +19,13 @@ class LoginController extends Controller
     | to conveniently provide its functionality to your applications.
     |
     */
+
+    public function index()
+    {
+        $pengaturan = Pengaturan::all()->first();
+
+        return view('auth.login', compact('pengaturan'));
+    }
 
     use AuthenticatesUsers;
 

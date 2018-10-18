@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name') }}</title>
+    <title>BKK SMK</title>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
@@ -25,11 +25,18 @@
     @yield('css')
 </head>
 <body class="bg-1">
+    <!-- Preview Image Modal -->
+    <div class="modal" id="myModal">
+    	<span class="close">&times;</span>
+    	<img class="modal-content" id="img01" src=""/>
+    	<div id="caption"></div>
+    </div>
+
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-2 navbar-laravel">
+        <nav class="navbar navbar-expand-md navbar-light bg-2 navbar-laravel" id="navbar">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name') }}
+                    Bursa Kerja Khusus
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -41,9 +48,7 @@
 
                     </ul>
 
-                    <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
-                        <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
@@ -52,21 +57,6 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('register') }}">{{ __('Daftar') }}</a>
                             </li>
-
-                            <!-- <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    Register
-                                </a>
-
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ url('register') }}">
-                                        Perusahaan
-                                    </a>
-                                    <a class="dropdown-item" href="{{ url('registerCP') }}">
-                                        Calon Pegawai
-                                    </a>
-                                </div>
-                            </li> -->
                         @else
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -120,17 +110,20 @@
             </div>
         </nav>
 
-        <main class="py-4 bg-1">
+        @yield('lp')
+
+        <main class="pt-4 bg-1" id="mainapp">
             @yield('content')
+            @include('layouts.footer')
         </main>
     </div>
 
     <!-- Scripts -->
     <!-- <script type="text/javascript" src="{{ asset('js/app.js') }}" defer></script> -->
-    <!-- <script type="text/javascript" src="{{ asset('assets/DataTables/DataTables-1.10.18/js/dataTables.bootstrap4.min.js') }}"></script> -->
     <script type="text/javascript" src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/sweetalert2.js') }}"></script>
+    @include('layouts.messages')
     <script type="text/javascript" src="{{ asset('assets/DataTables/datatables.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/summernote-bs4.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/bkk.js') }}"></script>
@@ -139,6 +132,7 @@
         $(document).ready(() => {
             $('#persyaratan').summernote();
             $('#keterangan').summernote();
+            $('#banner1').summernote();
         });
 
         $('.jumlahPelamar').on('click', function(e){
@@ -160,6 +154,57 @@
             }).then((result) =>{
                 window.location.replace($url);
             });
+        });
+
+        $('#terima').on('click', function(e){
+            e.preventDefault();
+            var $url = $(this).attr('href');
+            swal({
+                title: 'Terima calon pegawai ini?',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Terima',
+            }).then(result => {
+                window.location.replace($url);
+            });
+        });
+
+        $('#tolak').on('click', function(e){
+            e.preventDefault();
+            var $url = $(this).attr('href');
+            swal({
+                title: 'Tolak calon pegawai ini?',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Tolak',
+            }).then(result => {
+                window.location.replace($url);
+            });
+        });
+
+        //Modal Preview Image
+        var modal = $('#myModal');
+        var img = $('.imgZoom');
+        var modalImg = $("#img01");
+        var captionText = $('#caption');
+        var span = $(".close");
+
+        img.on('click', function(){
+            modal.fadeIn(500);
+            modalImg.attr('src', $(this).attr('src'));
+            captionText.html($(this).attr('alt'));
+        });
+
+        span.on('click', function(){
+            modal.fadeOut(500);
+        });
+
+        modal.on('click', function(){
+            modal.fadeOut(500);
         });
     </script>
 </body>

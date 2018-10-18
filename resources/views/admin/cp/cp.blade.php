@@ -3,7 +3,7 @@
 @section('css')
 <style type="text/css">
     .tambah {
-        position: absolute;
+        position: fixed;
         z-index: 999;
         bottom: 0;
         right: 15px;
@@ -20,16 +20,7 @@
 <div class="container">
     <a href="{{ url('admin/cp/add') }}" class="tambah h2 btn btn-primary"><i class="fas fa-plus"></i></a>
     <div class="row">
-        <section class="col-md-3 mb-2" id="menu">
-            <div class="card box btn-square">
-                <div class="card-header h3 text-center">Menu</div>
-                <div class="card-body">
-                    <a href="{{ url('/') }}" class="btn btn-primary btn-block btn-square">Beranda</a>
-                    <a href="{{ url('admin/loker') }}" class="btn btn-primary btn-block btn-square">Daftar Lowongan Kerja</a>
-                    <a href="{{ url('admin/perusahaan') }}" class="btn btn-primary btn-block btn-square">Daftar Perusahaan</a>
-                </div>
-            </div>
-        </section>
+        @include('layouts.adminmenu')
         <section class="col-md-9">
             <div class="card box btn-square">
                 <div class="card-header h3 text-center">Daftar Calon Pegawai</div>
@@ -58,8 +49,8 @@
                                     <td> {{ $c->nis }} </td>
                                     <td> @if($c->jenis_kelamin === 'L') Laki-laki @else Perempuan @endif </td>
                                     <td>
-                                        <a href="{{ url('admin/cp/edit', base64_encode($c->nis)) }}" class="btn btn-primary"> Detail </a>
-                                        <a href="{{ url('admin/cp', base64_encode($c->nis)) }}" class="btn btn-danger deleteButton"> Hapus </a>
+                                        <a href="{{ url('admin/cp/edit', base64_encode($c->nis)) }}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                                        <a href="{{ url('admin/cp', base64_encode($c->nis)) }}" class="btn btn-danger deleteButton"><i class="fas fa-trash"></i></a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -74,7 +65,8 @@
 
 @section('js')
 <script type="text/javascript">
-    $(document).ready( function () {
+    $('.adminmenu_cp').addClass('active');
+    $(document).ready(function () {
         $('#tabel').DataTable({
             responsive: true,
             "columns": [

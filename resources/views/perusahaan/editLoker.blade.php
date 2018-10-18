@@ -5,7 +5,10 @@
     <div class="row justify-content-center">
         <div class="col-11">
             <div class="card box btn-square">
-                <div class="card-header text-center h3">Ubah Lowongan Kerja</div>
+                <div class="card-header text-center h3">
+                    <a href="{{ url('/') }}" class="backButton"><i class="fas fa-arrow-left float-left"></i></a>
+                    Ubah Lowongan Kerja
+                </div>
 
                 <div class="card-body p-0">
                     <form method="POST" action="{{ url('perusahaan/loker/edit', base64_encode($loker->id_loker)) }}" enctype="multipart/form-data">
@@ -136,7 +139,7 @@
 
                         <div class="form-group row m-0 p-0">
                             <button type="submit" class="btn btn-primary btn-block btn-square">
-                                {{ __('Ubah Loker') }}
+                                <i class="fas fa-edit"> </i>{{ __('Ubah Loker') }}
                             </button>
                         </div>
                     </form>

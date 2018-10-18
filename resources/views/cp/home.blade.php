@@ -6,15 +6,13 @@
             @if($l->status === 'Aktif')
             <div class="relative row">
                 <div class="col-md-3 brosur">
-                    <a @if($l->brosur !== 'nophoto.jpg') href="{{ url('storage/brosur/'.$l->brosur) }}" @else href="{{ url('assets/images/nophoto.jpg') }}" @endif>
-                        <img @if($l->brosur === 'nophoto.jpg') src="{{ asset('assets/images/nophoto.jpg') }}" alt="nophoto" @else src="{{ asset('storage/brosur/'.$l->brosur) }}" alt="{{ $l->judul }}" @endif class="box img-fluid">
-                    </a>
+                    <img @if($l->brosur === 'nophoto.jpg') src="{{ asset('assets/images/nophoto.jpg') }}" alt="nophoto" @else src="{{ asset('storage/brosur/'.$l->brosur) }}" alt="{{ $l->judul }}" @endif class="box img-fluid imgZoom">
                 </div>
 
                 <div class="col-md-9">
                     <h1 class="judulLoker"> {{ $l->judul }} </h1>
                     @if(isset($l->id_perusahaan))
-                        <p class="text-muted small"> Dipost oleh : <a href="#">{{ $l->perusahaan->nama }}</a> | @if($l->status === 'Aktif') <span style="color:green">Aktif</span> @else <span style="color:red">Tidak Aktif</span> @endif</p>
+                        <p class="text-muted small"> Dipost oleh : <a href="{{ url('cp/perusahaan', base64_encode($l->id_perusahaan)) }}" class="a-normal">{{ $l->perusahaan->nama }}</a> | @if($l->status === 'Aktif') <span style="color:green">Aktif</span> @else <span style="color:red">Tidak Aktif</span> @endif</p>
                     @else
                         <p class="text-muted small"> Dipost oleh : Admin | @if($l->status === 'Aktif') <span style="color:green">Aktif</span> @else <span style="color:red">Tidak Aktif</span> @endif</p>
                     @endif
@@ -30,7 +28,7 @@
                     @if($cp->cv)
                         <a href="{{ url('cp/lamaran', base64_encode($l->id_loker)) }}" class="btn btn-primary btn-block">Lamar pekerjaan ini</a>
                     @else
-                        <p> Anda belum menambahkan cv ke profil anda. Silahkan <a href="#">klik disini</a> untuk mengubahnya. </p>
+                        <p> Anda belum menambahkan cv ke profil anda. Silahkan <a href="{{ url('cp/settings/datadiri') }}" class="a-normal">klik disini</a> untuk mengubahnya. </p>
                     @endif
                 </div>
             </div>
@@ -41,9 +39,7 @@
         @foreach($sudahDiLamar as $l)
             <div class="relative row">
                 <div class="col-md-3 brosur">
-                    <a @if($l->brosur !== 'nophoto.jpg') href="{{ url('storage/brosur/'.$l->brosur) }}" @else href="{{ url('assets/images/nophoto.jpg') }}" @endif>
-                        <img @if($l->brosur === 'nophoto.jpg') src="{{ asset('assets/images/nophoto.jpg') }}" alt="nophoto" @else src="{{ asset('storage/brosur/'.$l->brosur) }}" alt="{{ $l->judul }}" @endif class="box img-fluid">
-                    </a>
+                    <img @if($l->brosur === 'nophoto.jpg') src="{{ asset('assets/images/nophoto.jpg') }}" alt="nophoto" @else src="{{ asset('storage/brosur/'.$l->brosur) }}" alt="{{ $l->judul }}" @endif class="box img-fluid imgZoom">
                 </div>
 
                 <div class="col-md-8">

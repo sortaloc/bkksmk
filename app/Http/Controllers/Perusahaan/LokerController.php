@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Perusahaan;
 use App\DaftarPerusahaan;
 use App\Loker;
 use App\Lamaran;
+use App\Pengaturan;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AddLokerRequest;
@@ -27,9 +28,10 @@ class LokerController extends Controller
     }
 
     protected function index(){
+        $pengaturan = Pengaturan::all()->first();
         $perusahaan = DaftarPerusahaan::where('id_user', Auth::user()->id_user)->get()->first();
 
-        return view('perusahaan.addLoker', compact('perusahaan'));
+        return view('perusahaan.addLoker', compact('perusahaan', 'pengaturan'));
     }
 
     protected function addLoker(AddLokerRequest $request){
@@ -53,7 +55,7 @@ class LokerController extends Controller
         $loker->brosur = $nameToStore;
 
         if($loker->save()){
-            return redirect('/home');
+            return redirect('/home')->with('success', 'Data berhasil ditambahkan!');
         }
     }
 
@@ -65,14 +67,15 @@ class LokerController extends Controller
         }
 
         if($loker->delete()){
-            return redirect('/home');
+            return redirect('/home')->with('success', 'Data berhasil dihapus!');
         }
     }
 
     protected function editLoker($id){
+        $pengaturan = Pengaturan::all()->first();
         $loker = Loker::find(base64_decode($id));
-        // return $loker;
-        return view('perusahaan.editLoker', compact('loker'));
+
+        return view('perusahaan.editLoker', compact('loker', 'pengaturan'));
     }
 
     protected function updateLoker(AddLokerRequest $request, $id){
@@ -94,14 +97,15 @@ class LokerController extends Controller
         }
 
         if($loker->save()){
-            return redirect('/home');
+            return redirect('/home')->with('success', 'Data berhasil diubah!');
         }
     }
 
     protected function daftarPelamar($id){
+        $pengaturan = Pengaturan::all()->first();
         $loker = Loker::find(base64_decode($id));
 
-        return view('perusahaan.daftarPelamar', compact('loker'));
+        return view('perusahaan.daftarPelamar', compact('loker', 'pengaturan'));
     }
 
     protected function verifPelamar($id){
@@ -109,7 +113,7 @@ class LokerController extends Controller
         $lamaran->status = "diterima";
 
         if($lamaran->save()){
-            return redirect('/home');
+            return redirect('/home')->with('success', 'Calon pegawai sudah diterima');
         }
     }
 
@@ -118,7 +122,7 @@ class LokerController extends Controller
         $lamaran->status = 'ditolak';
 
         if($lamaran->save()){
-            return redirect('/home');
+            return redirect('/home')->with('success', 'Calon pegawai ditolak');
         }
     }
 }

@@ -4,21 +4,11 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-11">
-            <!-- <div class="card mt-3">
-                <div class="card-header">To-do List</div>
-                <div class="card-body">
-                    <ol>
-                        <li>Merge Data Perusahaan and Data Kontak form.</li>
-                        <li>Adding image preview for uploading.</li>
-                        <li>Changing the form design.</li>
-                        <li>Don't forget about the validation.</li>
-                        <li>And error messages.</li>
-                    </ol>
-                </div>
-            </div> -->
-
             <div class="card box btn-square">
-                <div class="card-header text-center h3">Data Perusahaan</div>
+                <div class="card-header text-center h3">
+                    <a href="{{ url('/') }}" class="backButton"><i class="fas fa-arrow-left float-left"></i></a>
+                    Data Perusahaan
+                </div>
                 <div class="card-body p-0">
                     <form method="POST" action="{{ url('perusahaan/settings/datadiri') }}" enctype="multipart/form-data">
                         @csrf
