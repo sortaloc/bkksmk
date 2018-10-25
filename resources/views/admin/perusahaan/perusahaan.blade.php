@@ -51,7 +51,7 @@
                                         {{ $p->alamat }}
                                     </td>
                                     <td>
-                                        <a href="{{ url('admin/perusahaan/edit', base64_encode($p->id_perusahaan)) }}" class="btn btn-primary"><i class="fas fa-edit"></i> </a> |
+                                        <a href="{{ url('admin/perusahaan/edit', base64_encode($p->id_perusahaan)) }}" class="btn btn-primary"><i class="fas fa-edit"></i> </a>
                                         <a href="{{ url('admin/perusahaan', base64_encode($p->id_perusahaan)) }}" class="btn btn-danger deleteButton"><i class="fas fa-trash"></i></a>
                                     </td>
                                 </tr>

@@ -82,6 +82,34 @@
                                 </div>
                             </div>
                             <hr>
+                            <h2 class="text-center">Data Tentang</h2>
+                            <div class="form-group row">
+                                <label for="tentang1" class="col-md-3 col-form-label text-md-right">{{ __('Tentang1*') }}</label>
+
+                                <div class="col-md-8">
+                                    <textarea id="tentang1" type="text" class="form-control{{ $errors->has('tentang1') ? ' is-invalid' : '' }}" name="tentang1" required>{{ $pengaturan->tentang1 }}</textarea>
+
+                                    @if ($errors->has('tentang1'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('tentang1') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="tujuan1" class="col-md-3 col-form-label text-md-right">{{ __('Tujuan1*') }}</label>
+
+                                <div class="col-md-8">
+                                    <textarea id="tujuan1" type="text" class="form-control{{ $errors->has('tujuan1') ? ' is-invalid' : '' }}" name="tujuan1" required>{{ $pengaturan->tujuan1 }}</textarea>
+
+                                    @if ($errors->has('tujuan1'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('tujuan1') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+                            <hr>
                             <h2 class="text-center">Data Footer</h2>
                             <div class="form-group row">
                                 <label for="alamat" class="col-md-3 col-form-label text-md-right">{{ __('Alamat*') }}</label>

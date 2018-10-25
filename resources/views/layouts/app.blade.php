@@ -19,6 +19,9 @@
     {{-- <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap.min.css') }}"> --}}
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/DataTables/datatables.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/sweetalert2.min.css') }}">
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/slick.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/slick-theme.css') }}">
     <link rel="stylesheet" type="text/css" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/summernote-bs4.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/bkk.css') }}">
@@ -50,11 +53,27 @@
 
                     <ul class="navbar-nav ml-auto">
                         @guest
-                            <li class="nav-item">
+                            <li class="nav-item nav-custom" id="beranda">
+                                <a href="{{ url('/') }}" class="nav-link"><i class="fas fa-home"></i> Beranda</a>
+                            </li>
+
+                            <li class="nav-item nav-custom" id="tentang">
+                                <a href="{{ url('/tentang') }}" class="nav-link"><i class="fas fa-info-circle"></i> Tentang</a>
+                            </li>
+
+                            <li class="nav-item nav-custom" id="mitra">
+                                <a href="{{ url('/mitra') }}" class="nav-link"><i class="fas fa-industry"></i> Mitra Perusahaan</a>
+                            </li>
+
+                            <li class="nav-item nav-custom mr-2" id="kontak">
+                                <a href="{{ url('/kontak') }}" class="nav-link"><i class="fas fa-address-book"></i> Kontak</a>
+                            </li>
+
+                            <li class="nav-item nav-custom" id="login">
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                             </li>
 
-                            <li class="nav-item">
+                            <li class="nav-item nav-custom" id="daftar">
                                 <a class="nav-link" href="{{ route('register') }}">{{ __('Daftar') }}</a>
                             </li>
                         @else
@@ -126,6 +145,7 @@
     @include('layouts.messages')
     <script type="text/javascript" src="{{ asset('assets/DataTables/datatables.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/summernote-bs4.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/slick.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/bkk.js') }}"></script>
     @yield('js')
     <script type="text/javascript">
@@ -133,6 +153,9 @@
             $('#persyaratan').summernote();
             $('#keterangan').summernote();
             $('#banner1').summernote();
+            $('#tentang1').summernote();
+            $('#tujuan1').summernote();
+            $('#isi_pesan').summernote();
         });
 
         $('.jumlahPelamar').on('click', function(e){

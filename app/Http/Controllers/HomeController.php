@@ -45,13 +45,13 @@ class HomeController extends Controller
         $pengaturan = Pengaturan::all()->first();
         if (Auth::user()->id_status === 2) {
             $perusahaan = DaftarPerusahaan::where('id_user', Auth::user()->id_user)->get()->first();
-            $loker = Loker::where('id_perusahaan', $perusahaan->id_perusahaan)->orderBy('created_at', 'descending')->paginate(4);
+            $loker = Loker::where('id_perusahaan', $perusahaan->id_perusahaan)->orderBy('created_at', 'descending')->paginate(6);
 
             return view('home', compact('loker', 'perusahaan', 'pengaturan'));
         } else if (Auth::user()->id_status === 3) {
             $cp = DaftarCP::where('id_user', Auth::user()->id_user)->get()->first();
             $lamaran = Lamaran::where('nis', $cp->nis)->get();
-            $loker = Loker::orderBy('created_at', 'descending')->paginate(4);
+            $loker = Loker::orderBy('created_at', 'descending')->paginate(6);
 
             $sudahDiLamar = [];
             $belumDiLamar = $loker;
@@ -69,7 +69,7 @@ class HomeController extends Controller
             }
             return view('home', compact('loker', 'sudahDiLamar', 'belumDiLamar', 'cp', 'pengaturan'));
         } else {
-            $loker = Loker::orderBy('created_at', 'descending')->paginate(4);
+            $loker = Loker::orderBy('created_at', 'descending')->paginate(6);
             return view('home', compact('loker', 'pengaturan'));
         }
     }
@@ -80,7 +80,7 @@ class HomeController extends Controller
         $perusahaan = DaftarPerusahaan::find(base64_decode($id));
         $cp = DaftarCP::where('id_user', Auth::user()->id_user)->get()->first();
         $lamaran = Lamaran::where('nis', $cp->nis)->get();
-        $loker = Loker::where('id_perusahaan', $perusahaan->id_perusahaan)->orderBy('created_at', 'descending')->paginate(2     );
+        $loker = Loker::where('id_perusahaan', $perusahaan->id_perusahaan)->orderBy('created_at', 'descending')->paginate(6);
 
         $sudahDiLamar = [];
         $belumDiLamar = $loker;
@@ -131,6 +131,8 @@ class HomeController extends Controller
         $pengaturan->fitur1 = $request['fitur1'];
         $pengaturan->fitur2 = $request['fitur2'];
         $pengaturan->fitur3 = $request['fitur3'];
+        $pengaturan->tentang1 = $request['tentang1'];
+        $pengaturan->tujuan1 = $request['tujuan1'];
         $pengaturan->alamat = $request['alamat'];
         $pengaturan->telp = $request['telp'];
         $pengaturan->fax = $request['fax'];

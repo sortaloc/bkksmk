@@ -190,6 +190,7 @@
 
 @section('js')
 <script type="text/javascript">
+    $('#daftar').addClass('active');
     let pToggle = true;let cpToggle = false
 
     $('#perusahaan-btn').on('click', function(){

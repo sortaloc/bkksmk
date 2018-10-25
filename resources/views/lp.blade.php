@@ -75,6 +75,80 @@
             {!! $pengaturan->banner1 !!}
         </div>
     </section>
+    <section class="text-center p-3">
+        <h1>Features</h1>
+        <div class="row justify-content-center m-0">
+            <div class="col-sm-3 p-3 box m-2">
+                <i class="fas fa-briefcase h2"></i>
+                <hr>
+                <p>{{ $pengaturan->fitur1 }}</p>
+            </div>
+            <div class="col-sm-3 p-3 box m-2">
+                <i class="fas fa-user-check h2"></i>
+                <hr>
+                <p>{{ $pengaturan->fitur2 }}</p>
+            </div>
+            <div class="col-sm-3 p-3 box m-2">
+                <i class="fas fa-search h2"></i>
+                <hr>
+                <p>{{ $pengaturan->fitur3 }}</p>
+            </div>
+        </div>
+    </section>
+    <section class="col-md-10 offset-md-1" id="dashboard">
+        <div class="card box btn-square m-3">
+            <div class="card-header text-center h3">Daftar Loker</div>
+
+            <div class="card-body row justify-content-center">
+                @foreach($loker as $l)
+                    <div class="col-md-3 mb-3 brosur">
+                        <img @if($l->brosur === 'nophoto.jpg') src="{{ asset('assets/images/nophoto.jpg') }}" alt="nophoto" @else src="{{ asset('storage/brosur/'.$l->brosur) }}" alt="{{ $l->judul }}" @endif class="box img-fluid imgZoom">
+                    </div>
+                    <div class="col-md-9">
+                        <h1 class="judulLoker"><a href="{{ url('admin/loker/edit', base64_encode($l->id_loker)) }}">{{$l->judul}}</a></h1>
+                        @if(isset($l->id_perusahaan))
+                            <span class="text-muted small">Dipost oleh: {{ $l->perusahaan->nama }} pada {{$l->created_at}} | @if($l->status === 'Aktif') <span style="color:green">Aktif</span> @else <span style="color:red">Tidak Aktif</span> @endif </span>
+                        @else
+                            <span class="text-muted small">Dipost oleh: Admin pada {{$l->created_at}} | @if($l->status === 'Aktif') <span style="color:green">Aktif</span> @else <span style="color:red">Tidak Aktif</span> @endif <span>
+                        @endif
+                        <h4 class="mt-2"> Persyaratan </h4>
+                        {!! $l->persyaratan !!}
+                        <h4> Gaji </h4>
+                        <p>{{ $l->gaji }}</p>
+                        <h4> Jam Kerja </h4>
+                        <p>{{ $l->jam_kerja }}</p>
+                        <hr />
+                    </div>
+                @endforeach
+                {{ $loker->links() }}
+            </div>
+        </div>
+    </section>
+    <div class="bg-2 p-3 mt-3">
+        <div class="row m-0 p-0">
+            <div class="col-md-4 text-center">
+                <h4>Lokasi</h4>
+                <hr>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3961.002612100019!2d107.55619391442444!3d-6.8902891950211185!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68e6bd6aaaaaab%3A0xf843088e2b5bf838!2sSMK+11+Bandung!5e0!3m2!1sen!2sid!4v1517989587366" frameborder="0" class="box" style="width:100%"></iframe>
+            </div>
+            <div class="col-md-4">
+                <h4 class="text-center">Kontak</h4>
+                <hr>
+                <p>{{ $pengaturan->alamat }}</p>
+                <p>
+                    <b>Telp</b> : {{ $pengaturan->telp }}<br>
+                    <b>Fax</b> : {{ $pengaturan->fax }}<br>
+                    <b>E-Mail</b> : {{ $pengaturan->email }}
+                </p>
+            </div>
+            <div class="col-md-4">
+                <h4 class="text-center">Link</h4>
+                <hr>
+                <a class="text-white" href="http://www.smkn11bdg.sch.id/"><img class="img-fluid" src="{{ asset('assets/images/smk11.png') }}" alt="Website SMKN 11 Bandung"/></a>
+            </div>
+        </div>
+        <p class="text-center m-0"><i class="small">©Copyright 2018. Yanuar Wanda Putra</i></p>
+    </div>
     {{-- <section class="row container-fluid justify-content-center">
         <div class="col-6 p-0 m-0">
             <img src="{{ asset('assets/images/unsplash2.jpg') }}" alt="unsplash" class="img-hero">
@@ -115,57 +189,13 @@
             </div>
         </div>
     </section> --}}
-    <section class="text-center p-3">
-        <h1>Features</h1>
-        <div class="row justify-content-center m-0">
-            <div class="col-sm-3 p-3 box m-2">
-                <i class="fas fa-briefcase h2"></i>
-                <hr>
-                <p>{{ $pengaturan->fitur1 }}</p>
-            </div>
-            <div class="col-sm-3 p-3 box m-2">
-                <i class="fas fa-user-check h2"></i>
-                <hr>
-                <p>{{ $pengaturan->fitur2 }}</p>
-            </div>
-            <div class="col-sm-3 p-3 box m-2">
-                <i class="fas fa-search h2"></i>
-                <hr>
-                <p>{{ $pengaturan->fitur3 }}</p>
-            </div>
-        </div>
-    </section>
-    <div class="bg-2 p-3 mt-3">
-        <div class="row m-0 p-0">
-            <div class="col-md-4 text-center">
-                <h4>Lokasi</h4>
-                <hr>
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3961.002612100019!2d107.55619391442444!3d-6.8902891950211185!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68e6bd6aaaaaab%3A0xf843088e2b5bf838!2sSMK+11+Bandung!5e0!3m2!1sen!2sid!4v1517989587366" frameborder="0" class="box" style="width:100%"></iframe>
-            </div>
-            <div class="col-md-4">
-                <h4 class="text-center">Kontak</h4>
-                <hr>
-                <p>{{ $pengaturan->alamat }}</p>
-                <p>
-                    <b>Telp</b> : {{ $pengaturan->telp }}<br>
-                    <b>Fax</b> : {{ $pengaturan->fax }}<br>
-                    <b>E-Mail</b> : {{ $pengaturan->email }}
-                </p>
-            </div>
-            <div class="col-md-4">
-                <h4 class="text-center">Link</h4>
-                <hr>
-                <a class="text-white" href="http://www.smkn11bdg.sch.id/"><img class="img-fluid" src="{{ asset('assets/images/smk11.png') }}" alt="Website SMKN 11 Bandung"/></a>
-            </div>
-        </div>
-        <p class="text-center m-0"><i class="small">©Copyright 2018. Yanuar Wanda Putra</i></p>
-    </div>
 </main>
 @endsection
 
 @section('js')
 <script type="text/javascript">
     document.getElementById('mainapp').remove();
+    $('#beranda').addClass('active');
     // document.getElementById('navbar').remove();
 </script>
 @endsection

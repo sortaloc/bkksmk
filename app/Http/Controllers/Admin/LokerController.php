@@ -26,7 +26,7 @@ class LokerController extends Controller
 
     protected function indexLoker(){
         $pengaturan = Pengaturan::all()->first();
-        $loker = Loker::orderBy('created_at', 'descending')->paginate(4);
+        $loker = Loker::orderBy('created_at', 'descending')->paginate(6);
 
         return view('admin.loker', compact('loker', 'pengaturan'));
     }

@@ -14,10 +14,14 @@
 
 Auth::routes();
 
+Route::get('/', 'LPController@lp')->name('lp');
+Route::get('/mitra', 'LPController@mitra');
+Route::get('/tentang', 'LPController@tentang');
+Route::get('/kontak', 'LPController@kontak');
+Route::post('/kontak', 'LPController@kirimPesan');
+Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/login', 'Auth\LoginController@index')->name('login');
 Route::get('/register', 'Auth\RegisterController@index')->name('register');
-Route::get('/', 'LPController@lp')->name('lp');
-Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/registerCP', 'Auth\RegisterController@showRegisterCP')->name('registerCP');
 Route::post('/registerCP', 'Auth\RegisterController@registerCP');
@@ -79,3 +83,7 @@ Route::get('/cp/tutorial', 'HomeController@tutorialUpload');
 Route::get('/admin/tutorial', 'HomeController@tutorialUpload');
 Route::get('/admin/pengaturan', 'HomeController@pengaturanIndex');
 Route::post('/admin/pengaturan', 'HomeController@ubahPengaturan');
+
+Route::get('/admin/bukutamu', 'Admin\BukuTamuController@index');
+Route::get('/admin/bukutamu/{id}', 'Admin\BukuTamuController@lihat');
+Route::get('/admin/bukutamu/delete/{id}', 'Admin\BukuTamuController@hapus');
