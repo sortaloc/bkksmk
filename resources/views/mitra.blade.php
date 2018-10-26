@@ -2,9 +2,13 @@
 
 @section('css')
 <style>
-    .slick-arrow {
-        background-color: #555;
-        padding: 2em !important;
+    #daftarMitraSlide {
+        display: flex;
+    }
+    .slick-arrow:hover {
+        cursor: pointer;
+        color: #aaa;
+        transition: 0.5s ease-in-out;
     }
     .img-fluid-custom {
         display: block;
@@ -16,12 +20,6 @@
     #mitraContainer {
         display: grid;
         grid-template-columns: repeat(3, 32.5%);
-        grid-gap: 1em;
-        align-content: center;
-    }
-    #bawahSlide {
-        display: grid;
-        grid-template-columns: repeat(4, auto);
         grid-gap: 1em;
         align-content: center;
     }
@@ -44,6 +42,9 @@
         #mitraContainer {
             grid-template-columns: auto;
         }
+        #daftarMitraSlide {
+            display: flex;
+        }
     }
 </style>
 @endsection
@@ -56,10 +57,10 @@
             <div id="mitraContainer">
             @foreach($perusahaan as $p)
                 <div class="mitra row box">
-                    <div class="col-md-3">
+                    <div class="col-lg-3">
                         <img @if($p->foto === 'nophoto.jpg') src="{{ asset('assets/images/nophoto.jpg') }}" alt="nophoto" @else src="{{ asset('storage/fotoPerusahaan/'.$p->foto) }}" alt="{{ $p->nama }}" @endif class="img-fluid-custom img-thumbnail imgZoom img-center">
                     </div>
-                    <div class="col-md-9">
+                    <div class="col-lg-8 ml-2">
                         <p class="text-center">
                             <strong>
                                 {{ $p->nama }}
@@ -69,74 +70,51 @@
                         </p>
                     </div>
                 </div>
-                {{-- <div class="col-md-9">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <h4>Alamat</h4>
-                            <hr>
-                            <p>{!! $p->alamat !!}</p>
-                            <h4>Biografi</h4>
-                            <hr>
-                            <p>{!! $p->bio !!}</p>
-                        </div>
-                        <div class="col-md-6">
-                            <h4>Kontak</h4>
-                            <hr>
-                            <p><b>No HP</b> <br> {{ $p->kontak->no_hp }}</p>
-                            @if($p->kontak->no_telepon) <p><b>No Telepon</b> <br> {{ $p->kontak->no_telepon }}</p> @endif
-                            @if($p->kontak->id_line) <p><b>ID Line</b> <br> {{ $p->kontak->id_line }}</p> @endif
-                        </div>
-                    </div>
-                    <hr>
-                </div> --}}
             @endforeach
             </div>
             <div>{{ $perusahaan->links() }}</div>
         </div>
     </div>
-    {{-- <div class="row m-0">
-        <div class="card btn-square box mt-3 col-md-6">
-            <section class="card-body mx-auto">
-                <h4>
-                    Jumlah Mitra Perusahaan =
-                    <b>{{ count($perusahaan) }}</b>
-                </h4>
-            </section>
-        </div>
-    </div> --}}
+    @if(count($perusahaanAll) > 0)
     <div class="card box btn-square mt-3">
-        <section class="card-body" id="bawahSlide">
+        <section class="card-body" id="daftarMitraSlide">
             @foreach($perusahaanAll as $p)
                 <img @if($p->foto === 'nophoto.jpg') src="{{ asset('assets/images/nophoto.jpg') }}" alt="nophoto" @else src="{{ asset('storage/fotoPerusahaan/'.$p->foto) }}" alt="{{ $p->nama }}" @endif class="img-custom border imgZoom">
             @endforeach
         </section>
     </div>
+    @endif
 </div>
 @endsection
 
 @section('js')
 <script type="text/javascript">
     $('#mitra').addClass('active');
-    $('#bawahSlide').slick({
+</script>
+
+@if(count($perusahaanAll) >=7)
+<script type="text/javascript">
+    $('#daftarMitraSlide').slick({
         infinite: true,
         slidesToShow: 7,
         slidesToScroll: 1,
-        adaptiveHeight: true,
+        prevArrow: '<i class="fas fa-caret-left display-3 my-auto"></i>',
+        nextArrow: '<i class="fas fa-caret-right display-3 my-auto"></i>',
         responsive: [
             {
-                breakpoint: 845,
+                breakpoint: 993,
                 settings: {
                     slidesToShow: 5,
                 }
             },
             {
-                breakpoint: 600,
+                breakpoint: 768,
                 settings: {
                     slidesToShow: 3,
                 }
             },
             {
-                breakpoint: 400,
+                breakpoint: 450,
                 settings: {
                     slidesToShow: 1,
                 }
@@ -144,4 +122,75 @@
         ]
     });
 </script>
+@elseif((count($perusahaanAll) < 7) && (count($perusahaanAll) >= 5))
+<script type="text/javascript">
+    $('#daftarMitraSlide').slick({
+        infinite: true,
+        slidesToShow: 5,
+        slidesToScroll: 1,
+        prevArrow: '<i class="fas fa-caret-left display-3 my-auto"></i>',
+        nextArrow: '<i class="fas fa-caret-right display-3 my-auto"></i>',
+        responsive: [
+            {
+                breakpoint: 768,
+                settings: {
+                    slidesToShow: 3,
+                }
+            },
+            {
+                breakpoint: 450,
+                settings: {
+                    slidesToShow: 1,
+                }
+            }
+        ]
+    });
+</script>
+@elseif((count($perusahaanAll) < 5) && (count($perusahaanAll) >= 3))
+<script type="text/javascript">
+    $('#daftarMitraSlide').slick({
+        infinite: true,
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        prevArrow: '<i class="fas fa-caret-left display-3 my-auto"></i>',
+        nextArrow: '<i class="fas fa-caret-right display-3 my-auto"></i>',
+        responsive: [
+            {
+                breakpoint: 450,
+                settings: {
+                    slidesToShow: 1,
+                }
+            }
+        ]
+    });
+</script>
+@elseif((count($perusahaanAll) < 3) && (count($perusahaanAll) > 1))
+<script type="text/javascript">
+    $('#daftarMitraSlide').slick({
+        infinite: true,
+        slidesToShow: 2,
+        slidesToScroll: 1,
+        prevArrow: '<i class="fas fa-caret-left display-3 my-auto"></i>',
+        nextArrow: '<i class="fas fa-caret-right display-3 my-auto"></i>',
+        responsive: [
+            {
+                breakpoint: 450,
+                settings: {
+                    slidesToShow: 1,
+                }
+            }
+        ]
+    });
+</script>
+@else
+<script type="text/javascript">
+    $('#daftarMitraSlide').slick({
+        infinite: true,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        prevArrow: '<i class="fas fa-caret-left display-3 my-auto"></i>',
+        nextArrow: '<i class="fas fa-caret-right display-3 my-auto"></i>',
+    });
+</script>
+@endif
 @endsection

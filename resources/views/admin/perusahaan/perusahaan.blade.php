@@ -72,8 +72,7 @@
         $('#tabel').DataTable({
             responsive: true,
             "columns": [
-                { "width": "20%" },
-                null, null, null
+                null, null, null, { "width": "20%"}
             ]
         });
     });

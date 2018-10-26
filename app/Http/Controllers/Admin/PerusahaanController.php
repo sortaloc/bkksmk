@@ -162,7 +162,7 @@ class PerusahaanController extends Controller
 
                     // if(Loker::where('id_perusahaan', $perusahaan->id_perusahaan)->delete()){
                         if($perusahaan->foto !== 'nophoto.jpg'){
-                            unlink('storage/foto/'.$perusahaan->foto);
+                            unlink('storage/fotoPerusahaan/'.$perusahaan->foto);
                         }
 
                         if($user->delete()){
