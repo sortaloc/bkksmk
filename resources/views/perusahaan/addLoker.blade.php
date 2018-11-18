@@ -22,11 +22,25 @@
                                     <label for="judul" class="col-md-3 col-form-label text-md-right">{{ __('Judul Loker*') }}</label>
 
                                     <div class="col-md-8">
-                                        <input id="judul" type="text" class="form-control{{ $errors->has('judul') ? ' is-invalid' : '' }}" name="judul" value="{{ old('judul') }}" required autofocus>
+                                        <input id="judul" type="text" class="form-control{{ $errors->has('judul') ? ' is-invalid' : '' }}" name="judul" value="{{ old('judul') }}" placeholder="Dibutuhkan Vue Programmer!" required autofocus>
 
                                         @if ($errors->has('judul'))
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $errors->first('judul') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="bidang_pekerjaan" class="col-md-3 col-form-label text-md-right">{{ __('Bidang Pekerjaan*') }}</label>
+
+                                    <div class="col-md-8">
+                                        <input id="bidang_pekerjaan" type="text" class="form-control{{ $errors->has('bidang_pekerjaan') ? ' is- invalid' : '' }}" name="bidang_pekerjaan" value="{{ old('bidang_pekerjaan') }}" placeholder="Programmer" required autofocus>
+
+                                        @if($errors->has('bidang_pekerjaan'))
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $errors->first('bidang_pekerjaan') }}</strong>
                                             </span>
                                         @endif
                                     </div>
@@ -113,12 +127,93 @@
                                 </div>
 
                                 <div class="form-group row">
+                                    <label for="jadwal_tes" class="col-md-3 col-form-label text-md-right">{{ __('Jadwal Tes*') }}</label>
+
+                                    <div class="col-md-8">
+                                        <input id="jadwal_tes" type="date" class="form-control{{ $errors->has('jadwal_tes') ? ' is-invalid' : '' }}" name="jadwal_tes" value="{{ old('jadwal_tes') }}" required>
+
+                                        @if($errors->has('jadwal_tes'))
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $errors->first('jadwal_tes') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="waktu_tes" class="col-md-3 col-form-label text-md-right">{{ __('Waktu Tes*') }}</label>
+
+                                    <div class="col-4">
+                                        <select class="custom-select" id="waktu_tes_jam" name="waktu_tes_jam" required>
+                                            <option value="00" @if(old('waktu_tes_jam') === '00') selected @endif>00</option>
+                                            <option value="01" @if(old('waktu_tes_jam') === '01') selected @endif>01</option>
+                                            <option value="02" @if(old('waktu_tes_jam') === '02') selected @endif>02</option>
+                                            <option value="03" @if(old('waktu_tes_jam') === '03') selected @endif>03</option>
+                                            <option value="04" @if(old('waktu_tes_jam') === '04') selected @endif>04</option>
+                                            <option value="05" @if(old('waktu_tes_jam') === '05') selected @endif>05</option>
+                                            <option value="06" @if(old('waktu_tes_jam') === '06') selected @endif>06</option>
+                                            <option value="07" @if(old('waktu_tes_jam') === '07') selected @endif>07</option>
+                                            <option value="08" @if(old('waktu_tes_jam') === '08') selected @endif>08</option>
+                                            <option value="09" @if(old('waktu_tes_jam') === '09') selected @endif>09</option>
+                                            @for($i = 10; $i <= 24; $i++)
+                                                <option value="{{ $i }}" @if(old('waktu_tes_jam') === $i) selected @endif>{{ $i }}</option>
+                                            @endfor
+                                        </select>
+                                        <small id="waktu_tes_jamHelpBlock" class="form-text text-muted">Jam waktu tes</small>
+
+                                        @if($errors->has('waktu_tes'))
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $errors->first('waktu_tes_jam') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
+                                    <div class="col-4">
+                                        <select class="custom-select" id="waktu_tes_menit" name="waktu_tes_menit" required>
+                                            <option value="00" @if(old('waktu_tes_menit') === '00') selected @endif>00</option>
+                                            <option value="01" @if(old('waktu_tes_menit') === '01') selected @endif>01</option>
+                                            <option value="02" @if(old('waktu_tes_menit') === '02') selected @endif>02</option>
+                                            <option value="03" @if(old('waktu_tes_menit') === '03') selected @endif>03</option>
+                                            <option value="04" @if(old('waktu_tes_menit') === '04') selected @endif>04</option>
+                                            <option value="05" @if(old('waktu_tes_menit') === '05') selected @endif>05</option>
+                                            <option value="06" @if(old('waktu_tes_menit') === '06') selected @endif>06</option>
+                                            <option value="07" @if(old('waktu_tes_menit') === '07') selected @endif>07</option>
+                                            <option value="08" @if(old('waktu_tes_menit') === '08') selected @endif>08</option>
+                                            <option value="09" @if(old('waktu_tes_menit') === '09') selected @endif>09</option>
+                                            @for($i = 10; $i <= 59; $i++)
+                                                <option value="{{ $i }}" @if(old('waktu_tes_menit') === $i) selected @endif>{{ $i }}</option>
+                                            @endfor
+                                        </select>
+                                        <small id="waktu_tes_menitHelpBlock" class="form-text text-muted">Menit waktu tes</small>
+
+                                        @if($errors->has('waktu_tes'))
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $errors->first('waktu_tes_menit') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="tempat_tes" class="col-md-3 col-form-label text-md-right">{{ __('Tempat Tes*') }}</label>
+
+                                    <div class="col-md-8">
+                                        <input id="tempat_tes" type="text" class="form-control{{ $errors->has('tempat_tes') ? ' is-invalid' : '' }}" name="tempat_tes" value="{{ old('tempat_tes') }}" placeholder="Aula SMKN 11 Bandung" required>
+
+                                        @if($errors->has('tempat_tes'))
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $errors->first('tempat_tes') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
                                     <label class="col-md-3 col-form-label text-md-right">{{ __('Brosur') }}</label>
 
                                     <div class="col-md-8">
                                         <img src="{{ asset('assets/images/nophoto.jpg') }}" alt="nophoto" class="img-thumbnail mb-2" id="profile-img-tag" width="220px">
 
-                                        <input id="brosur" type="file" class="form-control{{ $errors->has('brosur') ? ' is-invalid' : '' }}" id="brosur" name="brosur">
+                                        <input id="brosur" type="file" class="form-control{{ $errors->has('brosur') ? ' is-invalid' : '' }}" name="brosur">
 
                                         @if ($errors->has('brosur'))
                                             <span class="invalid-feedback" role="alert">

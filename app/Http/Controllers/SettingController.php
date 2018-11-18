@@ -95,42 +95,67 @@ class SettingController extends Controller
     }
 
     protected function updateDataDiriCP(DataDiriCPRequest $request){
-        if(substr($request['cv'], 0, 33) !== 'https://drive.google.com/open?id='){
-            return back()->with('error', 'CV tidak valid, silahkan ikut tata cara mengambil link google drive.');
-        }
-
         $cp = DaftarCP::where('id_user', Auth::user()->id_user)->get()->first();
         $kontak = Kontak::find($cp->id_kontak);
+        if($request['cv'] == $cp->cv){
+            // https://drive.google.com/open?id=1B813HfAypuzExfg-nZ0XlEAt81DDHn7a
+            // https://drive.google.com/open?id=0B3cZyBMnU_jNUm9adjh2WUxuYjA
+            // https://drive.google.com/file/d/1B813HfAypuzExfg-nZ0XlEAt81DDHn7a/preview
+            // https://drive.google.com/file/d/0B3cZyBMnU_jNUm9adjh2WUxuYjA/preview
 
-        // https://drive.google.com/open?id=1B813HfAypuzExfg-nZ0XlEAt81DDHn7a
-        // https://drive.google.com/open?id=0B3cZyBMnU_jNUm9adjh2WUxuYjA
-        // https://drive.google.com/file/d/1B813HfAypuzExfg-nZ0XlEAt81DDHn7a/preview
-        // https://drive.google.com/file/d/0B3cZyBMnU_jNUm9adjh2WUxuYjA/preview
+            // substr($request['cv'], 0, 25) . 'file/d/' . substr($request['cv'], 33) . '/preview'
 
-        // substr($request['cv'], 0, 25) . 'file/d/' . substr($request['cv'], 33) . '/preview'
+            $cp->nama = $request['nama'];
+            $cp->alamat = $request['alamat'];
+            $cp->jenis_kelamin = $request['jk'];
+            $cp->ttl = $request['ttl'];
 
-        $cp->nama = $request['nama'];
-        $cp->alamat = $request['alamat'];
-        $cp->jenis_kelamin = $request['jk'];
-        $cp->cv = substr($request['cv'], 0, 25) . 'file/d/' . substr($request['cv'], 33) . '/preview';
-        $cp->ttl = $request['ttl'];
+            $kontak->no_hp = $request['no_hp'];
+            $kontak->no_telepon = $request['no_telepon'];
+            $kontak->id_line = $request['id_line'];
+            $kontak->kontak_dll = $request['kontak'];
 
-        $kontak->no_hp = $request['no_hp'];
-        $kontak->no_telepon = $request['no_telepon'];
-        $kontak->id_line = $request['id_line'];
-        $kontak->kontak_dll = $request['kontak'];
+            if($request->file('foto')){
+                if($cp->foto !== 'nophoto.jpg'){
+                    unlink('storage/fotoCP/'.$cp->foto);
+                }
 
-        if($request->file('foto')){
-            if($cp->foto !== 'nophoto.jpg'){
-                unlink('storage/fotoCP/'.$cp->foto);
+                $nameToStore = $this->ambil('public/fotoCP', $request->file('foto'));
+                $cp->foto = $nameToStore;
             }
 
-            $nameToStore = $this->ambil('public/fotoCP', $request->file('foto'));
-            $cp->foto = $nameToStore;
+            if($cp->save() && $kontak->save()){
+                return redirect('/home')->with('success', 'Data berhasil diubah!');
+            }
+        }
+        if(substr($request['cv'], 0, 33) !== 'https://drive.google.com/open?id='){
+            return back()->with('error', 'CV tidak valid, silahkan ikut tata cara mengambil link google drive.');
+        }else{
+            $cp->nama = $request['nama'];
+            $cp->alamat = $request['alamat'];
+            $cp->jenis_kelamin = $request['jk'];
+            $cp->cv = substr($request['cv'], 0, 25) . 'file/d/' . substr($request['cv'], 33) . '/preview';
+            $cp->ttl = $request['ttl'];
+
+            $kontak->no_hp = $request['no_hp'];
+            $kontak->no_telepon = $request['no_telepon'];
+            $kontak->id_line = $request['id_line'];
+            $kontak->kontak_dll = $request['kontak'];
+
+            if($request->file('foto')){
+                if($cp->foto !== 'nophoto.jpg'){
+                    unlink('storage/fotoCP/'.$cp->foto);
+                }
+
+                $nameToStore = $this->ambil('public/fotoCP', $request->file('foto'));
+                $cp->foto = $nameToStore;
+            }
+
+            if($cp->save() && $kontak->save()){
+                return redirect('/home')->with('success', 'Data berhasil diubah!');
+            }
         }
 
-        if($cp->save() && $kontak->save()){
-            return redirect('/home')->with('success', 'Data berhasil diubah!');
-        }
+
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\DaftarPerusahaan;
 use App\Loker;
+use App\Lamaran;
 use App\Pengaturan;
 
 use App\Http\Controllers\Controller;
@@ -41,11 +42,15 @@ class LokerController extends Controller
     protected function addLoker(Request $request){
         $loker = new Loker;
         $loker->judul = $request['judul'];
+        $loker->bidang_pekerjaan = $request['bidang_pekerjaan'];
         $loker->status = 'Aktif';
         $loker->persyaratan = $request['persyaratan'];
         $loker->jam_kerja = $request['jam_kerja'];
         $loker->gaji = $request['gaji'];
         $loker->keterangan_loker = $request['keterangan'];
+        $loker->jadwal_tes = $request['jadwal_tes'];
+        $loker->waktu_tes = $request['waktu_tes_jam'].':'.$request['waktu_tes_menit'];
+        $loker->tempat_tes = $request['tempat_tes'];
 
         if($request->file('brosur')){
             $nameToStore = $this->ambil($request->file('brosur'));
@@ -58,7 +63,7 @@ class LokerController extends Controller
         $loker->brosur = $nameToStore;
 
         if($loker->save()){
-            return redirect('/home')->with('success', 'Data berhasil ditambahkan!');
+            return redirect('/admin/loker')->with('success', 'Data berhasil ditambahkan!');
         }
     }
 
@@ -89,6 +94,9 @@ class LokerController extends Controller
         $loker->jam_kerja = $request['jam_kerja'];
         $loker->gaji = $request['gaji'];
         $loker->keterangan_loker = $request['keterangan'];
+        $loker->jadwal_tes = $request['jadwal_tes'];
+        $loker->waktu_tes = $request['waktu_tes_jam'].':'.$request['waktu_tes_menit'];
+        $loker->tempat_tes = $request['tempat_tes'];
 
         if($request->file('brosur')){
             if($loker->brosur !== 'nophoto.jpg'){
@@ -107,7 +115,28 @@ class LokerController extends Controller
     protected function daftarPelamar($id){
         $pengaturan = Pengaturan::all()->first();
         $loker = Loker::find(base64_decode($id));
+        $lamaran = Lamaran::where('id_loker', $loker->id_loker)->paginate(6);
 
-        return view('perusahaan.daftarPelamar', compact('loker', 'pengaturan'));
+        return view('perusahaan.daftarPelamar', compact('loker', 'pengaturan', 'lamaran'));
+    }
+
+    protected function verifPelamar(Request $request, $id){
+        $lamaran = Lamaran::find(base64_decode($id));
+        $lamaran->status = "diterima";
+        $lamaran->alasan = $request['alasan'];
+
+        if($lamaran->save()){
+            return back()->with('success', 'Calon pegawai sudah diterima');
+        }
+    }
+
+    protected function tolakPelamar(Request $request, $id){
+        $lamaran = Lamaran::find(base64_decode($id));
+        $lamaran->status = 'ditolak';
+        $lamaran->alasan = $request['alasan'];
+
+        if($lamaran->save()){
+            return back()->with('success', 'Calon pegawai ditolak');
+        }
     }
 }

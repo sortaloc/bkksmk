@@ -15,6 +15,10 @@
     background-color: #111;
 }
 
+.modal-open {
+    overflow: hidden;
+}
+
 /* Background */
 .bg-1 {
     background-color: #d6d6d6;
@@ -44,6 +48,18 @@ a:hover {
 }
 
 /* App-only */
+
+.tambah {
+    position: fixed;
+    z-index: 999;
+    bottom: 0;
+    right: 15px;
+}
+.tambah:hover {
+    background-color: black;
+    color: white;
+    transition: 0.5s;
+}
 
 .btn-square {
     border-radius: 0;
@@ -165,7 +181,7 @@ ul.pagination {
     display: none;
     position: fixed !important;
     z-index: 9999999 !important;
-    padding-top: 50px !important;
+    padding-top: 1em !important;
     left: 0 !important;
     top: 0 !important;
     width: 100% !important;
@@ -208,16 +224,28 @@ ul.pagination {
     position: absolute;
     top: 15px;
     right: 35px;
-    color: #f1f1f1;
+    color: #f00;
     font-size: 40px;
+    z-index: 999;
     font-weight: bold;
     transition: 0.3s;
 }
 .close:hover,
 .close:focus {
-    color: #bbb;
+    color: #f22;
     text-decoration: none;
     cursor: pointer;
+}
+
+/* Jang zoom gambar di jero modal */
+.imgModalZoom {
+    max-width: 75%;
+    flex: 0 0 75%;
+    margin-bottom: 1em;
+    transition: 0.3s ease-in-out;
+}
+.imgModalFull {
+    width: 100%;
 }
 
 /* Not Used */

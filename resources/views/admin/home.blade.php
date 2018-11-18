@@ -1,10 +1,27 @@
+@section('css')
+<style>
+    #dashboard {
+        display: grid;
+        grid-template-columns: 55% 45%;
+        grid-gap: 1em;
+        height: 100%;
+    }
+</style>
+@endsection
+
 <div class="row">
     @include('layouts.adminmenu')
     <section class="col-md-9" id="dashboard">
         <div class="card box btn-square">
             <div class="card-header h3 text-center">Dashboard</div>
             <div class="card-body">
-                <h1 class="text-center">Selamat Datang di BKK-SMK.</h1>
+                <h1 class="text-center">Selamat Datang <br /> di BKK-SMK.</h1>
+            </div>
+        </div>
+        <div class="card box btn-square">
+            <div class="card-header h3 text-center">Status Lamaran</div>
+            <div class="card-body">
+                <canvas id="chartKeterima" class="responsiveChart"></canvas>
             </div>
         </div>
     </section>
@@ -12,6 +29,24 @@
 @section('js')
 <script type="text/javascript">
     $('.adminmenu_beranda').addClass('active');
+
+    let $ctx = document.getElementById('chartKeterima');
+    let $data = {
+        datasets: [{
+            data: {!! json_encode($dataCP) !!},
+            backgroundColor: ['green', 'red', 'gray']
+        }],
+        labels: [
+            'Diterima', 'Ditolak', 'Pending'
+        ],
+    };
+    let $options = {}
+    let $chartKeterima = new Chart($ctx,{
+        type: 'pie',
+        data: $data,
+        options: $options
+    });
+
 </script>
 @endsection
 {{-- <div class="card box btn-square">

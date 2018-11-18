@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\CP;
 
 use App\Loker;
 use App\DaftarPerusahaan;
@@ -8,6 +8,7 @@ use App\Lamaran;
 use App\DaftarCP;
 use App\Pengaturan;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use Auth;

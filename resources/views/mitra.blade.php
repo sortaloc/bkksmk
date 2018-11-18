@@ -2,14 +2,6 @@
 
 @section('css')
 <style>
-    #daftarMitraSlide {
-        display: flex;
-    }
-    .slick-arrow:hover {
-        cursor: pointer;
-        color: #aaa;
-        transition: 0.5s ease-in-out;
-    }
     .img-fluid-custom {
         display: block;
         margin-left: auto;
@@ -23,15 +15,19 @@
         grid-gap: 1em;
         align-content: center;
     }
-    .img-custom {
-        width: 100%;
-        max-height: 200px;
-        margin: 0 1em;
-    }
     .mitra {
         margin: 0 0 1em 0;
         padding: 1em 0;
     }
+
+    .littleBox {
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+        transition: 0.3s ease-in-out;
+    }
+    .littleBox:hover {
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+    }
+
     @media only screen and (max-width: 845px) {
         .img-center {
             display: block;
@@ -41,9 +37,6 @@
         }
         #mitraContainer {
             grid-template-columns: auto;
-        }
-        #daftarMitraSlide {
-            display: flex;
         }
     }
 </style>
@@ -56,7 +49,7 @@
         <div class="card-body">
             <div id="mitraContainer">
             @foreach($perusahaan as $p)
-                <div class="mitra row box">
+                <div class="mitra row littleBox">
                     <div class="col-lg-3">
                         <img @if($p->foto === 'nophoto.jpg') src="{{ asset('assets/images/nophoto.jpg') }}" alt="nophoto" @else src="{{ asset('storage/fotoPerusahaan/'.$p->foto) }}" alt="{{ $p->nama }}" @endif class="img-fluid-custom img-thumbnail imgZoom img-center">
                     </div>
@@ -75,7 +68,7 @@
             <div>{{ $perusahaan->links() }}</div>
         </div>
     </div>
-    @if(count($perusahaanAll) > 0)
+    {{-- @if(count($perusahaanAll) > 0)
     <div class="card box btn-square mt-3">
         <section class="card-body" id="daftarMitraSlide">
             @foreach($perusahaanAll as $p)
@@ -83,7 +76,7 @@
             @endforeach
         </section>
     </div>
-    @endif
+    @endif --}}
 </div>
 @endsection
 
@@ -91,8 +84,9 @@
 <script type="text/javascript">
     $('#mitra').addClass('active');
 </script>
+@include('layouts.modalGambar');
 
-@if(count($perusahaanAll) >=7)
+{{-- @if(count($perusahaanAll) >=7)
 <script type="text/javascript">
     $('#daftarMitraSlide').slick({
         infinite: true,
@@ -192,5 +186,5 @@
         nextArrow: '<i class="fas fa-caret-right display-3 my-auto"></i>',
     });
 </script>
-@endif
+@endif --}}
 @endsection

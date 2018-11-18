@@ -29,6 +29,20 @@
                             </div>
 
                             <div class="form-group row">
+                                <label for="bidang_pekerjaan" class="col-md-3 col-form-label text-md-right">{{ __('Bidang Pekerjaan*') }}</label>
+
+                                <div class="col-md-8">
+                                    <input id="bidang_pekerjaan" type="text" class="form-control{{ $errors->has('bidang_pekerjaan') ? ' is- invalid' : '' }}" name="bidang_pekerjaan" value="{{ $loker->bidang_pekerjaan }}" placeholder="Programmer" required autofocus>
+
+                                    @if($errors->has('bidang_pekerjaan'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('bidang_pekerjaan') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
                                 <label for="persyaratan" class="col-md-3 col-form-label text-md-right">{{ __('Persyaratan*') }}</label>
 
                                 <div class="col-md-8">
@@ -89,6 +103,87 @@
                                     @if ($errors->has('gaji'))
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $errors->first('gaji') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="jadwal_tes" class="col-md-3 col-form-label text-md-right">{{ __('Jadwal Tes*') }}</label>
+
+                                <div class="col-md-8">
+                                    <input id="jadwal_tes" type="date" class="form-control{{ $errors->has('jadwal_tes') ? ' is-invalid' : '' }}" name="jadwal_tes" value="{{ $loker->jadwal_tes }}" required>
+
+                                    @if($errors->has('jadwal_tes'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('jadwal_tes') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="waktu_tes" class="col-md-3 col-form-label text-md-right">{{ __('Waktu Tes*') }}</label>
+
+                                <div class="col-4">
+                                    <select class="custom-select" id="waktu_tes_jam" name="waktu_tes_jam" autocomplete="off" required>
+                                        <option value="00" @if(substr($loker->waktu_tes, 0, 2) == '00') selected @endif>00</option>
+                                        <option value="01" @if(substr($loker->waktu_tes, 0, 2) == '01') selected @endif>01</option>
+                                        <option value="02" @if(substr($loker->waktu_tes, 0, 2) == '02') selected @endif>02</option>
+                                        <option value="03" @if(substr($loker->waktu_tes, 0, 2) == '03') selected @endif>03</option>
+                                        <option value="04" @if(substr($loker->waktu_tes, 0, 2) == '04') selected @endif>04</option>
+                                        <option value="05" @if(substr($loker->waktu_tes, 0, 2) == '05') selected @endif>05</option>
+                                        <option value="06" @if(substr($loker->waktu_tes, 0, 2) == '06') selected @endif>06</option>
+                                        <option value="07" @if(substr($loker->waktu_tes, 0, 2) == '07') selected @endif>07</option>
+                                        <option value="08" @if(substr($loker->waktu_tes, 0, 2) == '08') selected @endif>08</option>
+                                        <option value="09" @if(substr($loker->waktu_tes, 0, 2) == '09') selected @endif>09</option>
+                                        @for($i = 10; $i <= 24; $i++)
+                                            <option value="{{ $i }}" @if(substr($loker->waktu_tes, 0, 2) == $i) selected @endif>{{ $i }}</option>
+                                        @endfor
+                                    </select>
+                                    <small id="waktu_tes_jamHelpBlock" class="form-text text-muted">Jam waktu tes</small>
+
+                                    @if($errors->has('waktu_tes'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('waktu_tes_jam') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                                <div class="col-4">
+                                    <select class="custom-select" id="waktu_tes_menit" name="waktu_tes_menit" autocomplete="off" required>
+                                        <option value="00" @if(substr($loker->waktu_tes, 3, 2) == '00') selected @endif>00</option>
+                                        <option value="01" @if(substr($loker->waktu_tes, 3, 2) == '01') selected @endif>01</option>
+                                        <option value="02" @if(substr($loker->waktu_tes, 3, 2) == '02') selected @endif>02</option>
+                                        <option value="03" @if(substr($loker->waktu_tes, 3, 2) == '03') selected @endif>03</option>
+                                        <option value="04" @if(substr($loker->waktu_tes, 3, 2) == '04') selected @endif>04</option>
+                                        <option value="05" @if(substr($loker->waktu_tes, 3, 2) == '05') selected @endif>05</option>
+                                        <option value="06" @if(substr($loker->waktu_tes, 3, 2) == '06') selected @endif>06</option>
+                                        <option value="07" @if(substr($loker->waktu_tes, 3, 2) == '07') selected @endif>07</option>
+                                        <option value="08" @if(substr($loker->waktu_tes, 3, 2) == '08') selected @endif>08</option>
+                                        <option value="09" @if(substr($loker->waktu_tes, 3, 2) == '09') selected @endif>09</option>
+                                        @for($i = 10; $i <= 59; $i++)
+                                            <option value="{{ $i }}" @if(substr($loker->waktu_tes, 3, 2) == $i) selected @endif>{{ $i }}</option>
+                                        @endfor
+                                    </select>
+                                    <small id="waktu_tes_menitHelpBlock" class="form-text text-muted">Menit waktu tes</small>
+
+                                    @if($errors->has('waktu_tes'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('waktu_tes_menit') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="tempat_tes" class="col-md-3 col-form-label text-md-right">{{ __('Tempat Tes*') }}</label>
+
+                                <div class="col-md-8">
+                                    <input id="tempat_tes" type="text" class="form-control{{ $errors->has('tempat_tes') ? ' is-invalid' : '' }}" name="tempat_tes" value="{{ $loker->tempat_tes }}" placeholder="Aula SMKN 11 Bandung" required>
+
+                                    @if($errors->has('tempat_tes'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('tempat_tes') }}</strong>
                                         </span>
                                     @endif
                                 </div>

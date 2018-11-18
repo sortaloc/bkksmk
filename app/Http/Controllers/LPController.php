@@ -6,6 +6,7 @@ use App\Pengaturan;
 use App\DaftarPerusahaan;
 use App\Loker;
 use App\BukuTamu;
+use App\Kegiatan;
 
 use Illuminate\Http\Request;
 
@@ -16,20 +17,21 @@ class LPController extends Controller
     public function lp()
     {
         $pengaturan = Pengaturan::all()->first();
-        $loker = Loker::where('status', 'Aktif')->paginate(6);
+        $loker = Loker::where('status', 'Aktif')->orderBy('created_at', 'descending')->paginate(6);
+        $perusahaanAll = DaftarPerusahaan::all();
+        $kegiatan = Kegiatan::all();
 
         if(Auth::user()){
             return redirect('/home');
         }
 
-        return view('lp', compact('pengaturan', 'loker'));
+        return view('lp', compact('pengaturan', 'loker', 'perusahaanAll', 'kegiatan'));
     }
 
     public function mitra()
     {
         $pengaturan = Pengaturan::all()->first();
         $perusahaan = DaftarPerusahaan::paginate(6);
-        $perusahaanAll = DaftarPerusahaan::all();
 
         return view('mitra', compact('pengaturan', 'perusahaan', 'perusahaanAll'));
     }

@@ -38,4 +38,8 @@ $(document).ready(function() {
     $("#foto1").change(function() {
         readURL(this);
     });
+
+    $("#foto_kegiatan").change(function() {
+        readURL(this);
+    });
 });

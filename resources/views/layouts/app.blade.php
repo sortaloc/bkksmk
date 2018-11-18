@@ -28,13 +28,6 @@
     @yield('css')
 </head>
 <body class="bg-1">
-    <!-- Preview Image Modal -->
-    <div class="modal" id="myModal">
-    	<span class="close">&times;</span>
-    	<img class="modal-content" id="img01" src=""/>
-    	<div id="caption"></div>
-    </div>
-
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-2 navbar-laravel" id="navbar">
             <div class="container">
@@ -146,6 +139,7 @@
     <script type="text/javascript" src="{{ asset('assets/DataTables/datatables.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/summernote-bs4.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/slick.min.js') }}"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js"></script>
     <script type="text/javascript" src="{{ asset('js/bkk.js') }}"></script>
     @yield('js')
     <script type="text/javascript">
@@ -156,6 +150,7 @@
             $('#tentang1').summernote();
             $('#tujuan1').summernote();
             $('#isi_pesan').summernote();
+            $('#deskripsi_kegiatan').summernote();
         });
 
         $('.jumlahPelamar').on('click', function(e){
@@ -165,6 +160,9 @@
 
         $('.deleteButton').on('click', function(e){
             e.preventDefault();
+
+            $('#modalLoker').attr('style', 'display: none');
+
             var $url = $(this).attr('href');
             swal({
                 title: 'Hapus data ?',
@@ -177,57 +175,6 @@
             }).then((result) =>{
                 window.location.replace($url);
             });
-        });
-
-        $('#terima').on('click', function(e){
-            e.preventDefault();
-            var $url = $(this).attr('href');
-            swal({
-                title: 'Terima calon pegawai ini?',
-                type: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Terima',
-            }).then(result => {
-                window.location.replace($url);
-            });
-        });
-
-        $('#tolak').on('click', function(e){
-            e.preventDefault();
-            var $url = $(this).attr('href');
-            swal({
-                title: 'Tolak calon pegawai ini?',
-                type: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Tolak',
-            }).then(result => {
-                window.location.replace($url);
-            });
-        });
-
-        //Modal Preview Image
-        var modal = $('#myModal');
-        var img = $('.imgZoom');
-        var modalImg = $("#img01");
-        var captionText = $('#caption');
-        var span = $(".close");
-
-        img.on('click', function(){
-            modal.fadeIn(500);
-            modalImg.attr('src', $(this).attr('src'));
-            captionText.html($(this).attr('alt'));
-        });
-
-        span.on('click', function(){
-            modal.fadeOut(500);
-        });
-
-        modal.on('click', function(){
-            modal.fadeOut(500);
         });
     </script>
 </body>
