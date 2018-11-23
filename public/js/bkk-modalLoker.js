@@ -1,4 +1,3 @@
-$zoom = false;
 $(".loker").on("click", function() {
     $data = JSON.parse(
         JSON.stringify(eval("(" + $(this).attr("data-formodal") + ")"))
@@ -14,13 +13,13 @@ $(".loker").on("click", function() {
     }
 
     $("#judulModal").html($data.judul);
-    $("#brosurModal").attr(
+    $("#fotoModal").attr(
         "src",
         $(this)
             .children("img")
             .attr("src")
     );
-    $("#brosurModal").attr(
+    $("#fotoModal").attr(
         "alt",
         $(this)
             .children("img")
@@ -44,28 +43,6 @@ $(".loker").on("click", function() {
     $(".buttonPelamar").attr("href", $(this).attr("data-pelamar"));
     $("#bidangModal").html($data.bidang_pekerjaan);
 
-    console.log($data);
-
     $("body").addClass("modal-open");
     $("#modalLoker").fadeIn(500);
-});
-
-$("#brosurModal").on("click", function() {
-    if (!$zoom) {
-        $("#brosurModalContainer").addClass("imgModalZoom");
-        $(this).addClass("imgModalFull");
-        $zoom = true;
-    } else {
-        $("#brosurModalContainer").removeClass("imgModalZoom");
-        $(this).removeClass("imgModalFull");
-        $zoom = false;
-    }
-});
-
-$(".close").on("click", function() {
-    $("body").removeClass("modal-open");
-    $("#brosurModalContainer").removeClass("imgModalZoom");
-    $("#brosurModal").removeClass("imgModalFull");
-    $zoom = false;
-    $("#modalLoker").fadeOut(500);
 });

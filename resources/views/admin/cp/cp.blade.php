@@ -1,19 +1,7 @@
 @extends('layouts.app')
 
 @section('css')
-<style type="text/css">
-    .tambah {
-        position: fixed;
-        z-index: 999;
-        bottom: 0;
-        right: 15px;
-    }
-    .tambah:hover{
-        background-color: black;
-        color: white;
-        transition: 0.5s;
-    }
-</style>
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/DataTables/datatables.min.css') }}">
 @endsection
 
 @section('content')
@@ -43,7 +31,7 @@
                                             @if($c->foto === 'nophoto.jpg') src="{{ asset('assets/images/nophoto.jpg') }}" alt="nophoto"
                                             @else src="{{ asset('storage/fotoCP/'.$c->foto) }}" alt="{{ $c->nama }}"
                                             @endif
-                                        class="img-fluid img-thumbnail"/>
+                                        class="img-fluid img-thumbnail imgZoom imgDT"/>
                                     </td>
                                     <td> {{ $c->nama }} </td>
                                     <td> {{ $c->nis }} </td>
@@ -64,6 +52,9 @@
 @endsection
 
 @section('js')
+@include('layouts.modalGambar')
+<script type="text/javascript" src="{{ asset('assets/DataTables/datatables.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/bkk-menuSlider.js') }}"></script>
 <script type="text/javascript">
     $('.adminmenu_cp').addClass('active');
     $(document).ready(function () {

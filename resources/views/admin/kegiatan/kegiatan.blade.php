@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('css')
-<link rel="stylesheet" type="text/css" href="{{ asset('css/bkk-modalKegiatan.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('css/bkk-modal.css') }}">
 @endsection
 
 @section('content')
@@ -25,8 +25,8 @@
                             <a class="btn btn-primary text-left buttonEdit">Edit</a>
                         </div>
                         <div class="btn-group text-light">
-                            <a class="btn btn-danger deleteButton buttonDelete"><i class="fas fa-trash"></i></a>
-                            <a class="btn btn-danger deleteButton text-left buttonDelete">Hapus</a>
+                            <a class="btn btn-danger deleteButton buttonHapus"><i class="fas fa-trash"></i></a>
+                            <a class="btn btn-danger deleteButton text-left buttonHapus">Hapus</a>
                         </div>
                     </div>
                 </div>
@@ -41,9 +41,9 @@
             <div class="card box btn-square">
                 <div class="card-header text-center h3">Daftar Kegiatan</div>
 
-                <div class="card-body justify-content-center" id="daftarKegiatan">
+                <div class="card-body daftarItem" id="daftarKegiatan">
                     @foreach($kegiatan as $k)
-                    <div class="box kegiatan" data-kegiatan="{{ $k }}" data-edit="{{ url('admin/kegiatan/edit', base64_encode($k->id_kegiatan)) }}" data-hapus="{{ url('admin/kegiatan', base64_encode($k->id_kegiatan)) }}">
+                    <div class="box item kegiatan" data-kegiatan="{{ $k }}" data-edit="{{ url('admin/kegiatan/edit', base64_encode($k->id_kegiatan)) }}" data-hapus="{{ url('admin/kegiatan', base64_encode($k->id_kegiatan)) }}">
                         <img @if($k->foto_kegiatan === 'nophoto.jpg') src="{{ asset('assets/images/nophoto.jpg') }}" alt="nophoto" @else src="{{ asset('storage/fotoKegiatan/'.$k->foto_kegiatan) }}" alt="{{ $k->judul_kegiatan }}" @endif class="img-fluid">
                         <p class="text-center m-0">{{ $k->judul_kegiatan }}</p>
                     </div>
@@ -60,5 +60,7 @@
 <script type="text/javascript">
     $('.adminmenu_kegiatan').addClass('active');
 </script>
+<script type="text/javascript" src="{{ asset('js/bkk-menuSlider.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/bkk-modal.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/bkk-modalKegiatan.js') }}"></script>
 @endsection

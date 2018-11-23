@@ -1,45 +1,24 @@
-// Preview gambar dari file chooser.
-function readURL(input) {
-    if (input.files && input.files[0]) {
-        var reader = new FileReader();
-        reader.onload = function(e) {
-            $("#profile-img-tag").attr("src", e.target.result);
-        };
-        reader.readAsDataURL(input.files[0]);
-    }
-}
+$(".jumlahPelamar").on("click", function(e) {
+    e.preventDefault();
+    window.location.replace($(this).attr("href"));
+});
 
-$(document).ready(function() {
-    $("input[type=file]").change(function() {
-        var fieldVal = $(this).val();
+$(".deleteButton").on("click", function(e) {
+    e.preventDefault();
 
-        // Change the node's value by removing the fake path (Chrome)
-        fieldVal = fieldVal.replace("C:\\fakepath\\", "");
+    $(".modal").attr("style", "display: none");
 
-        if (fieldVal != undefined || fieldVal != "") {
-            $(this)
-                .next(".custom-file-label")
-                .attr("data-content", fieldVal);
-            $(this)
-                .next(".custom-file-label")
-                .text(fieldVal);
-        }
-    });
-
-    // Preview Foto
-    $("#brosur").change(function() {
-        readURL(this);
-    });
-
-    $("#foto").change(function() {
-        readURL(this);
-    });
-
-    $("#foto1").change(function() {
-        readURL(this);
-    });
-
-    $("#foto_kegiatan").change(function() {
-        readURL(this);
+    var $url = $(this).attr("href");
+    swal({
+        title: "Hapus data ?",
+        text:
+            "Jika data dihapus maka data yang bersangkutan akan ikut terhapus juga.",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Okelah, hapus aja!"
+    }).then(result => {
+        window.location.replace($url);
     });
 });

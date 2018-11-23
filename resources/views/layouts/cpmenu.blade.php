@@ -1,7 +1,10 @@
-<section class="col-md-3 mb-2" id="menu">
+<section class="col-lg-3 mb-2" id="menu">
     <div class="card box btn-square">
-        <div class="card-header h3 text-center">Menu</div>
-        <div class="card-body">
+        <div class="card-header h3 text-center">
+            <span>Menu</span>
+            <i class="fas fa-caret-up float-right bisaHover" id="menuButton"></i>
+        </div>
+        <div class="card-body" id="menuContent" data-toggle="show">
             <div class="btn-group btn-block cpmenu_beranda">
                 <a href="{{ url('/') }}" class="btn btn-primary btn-square cpmenu_beranda"><i class="fas fa-home"></i></a>
                 <a href="{{ url('/') }}" class="btn btn-primary btn-block text-left btn-square cpmenu_beranda btn-desc">Beranda</a>

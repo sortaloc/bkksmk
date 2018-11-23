@@ -69,22 +69,20 @@ Route::post('/admin/settings/password', 'SettingController@gantiPassword');
 Route::post('/perusahaan/settings/password', 'SettingController@gantiPassword');
 Route::post('/cp/settings/password', 'SettingController@gantiPassword');
 
-Route::get('/perusahaan/settings/datadiri', 'SettingController@dataDiriPerusahaan');
-Route::get('/cp/settings/datadiri', 'SettingController@dataDiriCP');
+Route::get('/perusahaan/settings/datadiri', 'Perusahaan\SettingsController@dataDiriPerusahaan');
+Route::get('/cp/settings/datadiri', 'CP\SettingsController@dataDiriCP');
 
-Route::post('/perusahaan/settings/datadiri', 'SettingController@updateDataDiriPerusahaan');
-Route::post('/perusahaan/settings/kontak', 'SettingController@updateDataKontakPerusahaan');
-Route::post('/cp/settings/datadiri', 'SettingController@updateDataDiriCP');
-Route::post('/cp/settings/kontak', 'SettingController@updateDataKontakCP');
+Route::post('/perusahaan/settings/datadiri', 'Perusahaan\SettingsController@updateDataDiriPerusahaan');
+Route::post('/cp/settings/datadiri', 'CP\SettingsController@updateDataDiriCP');
 
 Route::get('/cp/lamaran/{id}', 'CP\LamaranController@index');
 Route::post('/cp/lamaran/{id}', 'CP\LamaranController@uploadLamaran');
 
-Route::get('/cp/perusahaan/{id}', 'HomeController@profilPerusahaan');
+Route::get('/cp/perusahaan/{id}', 'CP\PerusahaanController@profilPerusahaan');
 Route::get('/cp/tutorial', 'HomeController@tutorialUpload');
 Route::get('/admin/tutorial', 'HomeController@tutorialUpload');
-Route::get('/admin/pengaturan', 'HomeController@pengaturanIndex');
-Route::post('/admin/pengaturan', 'HomeController@ubahPengaturan');
+Route::get('/admin/pengaturan', 'Admin\PengaturanController@pengaturanIndex');
+Route::post('/admin/pengaturan', 'Admin\PengaturanController@ubahPengaturan');
 
 Route::get('/admin/bukutamu', 'Admin\BukuTamuController@index');
 Route::get('/admin/bukutamu/{id}', 'Admin\BukuTamuController@lihat');
@@ -97,7 +95,7 @@ Route::get('/admin/kegiatan/edit/{id}', 'Admin\KegiatanController@edit');
 Route::post('/admin/kegiatan/edit/{id}', 'Admin\KegiatanController@update');
 Route::get('/admin/kegiatan/{id}', 'Admin\KegiatanController@destroy');
 
-Route::get('/cp/loker', 'HomeController@daftarCPLoker');
-Route::get('/cp/lamaran', 'HomeController@daftarCPLamaran');
+Route::get('/cp/loker', 'CP\LokerController@daftarCPLoker');
+Route::get('/cp/lamaran', 'CP\LokerController@daftarCPLamaran');
 
 Route::get('/perusahaan/cp/{id}', 'Perusahaan\CPController@profile');

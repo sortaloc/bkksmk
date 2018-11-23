@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('css')
+<link rel="stylesheet" type="text/css" href="{{ asset('css/summernote-bs4.css') }}">
+@endsection
+
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
@@ -7,7 +11,7 @@
             <div class="card box btn-square">
                 <div class="card-header h3 text-center">
                     <a href="{{ url('admin/perusahaan') }}" class="backButton float-left"><i class="fas fa-arrow-left"></i></a>
-                    Form Tambah Data Perusahaan
+                    Form Data Perusahaan
                 </div>
                 <div class="card-body p-0">
                     <div class="p-3">
@@ -60,9 +64,9 @@
                                 <label for="foto" class="col-md-4 col-form-label text-md-right">{{ __('Foto') }}</label>
 
                                 <div class="col-md-6">
-                                    <img src="{{ asset('assets/images/nophoto.jpg') }}" alt="nophoto" class="img-thumbnail mb-2" id="profile-img-tag" width="220px">
+                                    <img src="{{ asset('assets/images/nophoto.jpg') }}" alt="nophoto" class="img-thumbnail mb-2 imgZoom" id="profile-img-tag" width="220px">
 
-                                    <input id="foto" type="file" class="form-control{{ $errors->has('foto') ? ' is-invalid' : '' }}" name="foto">
+                                    <input id="foto" type="file" class="form-control{{ $errors->has('foto') ? ' is-invalid' : '' }} previewInputFoto" name="foto">
 
                                     @if ($errors->has('foto'))
                                         <span class="invalid-feedback" role="alert">
@@ -120,7 +124,7 @@
                                 <label for="kontak" class="col-md-4 col-form-label text-md-right">{{ __('Kontak Lainnya') }}</label>
 
                                 <div class="col-md-6">
-                                    <textarea id="kontak" type="text" class="form-control{{ $errors->has('kontak') ? ' is-invalid' : '' }}" name="kontak">{{ old('kontak') }}</textarea>
+                                    <textarea id="kontak" type="text" class="form-control{{ $errors->has('kontak') ? ' is-invalid' : '' }} summernote" name="kontak">{{ old('kontak') }}</textarea>
 
                                     @if ($errors->has('kontak'))
                                         <span class="invalid-feedback" role="alert">
@@ -185,7 +189,7 @@
 
                         <div class="form-group m-0 p-0">
                             <button type="submit" class="btn btn-primary btn-block btn-square">
-                                <i class="fas fa-plus"></i> - {{ __('Tambah Data Perusahaan') }}
+                                <i class="fas fa-plus"></i> {{ __('Tambah Data Perusahaan') }}
                             </button>
                         </div>
                     </form>
@@ -194,4 +198,11 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('js')
+@include('layouts.modalGambar')
+<script type="text/javascript" src="{{ asset('js/summernote-bs4.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/bkk-summernote.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/bkk-previewImage.js') }}"></script>
 @endsection

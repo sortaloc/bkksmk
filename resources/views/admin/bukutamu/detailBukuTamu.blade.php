@@ -26,4 +26,5 @@
 <script type="text/javascript">
     $('.adminmenu_bukutamu').addClass('active');
 </script>
+<script type="text/javascript" src="{{ asset('js/bkk-menuSlider.js') }}"></script>
 @endsection

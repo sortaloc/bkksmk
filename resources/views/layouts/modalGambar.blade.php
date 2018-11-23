@@ -1,4 +1,41 @@
 <!-- Preview Image Modal -->
+<style>
+    .imgZoom:hover {
+        opacity: 0.7;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+    .modal-content {
+        margin: auto;
+        display: block;
+        width: 80%;
+        max-width: 700px;
+    }
+    #caption {
+        margin: auto;
+        display: block;
+        width: 80%;
+        max-width: 700px;
+        text-align: center;
+        color: #ccc;
+        padding: 10px 0;
+        height: 150px;
+    }
+    .modal-content,
+    #caption {
+        animation-name: zoom;
+        animation-duration: 0.6s;
+    }
+    @keyframes zoom {
+        from {
+            transform: scale(0);
+        }
+        to {
+            transform: scale(1);
+        }
+    }
+</style>
+
 <div class="modal" id="myModal">
     <span class="close">&times;</span>
     <img class="modal-content" id="img01" src="" style="width: auto;max-height: 40vw"/>

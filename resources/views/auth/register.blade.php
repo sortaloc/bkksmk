@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<section id="content" class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card box">
+            <div class="card box btn-square">
                 <div class="card-header row m-0 p-0">
                     <a href="#perusahaan" id="perusahaan-btn" class="col-6 tab text-center active" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="perusahaan">
                         Perusahaan
@@ -74,13 +74,9 @@
                             @endif
                         </div>
 
-                        <!-- <div class="form-group row mb-0"> -->
-                            <!-- <div class="col-md-6 offset-md-4"> -->
-                                <button type="submit" class="btn btn-primary btn-block btn-square">
-                                    {{ __('Register') }}
-                                </button>
-                            <!-- </div> -->
-                        <!-- </div> -->
+                        <button type="submit" class="btn btn-primary btn-block btn-square">
+                            {{ __('Register') }}
+                        </button>
                     </form>
                 </div>
 
@@ -173,52 +169,20 @@
                             @endif
                         </div>
 
-                        <!-- <div class="form-group row mb-0"> -->
-                            <!-- <div class="col-md-6 offset-md-4"> -->
-                            <button type="submit" class="btn btn-primary btn-block btn-square">
-                                    {{ __('Register') }}
-                                </button>
-                            <!-- </div> -->
-                        <!-- </div> -->
+                        <button type="submit" class="btn btn-primary btn-block btn-square">
+                            {{ __('Register') }}
+                        </button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</section>
 @endsection
 
 @section('js')
 <script type="text/javascript">
     $('#daftar').addClass('active');
-    let pToggle = true;let cpToggle = false
-
-    $('#perusahaan-btn').on('click', function(){
-        if(pToggle){
-            $(this).removeClass('active');
-            pToggle = false;
-        }else{
-            $(this).addClass('active');
-            pToggle = true;
-
-            $('#cp').removeClass('show');
-            $('#cp-btn').removeClass('active');
-            cpToggle = false;
-        }
-    });
-
-    $('#cp-btn').on('click', function(){
-        if(cpToggle){
-            $(this).removeClass('active');
-            cpToggle = false;
-        }else{
-            $(this).addClass('active');
-            cpToggle = true;
-
-            $('#perusahaan').removeClass('show');
-            $('#perusahaan-btn').removeClass('active');
-            pToggle = false;
-        }
-    });
 </script>
+<script type="text/javascript" src="{{ asset('js/bkk-registerToggle.js') }}"></script>
 @endsection

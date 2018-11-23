@@ -21,6 +21,12 @@ use Auth;
 
 class PerusahaanController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('isAdmin');
+    }
+
     protected function ambil($path, $file){
         $fileNameFull = $file->getClientOriginalName();
         $name = pathinfo($fileNameFull, PATHINFO_FILENAME);
@@ -34,7 +40,7 @@ class PerusahaanController extends Controller
 
     protected function index(){
         $pengaturan = Pengaturan::all()->first();
-        $perusahaan = DaftarPerusahaan::all();
+        $perusahaan = DaftarPerusahaan::orderBy('created_at', 'descending')->get();
 
         return view('admin.perusahaan.perusahaan', compact('perusahaan', 'pengaturan'));
     }
@@ -135,9 +141,9 @@ class PerusahaanController extends Controller
         $kontak = Kontak::find($perusahaan->id_kontak);
         $user = User::find($perusahaan->id_user);
         $loker = Loker::where('id_perusahaan', $perusahaan->id_perusahaan)->get();
-        if(count($loker) > 0){
-            $lamaran = Lamaran::where('id_loker', $loker->id_loker)->get();
-        }
+        // if(count($loker) > 0){
+        //     $lamaran = Lamaran::where('id_loker', $loker->id_loker)->get();
+        // }
 
         if(count($loker) > 0){
             return redirect('/admin/perusahaan')->with('error', 'Data tidak bisa dihapus, karena perusahaan sudah mempunyai lowongan pekerjaan!');

@@ -1,6 +1,6 @@
 <div class="row">
     @include('layouts.cpmenu')
-    <section class="col-md-9" id="dashboard">
+    <section class="col-lg-9" id="dashboard">
         <div class="card box btn-square">
             <div class="card-header h3 text-center">Beranda</div>
 
@@ -15,5 +15,6 @@
 <script type="text/javascript">
     $('.cpmenu_beranda').addClass('active');
 </script>
+<script type="text/javascript" src="{{ asset('js/bkk-menuSlider.js') }}"></script>
 @endsection
 

@@ -1,4 +1,4 @@
-<div class="bg-2 p-3 mt-3">
+<footer class="bg-2 p-3 mt-3">
     <div class="row m-0 p-0">
         <div class="col-md-4 text-center">
             <h4>Lokasi</h4>
@@ -22,4 +22,4 @@
         </div>
     </div>
     <p class="text-center m-0"><i class="small">©Copyright 2018. Yanuar Wanda Putra</i></p>
-</div>
+</footer>

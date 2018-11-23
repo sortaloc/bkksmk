@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('css')
+<link rel="stylesheet" type="text/css" href="{{ asset('css/summernote-bs4.css') }}">
+@endsection
+
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
@@ -32,7 +36,7 @@
                                 <label for="deskripsi_kegiatan" class="col-md-3 col-form-label text-md-right">{{ __('Deskripsi Kegiatan*') }}</label>
 
                                 <div class="col-md-8">
-                                    <textarea id="deskripsi_kegiatan" type="text" class="form-control{{ $errors->has('deskripsi_kegiatan') ? ' is-invalid' : '' }}" name="deskripsi_kegiatan" required>{{ $kegiatan->deskripsi_kegiatan }}</textarea>
+                                    <textarea id="deskripsi_kegiatan" type="text" class="form-control{{ $errors->has('deskripsi_kegiatan') ? ' is-invalid' : '' }} summernote" name="deskripsi_kegiatan" required>{{ $kegiatan->deskripsi_kegiatan }}</textarea>
 
                                     @if ($errors->has('deskripsi_kegiatan'))
                                         <span class="invalid-feedback" role="alert">
@@ -46,9 +50,9 @@
                                 <label class="col-md-3 col-form-label text-md-right">{{ __('Foto Kegiatan') }}</label>
 
                                 <div class="col-md-8">
-                                    <img @if($kegiatan->foto_kegiatan === 'nophoto.jpg') src="{{ asset('assets/images/nophoto.jpg') }}" alt="nophoto" @else src="{{ asset('storage/fotoKegiatan/'.$kegiatan->foto_kegiatan) }}" alt="{{ $kegiatan->judul_kegiatan }}" @endif class="img-thumbnail mb-2" id="profile-img-tag" width="220px">
+                                    <img @if($kegiatan->foto_kegiatan === 'nophoto.jpg') src="{{ asset('assets/images/nophoto.jpg') }}" alt="nophoto" @else src="{{ asset('storage/fotoKegiatan/'.$kegiatan->foto_kegiatan) }}" alt="{{ $kegiatan->judul_kegiatan }}" @endif class="img-thumbnail mb-2 imgZoom" id="profile-img-tag" width="220px">
 
-                                    <input id="foto_kegiatan" type="file" class="form-control{{ $errors->has('foto_kegiatan') ? ' is-invalid' : '' }}" name="foto_kegiatan">
+                                    <input id="foto_kegiatan" type="file" class="form-control{{ $errors->has('foto_kegiatan') ? ' is-invalid' : '' }} previewInputFoto" name="foto_kegiatan">
 
                                     @if ($errors->has('foto_kegiatan'))
                                         <span class="invalid-feedback" role="alert">
@@ -69,4 +73,11 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('js')
+@include('layouts.modalGambar')
+<script type="text/javascript" src="{{ asset('js/summernote-bs4.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/bkk-summernote.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/bkk-previewImage.js') }}"></script>
 @endsection

@@ -10,8 +10,6 @@
         display: flex;
         flex-basis: 20%;
         flex-wrap: wrap;
-        /* padding: 8px; */
-        /* justify-content: space-between; */
     }
     .box.item {
         box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
@@ -145,7 +143,11 @@
                                 </form>
                             </div>
                         </div>
-                        <p id="wholeStatusModal">Status: <span id="statusModal"></span></p>
+                        <div id="wholeStatusModal">
+                            <h4> Alasan </h4>
+                            <p id="alasanModal"></p>
+                            <p>Status: <span id="statusModal"></span></p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -154,13 +156,16 @@
 
     <div class="row justify-content-center">
         <div class="col-11">
-            <div class="box btn-square mb-2 p-2" style="background-color: white">
+            <div class="box btn-square mb-2 p-2" style="background-color: #fff">
                 <span style="color: #0f0">Hijau</span> : Diterima | <span style="color: #f00">Merah</span> : Ditolak
+            </div>
+            <div class="box btn-square mb-2 p-2 text-center" style="background-color: #fff">
+                {{ $loker->judul }}
             </div>
             <div class="card box btn-square">
                 <div class="card-header text-center h3" id="pelamarJudul">
-                    <a href="{{ url('/') }}" class="backButton"><i class="fas fa-arrow-left float-left"></i></a>
-                    Daftar Pelamar Loker | {{ $loker->judul }}
+                    <a @if(Auth::user()->id_status === 2) href="{{ url('/') }}" @elseif(Auth::user()->id_status === 1) href="{{ url('/admin/loker') }}" @endif class="backButton"><i class="fas fa-arrow-left float-left"></i></a>
+                    Daftar Pelamar Loker
                 </div>
                 <div class="card-body">
                     <div id="daftarItem">
@@ -181,7 +186,8 @@
                                 data-sl="{{ $l->surat_lamaran }}"
                                 data-waktu="{{ $l->created_at }}"
                                 data-status="{{ $l->status }}"
-                                style="background-color: @if($l->status === 'diterima') #0f0 @elseif($l->status === 'ditolak') #f00 @endif"
+                                data-alasan="{{ $l->alasan }}"
+                                style="background-color: @if($l->status === 'diterima') #0f0 @elseif($l->status === 'ditolak') #f33 @endif"
                             >
                                 <img @if($l->daftarcp->foto === 'nophoto.jpg') src="{{ asset('assets/images/nophoto.jpg') }}" alt="nophoto" @else src="{{ asset('storage/fotoCP/'.$l->daftarcp->foto) }}" alt="{{ $l->daftarcp->nama }}" @endif class="img-fluid">
                                 <p class="text-center small m-0">{{ $l->daftarcp->nama }}</p>
@@ -189,51 +195,6 @@
                         @endforeach
                     </div>
                     {{ $lamaran->links() }}
-                    {{-- <div class="row">
-                    @foreach($lamaran as $index => $l)
-                        <div class="col-md-3">
-                            <img @if($l->daftarcp->foto === 'nophoto.jpg') src="{{ asset('assets/images/nophoto.jpg') }}" alt="nophoto" @else src="{{ asset('storage/fotoCP/'.$l->daftarcp->foto) }}" alt="{{ $l->daftarcp->nama }}" @endif class="box img-fluid">
-                            <p class="text-center">{{ $l->daftarcp->nama }}</p>
-                        </div>
-                        <div class="col-md-9">
-                            <div class="row" id="pelamarDesc">
-                                <div class="col-md-6">
-                                    <h4>Alamat</h4>
-                                    <p>{{ $l->daftarcp->alamat }}</p>
-                                    <h4>No HP</h4>
-                                    <p>{{ $l->daftarcp->kontak->no_hp }}</p>
-                                </div>
-                                <div class="col-md-6">
-                                    <h4>Status</h4>
-                                    <p>@if($l->status === 'diterima') <span class="text-success">{{ $l->status }}</span> @elseif($l->status === 'ditolak') <span class="text-danger">{{ $l->status }} @else {{ $l->status }} @endif</p>
-                                    <h4>Keterangan</h4>
-                                    <p>@if($l->keterangan_lamaran) {!! $l->keterangan_lamaran !!} @else Tidak ada keterangan. @endif</p>
-                                </div>
-                            </div>
-                            <div class="row" id="pelamarShow">
-                                <div class="col-md-6">
-                                    <button class="btn btn-primary btn-square cvButton" data-toggle="{{ $index }}">Show CV</button>
-                                    <div id="cv_{{$index}}" class="embed-responsive embed-responsive-16by9 box" style="display:none">
-                                        <iframe src="{{ $l->daftarCP->cv }}" class="embed-responsive-item"></iframe>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <button class="btn btn-primary btn-square slButton" data-toggle="{{ $index }}">Show SL</button>
-                                    <div id="sl_{{$index}}" class="embed-responsive embed-responsive-16by9 box" style="display:none">
-                                        <iframe src="{{ $l->surat_lamaran }}" class="embed-responsive-item"></iframe>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mt-2">
-                                @if($l->status === 'pending')
-                                    <a href="{{ url('perusahaan/loker/verif_pelamar', base64_encode($l->id_lamaran)) }}" class="btn btn-success btn-square terimaButton">Terima</a>
-                                    <a href="{{ url('perusahaan/loker/tolak_pelamar', base64_encode($l->id_lamaran)) }}" class="btn btn-danger btn-square tolakButton">Tolak</a>
-                                @endif
-                            </div>
-                            <hr>
-                        </div>
-                    @endforeach
-                    </div> --}}
                 </div>
             </div>
         </div>
@@ -266,6 +227,7 @@
         let $nama = $(this).attr('data-nama');
         let $nis = $(this).attr('data-nis');
         let $status = $(this).attr('data-status');
+        let $alasan = $(this).attr('data-alasan');
         let $waktu = $(this).attr('data-waktu');
         let $urlCP = $(this).attr('data-pelamar');
         let $urlTerima = $(this).attr('data-terima');
@@ -274,9 +236,15 @@
         let $sl = $(this).attr('data-sl');
 
         $('#fotoModal').attr('src', $(this).children('img').attr('src'));
-        $('#waktuModal').html($waktu);
 
+        $('#waktuModal').html($waktu);
         $('#judulModal').html($nama);
+
+        if($alasan.length > 0){
+            $('#alasanModal').html($alasan);
+        }else{
+            $('#alasanModal').html("Anda tidak memberikan alasan.");
+        }
 
         $('.buttonDetailPelamar').attr('href', $urlCP);
         $('.buttonTerima').attr('href', $urlTerima);
@@ -354,5 +322,51 @@
         });
     });
 </script>
-<script type="text/javascript" src="{{ asset('js/bkk-modalKegiatan.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/bkk-modal.js') }}"></script>
 @endsection
+
+{{-- <div class="row">
+@foreach($lamaran as $index => $l)
+    <div class="col-md-3">
+        <img @if($l->daftarcp->foto === 'nophoto.jpg') src="{{ asset('assets/images/nophoto.jpg') }}" alt="nophoto" @else src="{{ asset('storage/fotoCP/'.$l->daftarcp->foto) }}" alt="{{ $l->daftarcp->nama }}" @endif class="box img-fluid">
+        <p class="text-center">{{ $l->daftarcp->nama }}</p>
+    </div>
+    <div class="col-md-9">
+        <div class="row" id="pelamarDesc">
+            <div class="col-md-6">
+                <h4>Alamat</h4>
+                <p>{{ $l->daftarcp->alamat }}</p>
+                <h4>No HP</h4>
+                <p>{{ $l->daftarcp->kontak->no_hp }}</p>
+            </div>
+            <div class="col-md-6">
+                <h4>Status</h4>
+                <p>@if($l->status === 'diterima') <span class="text-success">{{ $l->status }}</span> @elseif($l->status === 'ditolak') <span class="text-danger">{{ $l->status }} @else {{ $l->status }} @endif</p>
+                <h4>Keterangan</h4>
+                <p>@if($l->keterangan_lamaran) {!! $l->keterangan_lamaran !!} @else Tidak ada keterangan. @endif</p>
+            </div>
+        </div>
+        <div class="row" id="pelamarShow">
+            <div class="col-md-6">
+                <button class="btn btn-primary btn-square cvButton" data-toggle="{{ $index }}">Show CV</button>
+                <div id="cv_{{$index}}" class="embed-responsive embed-responsive-16by9 box" style="display:none">
+                    <iframe src="{{ $l->daftarCP->cv }}" class="embed-responsive-item"></iframe>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <button class="btn btn-primary btn-square slButton" data-toggle="{{ $index }}">Show SL</button>
+                <div id="sl_{{$index}}" class="embed-responsive embed-responsive-16by9 box" style="display:none">
+                    <iframe src="{{ $l->surat_lamaran }}" class="embed-responsive-item"></iframe>
+                </div>
+            </div>
+        </div>
+        <div class="mt-2">
+            @if($l->status === 'pending')
+                <a href="{{ url('perusahaan/loker/verif_pelamar', base64_encode($l->id_lamaran)) }}" class="btn btn-success btn-square terimaButton">Terima</a>
+                <a href="{{ url('perusahaan/loker/tolak_pelamar', base64_encode($l->id_lamaran)) }}" class="btn btn-danger btn-square tolakButton">Tolak</a>
+            @endif
+        </div>
+        <hr>
+    </div>
+@endforeach
+</div> --}}

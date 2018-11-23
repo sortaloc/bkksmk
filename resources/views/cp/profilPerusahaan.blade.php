@@ -22,16 +22,28 @@
                             <h1 class="text-center">{{ $perusahaan->nama }}</h1>
                             <hr />
                             <h4 class='text-center'>Bio</h4>
-                            <p>{!! $perusahaan->bio !!}</p>
+                            <p>
+                                @if(strlen($perusahaan->bio) > 0)
+                                    {!! $perusahaan->bio !!}
+                                @else
+                                    Bio belum diisi.
+                                @endif
+                            </p>
                         </div>
                         <div class="col-md-6">
                             <h4>Alamat</h4>
-                            <p>{!! $perusahaan->alamat !!}</p>
-                            <h4>Kontak</h4>
-                            <p>{{ $perusahaan->kontak->no_hp }},
-                            {{ $perusahaan->kontak->no_telepon }}</p>
                             <p>
-                                ID Line : {{ $perusahaan->kontak->id_line }}<br>
+                                @if(strlen($perusahaan->alamat))
+                                    {!! $perusahaan->alamat !!}
+                                @else
+                                    Alamat belum diisi.
+                                @endif
+                            </p>
+                            <h4>Kontak</h4>
+                            <p>{{ $perusahaan->kontak->no_hp }}</p>
+                            <p>{{ $perusahaan->kontak->no_telepon }}</p>
+                            <p>
+                                @if(strlen($perusahaan->kontak->id_line) > 0) ID Line : {{ $perusahaan->kontak->id_line }}<br> @endif
                                 {!! $perusahaan->kontak->kontak_dll !!}
                             </p>
                         </div>

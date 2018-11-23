@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <div class="card">
+    <div class="card box btn-square">
         <div class="card-header text-center h3">Tentang</div>
         <div class="card-body">
             {!! $pengaturan->tentang1 !!}

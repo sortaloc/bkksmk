@@ -1,0 +1,47 @@
+/* .daftarItem {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 8px;
+} */
+.daftarItem {
+    display: grid;
+    grid-template-columns: repeat(4, auto);
+    grid-gap: 8px;
+}
+.box.item {
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+    /* width: fit-content; */
+    /* margin: 8px; */
+    /* flex-basis: auto; */
+}
+.box.item:hover {
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    background-color: #ddd;
+}
+.box.item > img {
+    max-height: 150px;
+    margin: 0 auto;
+    display: inherit;
+}
+.box.item > img:hover,
+#fotoModal:hover {
+    opacity: 0.7;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+@media only screen and (max-width: 525px) {
+    #fotoModalContainer {
+        display: none;
+    }
+    #dataModalContainer {
+        max-width: 75%;
+        flex: 0 auto;
+    }
+
+    .daftarItem {
+        grid-template-columns: repeat(2, auto);
+    }
+}

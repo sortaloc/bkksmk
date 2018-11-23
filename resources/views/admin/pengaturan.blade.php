@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('css')
+<link rel="stylesheet" type="text/css" href="{{ asset('css/summernote-bs4.css') }}">
+@endsection
+
 @section('content')
 <div class="container">
     <div class="row">
@@ -18,7 +22,7 @@
                                 <label for="banner1" class="col-md-3 col-form-label text-md-right">{{ __('Banner 1*') }}</label>
 
                                 <div class="col-md-8">
-                                    <textarea id="banner1" type="text" class="form-control{{ $errors->has('banner1') ? ' is-invalid' : '' }}" name="banner1" required>{{ $pengaturan->banner1 }}</textarea>
+                                    <textarea id="banner1" type="text" class="form-control{{ $errors->has('banner1') ? ' is-invalid' : '' }} summernote" name="banner1" required>{{ $pengaturan->banner1 }}</textarea>
 
                                     @if ($errors->has('banner1'))
                                         <span class="invalid-feedback" role="alert">
@@ -31,9 +35,9 @@
                                 <label class="col-md-3 col-form-label text-md-right">{{ __('Foto 1*') }}</label>
 
                                 <div class="col-md-8">
-                                    <img @if($pengaturan->foto1 === 'nophoto.jpg') src="{{ asset('assets/images/nophoto.jpg') }}" alt="nophoto" @else src="{{ asset('storage/banner/'.$pengaturan->foto1) }}" alt="{{ $pengaturan->foto1 }}" @endif class="img-thumbnail mb-2" id="profile-img-tag" width="220px">
+                                    <img @if($pengaturan->foto1 === 'nophoto.jpg') src="{{ asset('assets/images/nophoto.jpg') }}" alt="nophoto" @else src="{{ asset('storage/banner/'.$pengaturan->foto1) }}" alt="{{ $pengaturan->foto1 }}" @endif class="img-thumbnail mb-2 imgZoom" id="profile-img-tag" width="220px">
 
-                                    <input id="foto1" type="file" class="form-control{{ $errors->has('foto1') ? ' is-invalid' : '' }}" id="foto1" name="foto1">
+                                    <input id="foto1" type="file" class="form-control{{ $errors->has('foto1') ? ' is-invalid' : '' }} previewInputFoto" id="foto1" name="foto1">
 
                                     @if ($errors->has('foto1'))
                                         <span class="invalid-feedback" role="alert">
@@ -87,7 +91,7 @@
                                 <label for="tentang1" class="col-md-3 col-form-label text-md-right">{{ __('Tentang1*') }}</label>
 
                                 <div class="col-md-8">
-                                    <textarea id="tentang1" type="text" class="form-control{{ $errors->has('tentang1') ? ' is-invalid' : '' }}" name="tentang1" required>{{ $pengaturan->tentang1 }}</textarea>
+                                    <textarea id="tentang1" type="text" class="form-control{{ $errors->has('tentang1') ? ' is-invalid' : '' }} summernote" name="tentang1" required>{{ $pengaturan->tentang1 }}</textarea>
 
                                     @if ($errors->has('tentang1'))
                                         <span class="invalid-feedback" role="alert">
@@ -100,7 +104,7 @@
                                 <label for="tujuan1" class="col-md-3 col-form-label text-md-right">{{ __('Tujuan1*') }}</label>
 
                                 <div class="col-md-8">
-                                    <textarea id="tujuan1" type="text" class="form-control{{ $errors->has('tujuan1') ? ' is-invalid' : '' }}" name="tujuan1" required>{{ $pengaturan->tujuan1 }}</textarea>
+                                    <textarea id="tujuan1" type="text" class="form-control{{ $errors->has('tujuan1') ? ' is-invalid' : '' }} summernote" name="tujuan1" required>{{ $pengaturan->tujuan1 }}</textarea>
 
                                     @if ($errors->has('tujuan1'))
                                         <span class="invalid-feedback" role="alert">
@@ -178,7 +182,12 @@
 @endsection
 
 @section('js')
+@include('layouts.modalGambar')
 <script type="text/javascript">
     $('.adminmenu_setting').addClass('active');
 </script>
+<script type="text/javascript" src="{{ asset('js/summernote-bs4.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/bkk-summernote.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/bkk-previewImage.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/bkk-menuSlider.js') }}"></script>
 @endsection

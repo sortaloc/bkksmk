@@ -8,12 +8,20 @@ use App\BukuTamu;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+use Auth;
+
 class BukuTamuController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('isAdmin');
+    }
+
     public function index()
     {
         $pengaturan = Pengaturan::all()->first();
-        $bukutamu = BukuTamu::paginate(10);
+        $bukutamu = BukuTamu::orderBy('created_at', 'descending')->get();
 
         return view('admin.bukutamu.bukutamu', compact('pengaturan', 'bukutamu'));
     }

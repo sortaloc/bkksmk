@@ -13,6 +13,12 @@ use Auth;
 
 class CPController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('isPerusahaan');
+    }
+
     protected function profile($id)
     {
         $pengaturan = Pengaturan::all()->first();

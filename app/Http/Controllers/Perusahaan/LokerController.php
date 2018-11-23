@@ -16,6 +16,12 @@ use Auth;
 
 class LokerController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('isPerusahaan');
+    }
+
     protected function ambil($file){
         $fileNameFull = $file->getClientOriginalName();
         $name = pathinfo($fileNameFull, PATHINFO_FILENAME);
@@ -36,7 +42,9 @@ class LokerController extends Controller
 
     protected function addLoker(AddLokerRequest $request){
         $loker = new Loker;
-        $loker->id_perusahaan = DaftarPerusahaan::where('id_user', Auth::user()->id_user)->get()->first()->id_perusahaan;
+        $perusahaan = DaftarPerusahaan::where('id_user', Auth::user()->id_user)->get()->first();
+
+        $loker->id_perusahaan = $perusahaan->id_perusahaan;
         $loker->judul = $request['judul'];
         $loker->bidang_pekerjaan = $request['bidang_pekerjaan'];
         $loker->persyaratan = $request['persyaratan'];
@@ -66,12 +74,16 @@ class LokerController extends Controller
     protected function deleteLoker($id){
         $loker = Loker::find(base64_decode($id));
 
-        if($loker->brosur !== 'nophoto.jpg'){
-            unlink('storage/brosur/'.$loker->brosur);
-        }
+        if(count($loker->lamaran) > 0){
+            return back()->with('error', 'Data tidak bisa dihapus karena sudah ada yang melamar.');
+        }else{
+            if($loker->brosur !== 'nophoto.jpg'){
+                unlink('storage/brosur/'.$loker->brosur);
+            }
 
-        if($loker->delete()){
-            return redirect('/home')->with('success', 'Data berhasil dihapus!');
+            if($loker->delete()){
+                return redirect('/home')->with('success', 'Data berhasil dihapus!');
+            }
         }
     }
 

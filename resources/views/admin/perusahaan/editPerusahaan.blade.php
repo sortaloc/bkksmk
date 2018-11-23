@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('css')
+<link rel="stylesheet" type="text/css" href="{{ asset('css/summernote-bs4.css') }}">
+@endsection
+
 @section('content')
 <div class="container">
     <div class="row">
@@ -7,7 +11,7 @@
             <div class="card box btn-square mb-3">
                 <div class="card-header h3 text-center">
                     <a href="{{ url('admin/perusahaan') }}" class="backButton float-left"><i class="fas fa-arrow-left"></i></a>
-                    Data Perusahaan | {{ $perusahaan->nama }}
+                    Form Data Perusahaan
                 </div>
                 <div class="card-body p-0">
                     <div class="p-3">
@@ -62,8 +66,8 @@
                                 <label for="foto" class="col-md-4 col-form-label text-md-right">{{ __('Foto') }}</label>
 
                                 <div class="col-md-6">
-                                    <img @if($perusahaan->foto === 'nophoto.jpg') src="{{ asset('assets/images/nophoto.jpg') }}" alt="nophoto" @else src="{{ asset('storage/fotoPerusahaan/'.$perusahaan->foto) }}" alt="{{ $perusahaan->nama }}" @endif class="img-thumbnail mb-2" id="profile-img-tag" width="220px">
-                                    <input id="foto" type="file" class="form-control{{ $errors->has('foto') ? ' is-invalid' : '' }}" name="foto">
+                                    <img @if($perusahaan->foto === 'nophoto.jpg') src="{{ asset('assets/images/nophoto.jpg') }}" alt="nophoto" @else src="{{ asset('storage/fotoPerusahaan/'.$perusahaan->foto) }}" alt="{{ $perusahaan->nama }}" @endif class="img-thumbnail mb-2 imgZoom" id="profile-img-tag" width="220px">
+                                    <input id="foto" type="file" class="form-control{{ $errors->has('foto') ? ' is-invalid' : '' }} previewInputFoto" name="foto">
 
                                     @if ($errors->has('foto'))
                                         <span class="invalid-feedback" role="alert">
@@ -121,7 +125,7 @@
                                 <label for="kontak" class="col-md-4 col-form-label text-md-right">{{ __('Kontak Lainnya') }}</label>
 
                                 <div class="col-md-6">
-                                    <textarea id="kontak" type="text" class="form-control{{ $errors->has('kontak') ? ' is-invalid' : '' }}" name="kontak">{{ $perusahaan->kontak->kontak_dll }}</textarea>
+                                    <textarea id="kontak" type="text" class="form-control{{ $errors->has('kontak') ? ' is-invalid' : '' }} summernote" name="kontak">{!! $perusahaan->kontak->kontak_dll !!}</textarea>
 
                                     @if ($errors->has('kontak'))
                                         <span class="invalid-feedback" role="alert">
@@ -143,7 +147,7 @@
         </div>
 
         <div class="col-md-4">
-            <div class="card">
+            <div class="card box btn-square">
                 <div class="card-header text-center h3">Ganti Password</div>
                 <div class="card-body p-0">
                     <div class="p-3">
@@ -165,7 +169,7 @@
                             </div>
 
                             <div class="form-group row">
-                                <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
+                                <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Konfirmasi Password') }}</label>
 
                                 <div class="col-md-6">
                                     <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
@@ -184,4 +188,11 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('js')
+@include('layouts.modalGambar')
+<script type="text/javascript" src="{{ asset('js/summernote-bs4.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/bkk-summernote.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/bkk-previewImage.js') }}"></script>
 @endsection

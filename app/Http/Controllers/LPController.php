@@ -14,18 +14,35 @@ use Auth;
 
 class LPController extends Controller
 {
-    public function lp()
+    public function lp(Request $request)
     {
-        $pengaturan = Pengaturan::all()->first();
-        $loker = Loker::where('status', 'Aktif')->orderBy('created_at', 'descending')->paginate(6);
-        $perusahaanAll = DaftarPerusahaan::all();
-        $kegiatan = Kegiatan::all();
-
         if(Auth::user()){
             return redirect('/home');
         }
 
-        return view('lp', compact('pengaturan', 'loker', 'perusahaanAll', 'kegiatan'));
+        $pengaturan = Pengaturan::all()->first();
+        $perusahaanAll = DaftarPerusahaan::all();
+        $kegiatan = Kegiatan::all();
+        $bidangPekerjaan = Loker::select('bidang_pekerjaan')->groupBy('bidang_pekerjaan')->get();
+        $gaji = Loker::select('gaji')->groupBy('gaji')->get();
+        // ->orderBy('created_at', 'descending')->paginate(8)
+        $loker = Loker::where('status', 'Aktif');
+
+        if($request->input('bp')){
+            $loker = $loker->where('bidang_pekerjaan', $request->input('bp'));
+        }
+
+        if($request->input('gaji')){
+            $loker = $loker->where('gaji', $request->input('gaji'));
+        }
+
+        if($request->input('np')){
+            $loker = $loker->where('id_perusahaan', $request->input('np'));
+        }
+
+        $loker = $loker->paginate(8);
+
+        return view('lp', compact('pengaturan', 'loker', 'perusahaanAll', 'kegiatan', 'bidangPekerjaan', 'gaji', 'request'));
     }
 
     public function mitra()

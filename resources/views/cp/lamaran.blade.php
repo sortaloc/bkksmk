@@ -1,31 +1,24 @@
 @extends('layouts.app')
 
+@section('css')
+<link rel="stylesheet" type="text/css" href="{{ asset('css/summernote-bs4.css') }}">
+@endsection
+
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-11">
             <div class="card box btn-square">
-                <div class="card-header h3 text-center">Data Lamaran</div>
+                <div class="card-header h3 text-center">
+                    <a href="{{ url('cp/loker') }}" class="backButton float-left"><i class="fas fa-arrow-left"></i></a>
+                    <span>Data Lamaran</span>
+                </div>
 
                 <div class="card-body p-0">
                     <form method="post" action="{{ url('cp/lamaran', base64_encode($loker->id_loker)) }}" enctype="multipart/form-data">
                         @csrf
 
                         <div class="p-3">
-                            {{-- <div class="form-group row">
-                                <label for="cv" class="col-md-4 col-form-label text-md-right">{{ __('Curicullum Vitae') }}</label>
-
-                                <div class="col-md-6">
-                                    <input id="cv" type="file" class="form-control{{ $errors->has('cv') ? ' is-invalid' : '' }}" name="cv">
-
-                                    @if ($errors->has('cv'))
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('cv') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                            </div> --}}
-
                             <div class="form-group row">
                                 <label for="surat_lamaran" class="col-md-4 col-form-label text-md-right">{{ __('Surat Lamaran*') }}</label>
 
@@ -45,7 +38,7 @@
                                 <label for="keterangan" class="col-md-4 col-form-label text-md-right">{{ __('Keterangan Lainnya') }}</label>
 
                                 <div class="col-md-6">
-                                    <textarea id="keterangan" type="text" class="form-control{{ $errors->has('keterangan') ? ' is-invalid' : '' }}" name="keterangan" value="{{ old('keterangan') }}" autofocus></textarea>
+                                    <textarea id="keterangan" type="text" class="form-control{{ $errors->has('keterangan') ? ' is-invalid' : '' }} summernote" name="keterangan" value="{{ old('keterangan') }}" autofocus></textarea>
 
                                     @if ($errors->has('keterangan'))
                                         <span class="invalid-feedback" role="alert">
@@ -67,4 +60,9 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('js')
+<script type="text/javascript" src="{{ asset('js/summernote-bs4.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/bkk-summernote.js') }}"></script>
 @endsection

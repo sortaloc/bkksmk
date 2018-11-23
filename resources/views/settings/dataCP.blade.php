@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('css')
+<link rel="stylesheet" type="text/css" href="{{ asset('css/summernote-bs4.css') }}">
+@endsection
+
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
@@ -92,7 +96,8 @@
                                 <label class="col-md-4 col-form-label text-md-right">{{ __('Foto') }}</label>
 
                                 <div class="col-md-6">
-                                    <img @if($cp->foto === 'nophoto.jpg') src="{{ asset('assets/images/nophoto.jpg') }}" alt="nophoto" @else src="{{ asset('storage/fotoCP/'.$cp->foto) }}" alt="{{ $cp->nama }}" @endif class="img-thumbnail mb-2" id="profile-img-tag" width="220px"><input type="file" id="foto" class="form-control{{ $errors->has('foto') ? ' is-invalid' : '' }}" name="foto">
+                                    <img @if($cp->foto === 'nophoto.jpg') src="{{ asset('assets/images/nophoto.jpg') }}" alt="nophoto" @else src="{{ asset('storage/fotoCP/'.$cp->foto) }}" alt="{{ $cp->nama }}" @endif class="img-thumbnail mb-2 imgZoom" id="profile-img-tag" width="220px">
+                                    <input type="file" id="foto" class="form-control{{ $errors->has('foto') ? ' is-invalid' : '' }} previewInputFoto" name="foto">
 
                                     @if ($errors->has('foto'))
                                         <span class="invalid-feedback" role="alert">
@@ -150,7 +155,7 @@
                                 <label for="kontak" class="col-md-4 col-form-label text-md-right">{{ __('Kontak Lainnya') }}</label>
 
                                 <div class="col-md-6">
-                                    <textarea id="kontak" type="text" class="form-control{{ $errors->has('kontak') ? ' is-invalid' : '' }}" name="kontak">{{ $cp->kontak->kontak_dll }}</textarea>
+                                    <textarea id="kontak" type="text" class="form-control{{ $errors->has('kontak') ? ' is-invalid' : '' }} summernote" name="kontak">{{ $cp->kontak->kontak_dll }}</textarea>
 
                                     @if ($errors->has('kontak'))
                                         <span class="invalid-feedback" role="alert">
@@ -172,4 +177,11 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('js')
+@include('layouts.modalGambar')
+<script type="text/javascript" src="{{ asset('js/summernote-bs4.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/bkk-summernote.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/bkk-previewImage.js') }}"></script>
 @endsection

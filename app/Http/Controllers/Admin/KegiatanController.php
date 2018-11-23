@@ -14,6 +14,12 @@ use Auth;
 
 class KegiatanController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('isAdmin');
+    }
+
     protected function ambil($path, $file){
         $fileNameFull = $file->getClientOriginalName();
         $name = pathinfo($fileNameFull, PATHINFO_FILENAME);
@@ -27,7 +33,7 @@ class KegiatanController extends Controller
 
     protected function index(){
         $pengaturan = Pengaturan::all()->first();
-        $kegiatan = Kegiatan::paginate(6);
+        $kegiatan = Kegiatan::orderBy('created_at', 'descending')->paginate(6);
 
         return view('admin.kegiatan.kegiatan', compact('kegiatan', 'pengaturan'));
     }

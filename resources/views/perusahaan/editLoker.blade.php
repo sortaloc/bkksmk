@@ -1,17 +1,21 @@
 @extends('layouts.app')
 
+@section('css')
+<link rel="stylesheet" type="text/css" href="{{ asset('css/summernote-bs4.css') }}">
+@endsection
+
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-11">
             <div class="card box btn-square">
                 <div class="card-header text-center h3">
-                    <a href="{{ url('/') }}" class="backButton"><i class="fas fa-arrow-left float-left"></i></a>
-                    Ubah Lowongan Kerja
+                    <a @if(Auth::user()->id_status === 2) href="{{ url('/') }}" @elseif(Auth::user()->id_status === 1) href="{{ url('/admin/loker') }}" @endif class="backButton"><i class="fas fa-arrow-left float-left"></i></a>
+                    Data Lowongan Kerja
                 </div>
 
                 <div class="card-body p-0">
-                    <form method="POST" action="{{ url('perusahaan/loker/edit', base64_encode($loker->id_loker)) }}" enctype="multipart/form-data">
+                    <form method="POST" @if(Auth::user()->id_status === 2) action="{{ url('perusahaan/loker/edit', base64_encode($loker->id_loker)) }}" @elseif(Auth::user()->id_status === 1) action="{{ url('admin/loker/edit', base64_encode($loker->id_loker)) }}" @endif enctype="multipart/form-data">
                         @csrf
                         <div class="p-3">
                             <div class="form-group row">
@@ -46,7 +50,7 @@
                                 <label for="persyaratan" class="col-md-3 col-form-label text-md-right">{{ __('Persyaratan*') }}</label>
 
                                 <div class="col-md-8">
-                                    <textarea id="persyaratan" type="text" class="form-control{{ $errors->has('persyaratan') ? ' is-invalid' : '' }}" name="persyaratan" required>{{ $loker->persyaratan }}</textarea>
+                                    <textarea id="persyaratan" type="text" class="form-control{{ $errors->has('persyaratan') ? ' is-invalid' : '' }} summernote" name="persyaratan" required>{{ $loker->persyaratan }}</textarea>
 
                                     @if ($errors->has('persyaratan'))
                                         <span class="invalid-feedback" role="alert">
@@ -125,7 +129,7 @@
                             <div class="form-group row">
                                 <label for="waktu_tes" class="col-md-3 col-form-label text-md-right">{{ __('Waktu Tes*') }}</label>
 
-                                <div class="col-4">
+                                <div class="col-md-4">
                                     <select class="custom-select" id="waktu_tes_jam" name="waktu_tes_jam" autocomplete="off" required>
                                         <option value="00" @if(substr($loker->waktu_tes, 0, 2) == '00') selected @endif>00</option>
                                         <option value="01" @if(substr($loker->waktu_tes, 0, 2) == '01') selected @endif>01</option>
@@ -149,7 +153,7 @@
                                         </span>
                                     @endif
                                 </div>
-                                <div class="col-4">
+                                <div class="col-md-4">
                                     <select class="custom-select" id="waktu_tes_menit" name="waktu_tes_menit" autocomplete="off" required>
                                         <option value="00" @if(substr($loker->waktu_tes, 3, 2) == '00') selected @endif>00</option>
                                         <option value="01" @if(substr($loker->waktu_tes, 3, 2) == '01') selected @endif>01</option>
@@ -205,7 +209,7 @@
                                 <label for="keterangan" class="col-md-3 col-form-label text-md-right">{{ __('Keterangan Lainnya') }}</label>
 
                                 <div class="col-md-8">
-                                    <textarea id="keterangan" type="text" class="form-control{{ $errors->has('keterangan') ? ' is-invalid' : '' }}" name="keterangan" required>{{ $loker->keterangan_loker }}</textarea>
+                                    <textarea id="keterangan" type="text" class="form-control{{ $errors->has('keterangan') ? ' is-invalid' : '' }} summernote" name="keterangan">{{ $loker->keterangan_loker }}</textarea>
 
                                     @if ($errors->has('keterangan'))
                                         <span class="invalid-feedback" role="alert">
@@ -219,9 +223,9 @@
                                 <label for="brosur" class="col-md-3 col-form-label text-md-right">{{ __('Brosur') }}</label>
 
                                 <div class="col-md-8">
-                                    <img @if($loker->brosur === 'nophoto.jpg') src="{{ asset('assets/images/nophoto.jpg') }}" alt="nophoto" @else src="{{ asset('storage/brosur/'.$loker->brosur) }}" alt="{{ $loker->judul }}" @endif class="img-thumbnail mb-2" id="profile-img-tag" width="220px">
+                                    <img @if($loker->brosur === 'nophoto.jpg') src="{{ asset('assets/images/nophoto.jpg') }}" alt="nophoto" @else src="{{ asset('storage/brosur/'.$loker->brosur) }}" alt="{{ $loker->judul }}" @endif class="img-thumbnail mb-2 imgZoom" id="profile-img-tag" width="220px">
 
-                                    <input id="brosur" type="file" class="form-control{{ $errors->has('brosur') ? ' is-invalid' : '' }}" name="brosur">
+                                    <input id="brosur" type="file" class="form-control{{ $errors->has('brosur') ? ' is-invalid' : '' }} previewInputFoto" name="brosur">
 
                                     @if ($errors->has('brosur'))
                                         <span class="invalid-feedback" role="alert">
@@ -243,4 +247,11 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('js')
+@include('layouts.modalGambar')
+<script type="text/javascript" src="{{ asset('js/summernote-bs4.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/bkk-summernote.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/bkk-previewImage.js') }}"></script>
 @endsection

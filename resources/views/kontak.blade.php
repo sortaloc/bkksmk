@@ -1,8 +1,12 @@
 @extends('layouts.app')
 
+@section('css')
+<link rel="stylesheet" type="text/css" href="{{ asset('css/summernote-bs4.css') }}">
+@endsection
+
 @section('content')
-<div class="container">
-    <div class="card">
+<section id="content" class="container">
+    <div class="card box btn-square">
         <div class="card-header text-center h3">Kontak</div>
         <div class="card-body">
             <section class="row" id="kontakSection">
@@ -84,8 +88,8 @@
                     <div class="form-group row">
                         <label for="isi_pesan" class="col-md-3 col-form-label text-md-right">{{ __('Isi Pesan*') }}</label>
 
-                        <div class="col-md-7">
-                            <textarea id="isi_pesan" type="text" class="form-control{{ $errors->has('isi_pesan') ? ' is-invalid' : '' }}" name="isi_pesan" required>{{ $pengaturan->isi_pesan }}</textarea>
+                        <div class="col-md-7{{ $errors->has('isi_pesan') ? ' is-invalid' : '' }}">
+                            <textarea id="isi_pesan" class="form-control summernote" name="isi_pesan" required>{{ old('isi_pesan') }}</textarea>
 
                             @if ($errors->has('isi_pesan'))
                                 <span class="invalid-feedback" role="alert">
@@ -106,11 +110,13 @@
             </section>
         </div>
     </div>
-</div>
+</section>
 @endsection
 
 @section('js')
 <script type="text/javascript">
     $('#kontak').addClass('active');
 </script>
+<script type="text/javascript" src="{{ asset('js/summernote-bs4.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/bkk-summernote.js') }}"></script>
 @endsection

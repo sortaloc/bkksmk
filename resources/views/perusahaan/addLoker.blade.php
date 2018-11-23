@@ -1,19 +1,23 @@
 @extends('layouts.app')
 
+@section('css')
+<link rel="stylesheet" type="text/css" href="{{ asset('css/summernote-bs4.css') }}">
+@endsection
+
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-11">
                 <div class="card box btn-square">
                     <div class="card-header text-center h3">
-                        <a href="{{ url('/') }}" class="backButton"><i class="fas fa-arrow-left float-left"></i></a>
+                        <a @if(Auth::user()->id_status === 2) href="{{ url('/') }}" @elseif(Auth::user()->id_status === 1) href="{{ url('/admin/loker') }}" @endif class="backButton"><i class="fas fa-arrow-left float-left"></i></a>
                         Buat Lowongan Kerja
                     </div>
 
                     <div class="card-body p-0">
                         @if(Auth::user()->id_status === 1)
                         <form method="POST" action="{{ url('admin/loker/add') }}" enctype="multipart/form-data" id="lokerForm">
-                        @else
+                        @elseif(Auth::user()->id_status === 2)
                         <form method="POST" action="{{ url('perusahaan/loker/add') }}" enctype="multipart/form-data" id="lokerForm">
                         @endif
                             @csrf
@@ -50,7 +54,7 @@
                                     <label for="persyaratan" class="col-md-3 col-form-label text-md-right">{{ __('Persyaratan*') }}</label>
 
                                     <div class="col-md-8">
-                                        <textarea id="persyaratan" type="text" class="form-control{{ $errors->has('persyaratan') ? ' is-invalid' : '' }}" name="persyaratan" value="{{ old('persyaratan') }}"></textarea>
+                                        <textarea id="persyaratan" type="text" class="form-control{{ $errors->has('persyaratan') ? ' is-invalid' : '' }} summernote" name="persyaratan" value="{{ old('persyaratan') }}"></textarea>
 
                                         @if ($errors->has('persyaratan'))
                                             <span class="invalid-feedback" role="alert">
@@ -116,7 +120,7 @@
                                     <label for="keterangan" class="col-md-3 col-form-label text-md-right">{{ __('Keterangan Lainnya') }}</label>
 
                                     <div class="col-md-8">
-                                        <textarea id="keterangan" type="text" class="form-control{{ $errors->has('keterangan') ? ' is-invalid' : '' }}" name="keterangan" value="{{ old('keterangan') }}"></textarea>
+                                        <textarea id="keterangan" type="text" class="form-control{{ $errors->has('keterangan') ? ' is-invalid' : '' }} summernote" name="keterangan" value="{{ old('keterangan') }}"></textarea>
 
                                         @if ($errors->has('keterangan'))
                                             <span class="invalid-feedback" role="alert">
@@ -143,7 +147,7 @@
                                 <div class="form-group row">
                                     <label for="waktu_tes" class="col-md-3 col-form-label text-md-right">{{ __('Waktu Tes*') }}</label>
 
-                                    <div class="col-4">
+                                    <div class="col-md-4">
                                         <select class="custom-select" id="waktu_tes_jam" name="waktu_tes_jam" required>
                                             <option value="00" @if(old('waktu_tes_jam') === '00') selected @endif>00</option>
                                             <option value="01" @if(old('waktu_tes_jam') === '01') selected @endif>01</option>
@@ -167,7 +171,7 @@
                                             </span>
                                         @endif
                                     </div>
-                                    <div class="col-4">
+                                    <div class="col-md-4">
                                         <select class="custom-select" id="waktu_tes_menit" name="waktu_tes_menit" required>
                                             <option value="00" @if(old('waktu_tes_menit') === '00') selected @endif>00</option>
                                             <option value="01" @if(old('waktu_tes_menit') === '01') selected @endif>01</option>
@@ -208,12 +212,12 @@
                                 </div>
 
                                 <div class="form-group row">
-                                    <label class="col-md-3 col-form-label text-md-right">{{ __('Brosur') }}</label>
+                                    <label for="brosur" class="col-md-3 col-form-label text-md-right">{{ __('Brosur') }}</label>
 
                                     <div class="col-md-8">
-                                        <img src="{{ asset('assets/images/nophoto.jpg') }}" alt="nophoto" class="img-thumbnail mb-2" id="profile-img-tag" width="220px">
+                                        <img src="{{ asset('assets/images/nophoto.jpg') }}" alt="nophoto" class="img-thumbnail mb-2 imgZoom" id="profile-img-tag" width="220px">
 
-                                        <input id="brosur" type="file" class="form-control{{ $errors->has('brosur') ? ' is-invalid' : '' }}" name="brosur">
+                                        <input id="brosur" type="file" class="form-control{{ $errors->has('brosur') ? ' is-invalid' : '' }} previewInputFoto" name="brosur">
 
                                         @if ($errors->has('brosur'))
                                             <span class="invalid-feedback" role="alert">
@@ -235,4 +239,11 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('js')
+@include('layouts.modalGambar')
+<script type="text/javascript" src="{{ asset('js/summernote-bs4.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/bkk-summernote.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/bkk-previewImage.js') }}"></script>
 @endsection

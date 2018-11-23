@@ -14,6 +14,12 @@ use Auth;
 
 class LokerController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('isAdmin');
+    }
+
     protected function ambil($file){
         $fileNameFull = $file->getClientOriginalName();
         $name = pathinfo($fileNameFull, PATHINFO_FILENAME);
@@ -25,11 +31,30 @@ class LokerController extends Controller
         return $nameFinal;
     }
 
-    protected function indexLoker(){
+    protected function indexLoker(Request $request){
         $pengaturan = Pengaturan::all()->first();
-        $loker = Loker::orderBy('created_at', 'descending')->paginate(6);
 
-        return view('admin.loker', compact('loker', 'pengaturan'));
+        $bidangPekerjaan = Loker::select('bidang_pekerjaan')->groupBy('bidang_pekerjaan')->get();
+        $gaji = Loker::select('gaji')->groupBy('gaji')->get();
+        $perusahaanAll = DaftarPerusahaan::all();
+
+        $loker = Loker::orderBy('created_at', 'descending');
+
+        if($request->input('bp')){
+            $loker = $loker->where('bidang_pekerjaan', $request->input('bp'));
+        }
+
+        if($request->input('gaji')){
+            $loker = $loker->where('gaji', $request->input('gaji'));
+        }
+
+        if($request->input('np')){
+            $loker = $loker->where('id_perusahaan', $request->input('np'));
+        }
+
+        $loker = $loker->paginate(8);
+
+        return view('admin.loker', compact('loker', 'pengaturan', 'request', 'bidangPekerjaan', 'gaji', 'perusahaanAll'));
     }
 
     protected function index(){
@@ -70,12 +95,16 @@ class LokerController extends Controller
     protected function deleteLoker($id){
         $loker = Loker::find(base64_decode($id));
 
-        if($loker->brosur !== 'nophoto.jpg'){
-            unlink('storage/brosur/'.$loker->brosur);
-        }
+        if(count($loker->lamaran) > 0){
+            return back()->with('error', 'Data tidak bisa dihapus karena sudah ada yang melamar.');
+        }else{
+            if($loker->brosur !== 'nophoto.jpg'){
+                unlink('storage/brosur/'.$loker->brosur);
+            }
 
-        if($loker->delete()){
-            return redirect('/home')->with('success', 'Data berhasil dihapus!');
+            if($loker->delete()){
+                return redirect('/admin/loker')->with('success', 'Data berhasil dihapus!');
+            }
         }
     }
 
@@ -108,7 +137,7 @@ class LokerController extends Controller
         }
 
         if($loker->save()){
-            return redirect('/home')->with('success', 'Data berhasil diubah!');
+            return redirect('/admin/loker')->with('success', 'Data berhasil diubah!');
         }
     }
 

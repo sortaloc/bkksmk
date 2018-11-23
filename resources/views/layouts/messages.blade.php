@@ -23,3 +23,11 @@
         });
     </script>
 @endif
+
+@if(session('warning'))
+    <script type="text/javascript">
+        $(document).ready(function() {
+            swal('Warning', "{{ session('warning') }}", 'warning');
+        });
+    </script>
+@endif

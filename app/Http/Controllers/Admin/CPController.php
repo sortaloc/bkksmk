@@ -19,6 +19,12 @@ use Auth;
 
 class CPController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('isAdmin');
+    }
+
     protected function ambil($path, $file){
         $fileNameFull = $file->getClientOriginalName();
         $name = pathinfo($fileNameFull, PATHINFO_FILENAME);
@@ -32,7 +38,7 @@ class CPController extends Controller
 
     protected function index(){
         $pengaturan = Pengaturan::all()->first();
-        $cp = DaftarCP::all();
+        $cp = DaftarCP::orderBy('created_at', 'descending')->get();
 
         return view('admin.cp.cp', compact('cp', 'pengaturan'));
     }
@@ -48,58 +54,36 @@ class CPController extends Controller
         $cp = DaftarCP::find(base64_decode($id));
         $kontak = Kontak::find($cp->id_kontak);
 
-        if($request['cv'] == $cp->cv){
-            $cp->nama = $request['nama'];
-            $cp->alamat = $request['alamat'];
-            $cp->jenis_kelamin = $request['jk'];
-            $cp->ttl = $request['ttl'];
+        $cp->nama = $request['nama'];
+        $cp->alamat = $request['alamat'];
+        $cp->jenis_kelamin = $request['jk'];
+        $cp->ttl = $request['ttl'];
 
-            if($request->file('foto')){
-                if($cp->foto !== 'nophoto.jpg'){
-                    unlink('storage/fotoCP/'.$cp->foto);
-                }
+        if($request['cv'] != null && $request['cv'] != $cp->cv){
+            if(substr($request['cv'], 0, 33) !== 'https://drive.google.com/open?id='){
+                return back()->with('error', 'CV tidak valid, silahkan ikut tata cara mengambil link google drive.');
+            }else{
+                $cp->cv = substr($request['cv'], 0, 25) . 'file/d/' . substr($request['cv'], 33) . '/preview';
+            }
+        }
 
-                $nameToStore = $this->ambil('public/fotoCP', $request->file('foto'));
-                $cp->foto = $nameToStore;
+        if($request->file('foto')){
+            if($cp->foto !== 'nophoto.jpg'){
+                unlink('storage/fotoCP/'.$cp->foto);
             }
 
-            if($cp->save()){
-                $kontak->no_hp = $request['no_hp'];
-                $kontak->no_telepon = $request['no_telepon'];
-                $kontak->id_line = $request['id_line'];
-                $kontak->kontak_dll = $request['kontak'];
+            $nameToStore = $this->ambil('public/fotoCP', $request->file('foto'));
+            $cp->foto = $nameToStore;
+        }
 
-                if($kontak->save()){
-                    return redirect('/admin/cp')->with('success', 'Data berhasil diubah!');
-                }
-            }
-        }elseif(substr($request['cv'], 0, 33) !== 'https://drive.google.com/open?id='){
-            return back()->with('error', 'CV tidak valid, silahkan ikut tata cara mengambil link google drive.');
-        }else{
-            $cp->nama = $request['nama'];
-            $cp->alamat = $request['alamat'];
-            $cp->cv = substr($request['cv'], 0, 25) . 'file/d/' . substr($request['cv'], 33) . '/preview';;
-            $cp->jenis_kelamin = $request['jk'];
-            $cp->ttl = $request['ttl'];
+        if($cp->save()){
+            $kontak->no_hp = $request['no_hp'];
+            $kontak->no_telepon = $request['no_telepon'];
+            $kontak->id_line = $request['id_line'];
+            $kontak->kontak_dll = $request['kontak'];
 
-            if($request->file('foto')){
-                if($cp->foto !== 'nophoto.jpg'){
-                    unlink('storage/fotoCP/'.$cp->foto);
-                }
-
-                $nameToStore = $this->ambil('public/fotoCP', $request->file('foto'));
-                $cp->foto = $nameToStore;
-            }
-
-            if($cp->save()){
-                $kontak->no_hp = $request['no_hp'];
-                $kontak->no_telepon = $request['no_telepon'];
-                $kontak->id_line = $request['id_line'];
-                $kontak->kontak_dll = $request['kontak'];
-
-                if($kontak->save()){
-                    return redirect('/admin/cp')->with('success', 'Data berhasil diubah!');
-                }
+            if($kontak->save()){
+                return redirect('/admin/cp')->with('success', 'Data berhasil diubah!');
             }
         }
     }
@@ -125,10 +109,6 @@ class CPController extends Controller
     }
 
     protected function store(RegisterCPRequest $request){
-        if(substr($request['cv'], 0, 33) !== 'https://drive.google.com/open?id='){
-            return back()->with('error', 'CV tidak valid, silahkan ikut tata cara mengambil link google drive.');
-        }
-
         $user = new User;
         $user->username = $request['usernameCP'];
         $user->id_status = 3;
@@ -147,7 +127,15 @@ class CPController extends Controller
                 $cp->nis = $request['nis'];
                 $cp->id_user = $user->id_user;
                 $cp->id_kontak = $kontak->id_kontak;
-                $cp->cv = substr($request['cv'], 0, 25) . 'file/d/' . substr($request['cv'], 33) . '/preview';
+
+                if($request['cv'] != null){
+                    if(substr($request['cv'], 0, 33) !== 'https://drive.google.com/open?id='){
+                        return back()->with('error', 'CV tidak valid, silahkan ikut tata cara mengambil link google drive.');
+                    }else{
+                        $cp->cv = substr($request['cv'], 0, 25) . 'file/d/' . substr($request['cv'], 33) . '/preview';
+                    }
+                }
+
                 $cp->nama = $request['nama'];
                 $cp->jenis_kelamin = $request['jk'];
                 $cp->alamat = $request['alamat'];

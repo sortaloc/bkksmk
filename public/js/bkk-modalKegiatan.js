@@ -1,11 +1,4 @@
-/* Modal Kegiatan */
-let $kegiatan = $(".kegiatan");
-let $modal = $(".modal");
-let $close = $(".close");
-let $fotoModal = $("#fotoModal");
-let $zoom = false;
-
-$kegiatan.on("click", function() {
+$(".kegiatan").on("click", function() {
     $("body").addClass("modal-open");
 
     let $dataKegiatan = JSON.parse(
@@ -29,23 +22,5 @@ $kegiatan.on("click", function() {
     $(".buttonEdit").attr("href", $(this).attr("data-edit"));
     $(".buttonHapus").attr("href", $(this).attr("data-hapus"));
 
-    $modal.fadeIn(500);
-});
-
-$close.on("click", function() {
-    $("body").removeClass("modal-open");
-
-    $modal.fadeOut(500);
-});
-
-$fotoModal.on("click", function() {
-    if (!$zoom) {
-        $("#fotoModalContainer").addClass("imgModalZoom");
-        $(this).addClass("imgModalFull");
-        $zoom = true;
-    } else {
-        $("#fotoModalContainer").removeClass("imgModalZoom");
-        $(this).removeClass("imgModalFull");
-        $zoom = false;
-    }
+    $(".modal").fadeIn(500);
 });

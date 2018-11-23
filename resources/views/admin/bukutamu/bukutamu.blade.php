@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('css')
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/DataTables/datatables.min.css') }}">
+@endsection
+
 @section('content')
 <div class="container">
     <div class="row">
@@ -39,6 +43,9 @@
 @endsection
 
 @section('js')
+@include('layouts.modalGambar')
+<script type="text/javascript" src="{{ asset('assets/DataTables/datatables.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/bkk-menuSlider.js') }}"></script>
 <script type="text/javascript">
     $('.adminmenu_bukutamu').addClass('active');
     $(document).ready(function () {

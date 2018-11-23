@@ -15,6 +15,12 @@ use Auth;
 
 class LamaranController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('isCP');
+    }
+
     protected function ambil($uploadPath, $file){
         $fileNameFull = $file->getClientOriginalName();
         $name = pathinfo($fileNameFull, PATHINFO_FILENAME);
@@ -34,14 +40,18 @@ class LamaranController extends Controller
     }
 
     protected function uploadLamaran(Request $request, $id){
-        if(substr($request['surat_lamaran'], 0, 33) !== 'https://drive.google.com/open?id='){
-            return back()->with('error', 'Surat lamaran tidak valid, silahkan ikut tata cara mengambil link google drive.');
-        }
-        // dd(DaftarCP::where('id_user', Auth::user()->id_user)->get()->first()->nis);
         $lamaran = new Lamaran;
         $lamaran->nis = DaftarCP::where('id_user', Auth::user()->id_user)->get()->first()->nis;
         $lamaran->id_loker = Loker::find(base64_decode($id))->id_loker;
-        $lamaran->surat_lamaran = substr($request['surat_lamaran'], 0, 25) . 'file/d/' . substr($request['surat_lamaran'], 33) . '/preview';
+
+        if($request['surat_lamaran'] != null){
+            if(substr($request['surat_lamaran'], 0, 33) !== 'https://drive.google.com/open?id='){
+                return back()->with('error', 'Surat lamaran tidak valid, silahkan ikut tata cara mengambil link google drive.');
+            }else{
+                $lamaran->surat_lamaran = substr($request['surat_lamaran'], 0, 25) . 'file/d/' . substr($request['surat_lamaran'], 33) . '/preview';
+            }
+        }
+
         $lamaran->keterangan_lamaran = $request['keterangan'];
         $lamaran->status = 'pending';
 

@@ -26,4 +26,8 @@ class DaftarPerusahaan extends Model
     public function kontak(){
         return $this->belongsTo('App\Kontak', 'id_kontak');
     }
+
+    public function loker(){
+        return $this->hasMany('App\Loker', 'id_perusahaan');
+    }
 }
