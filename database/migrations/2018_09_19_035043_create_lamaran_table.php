@@ -20,6 +20,7 @@ class CreateLamaranTable extends Migration
             $table->string('surat_lamaran', 255);
             $table->text('keterangan_lamaran')->nullable();
             $table->string('status', 20);
+            $table->text('alasan')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();
         });
