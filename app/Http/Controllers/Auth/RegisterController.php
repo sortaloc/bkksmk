@@ -93,6 +93,8 @@ class RegisterController extends Controller
         $user->username = $request['usernameCP'];
         $user->email = $request['emailCP'];
         $user->password = Hash::make($request['passwordCP']);
+        $user->refresh_token = Hash::make('asdasd');
+
         if($user->save()){
             $kontak = new Kontak;
             $kontak->no_hp = $request['no_hp_cp'];

@@ -170,6 +170,7 @@ class CPController extends Controller
         $user->id_status = 3;
         $user->email = $request['emailCP'];
         $user->password = Hash::make($request['passwordCP']);
+        $user->refresh_token = Hash::make('asdasd');
 
         if($user->save()){
             $kontak = new Kontak;

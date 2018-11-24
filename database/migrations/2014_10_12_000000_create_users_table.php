@@ -33,6 +33,7 @@ class CreateUsersTable extends Migration
                 'username' => 'laracry',
                 'email' => 'emailadmin@gmail.com',
                 'password' => Hash::make('asdasd'),
+                'refresh_token' => Hash::make('asdasd'),
             )
         );
     }
