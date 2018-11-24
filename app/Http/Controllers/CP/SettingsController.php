@@ -78,6 +78,17 @@ class SettingsController extends Controller
         }
     }
 
+    protected function ambil($path, $file){
+        $fileNameFull = $file->getClientOriginalName();
+        $name = pathinfo($fileNameFull, PATHINFO_FILENAME);
+        $extension = $file->getClientOriginalExtension();
+        $nameFinal = $name.'_'.time().'.'.$extension;
+
+        $file->storeAs($path, $nameFinal);
+
+        return $nameFinal;
+    }
+
     protected function dataDiriCP(){
         $pengaturan = Pengaturan::all()->first();
         $cp = DaftarCP::where('id_user', Auth::user()->id_user)->get()->first();

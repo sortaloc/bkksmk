@@ -41,13 +41,22 @@
             <div class="card box btn-square">
                 <div class="card-header text-center h3">Daftar Kegiatan</div>
 
-                <div class="card-body daftarItem" id="daftarKegiatan">
-                    @foreach($kegiatan as $k)
-                    <div class="box item kegiatan" data-kegiatan="{{ $k }}" data-edit="{{ url('admin/kegiatan/edit', base64_encode($k->id_kegiatan)) }}" data-hapus="{{ url('admin/kegiatan', base64_encode($k->id_kegiatan)) }}">
-                        <img @if($k->foto_kegiatan === 'nophoto.jpg') src="{{ asset('assets/images/nophoto.jpg') }}" alt="nophoto" @else src="{{ asset('storage/fotoKegiatan/'.$k->foto_kegiatan) }}" alt="{{ $k->judul_kegiatan }}" @endif class="img-fluid">
-                        <p class="text-center m-0">{{ $k->judul_kegiatan }}</p>
-                    </div>
-                    @endforeach
+                <div class="card-body" id="daftarKegiatan">
+                    @if(count($kegiatan) < 1)
+                        <p class="text-center">
+                            Belum ada kegiatan. <br />
+                            Silakan <a href="{{ url('admin/kegiatan/add') }}" class="altLink"> klik disini </a> atau klik tombol <i class="fas fa-plus"></i> di sebalah kanan bawah layar untuk membuat kegiatan.
+                        </p>
+                    @else
+                        <div class="daftarItem">
+                            @foreach($kegiatan as $k)
+                            <div class="box item kegiatan" data-kegiatan="{{ $k }}" data-edit="{{ url('admin/kegiatan/edit', base64_encode($k->id_kegiatan)) }}" data-hapus="{{ url('admin/kegiatan', base64_encode($k->id_kegiatan)) }}">
+                                <img @if($k->foto_kegiatan === 'nophoto.jpg') src="{{ asset('assets/images/nophoto.jpg') }}" alt="nophoto" @else src="{{ asset('storage/fotoKegiatan/'.$k->foto_kegiatan) }}" alt="{{ $k->judul_kegiatan }}" @endif class="img-fluid">
+                                <p class="text-center m-0">{{ $k->judul_kegiatan }}</p>
+                            </div>
+                            @endforeach
+                        </div>
+                    @endif
                 </div>
                 {{ $kegiatan->links() }}
             </div>

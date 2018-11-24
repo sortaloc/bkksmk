@@ -154,29 +154,37 @@
                                 </select>
                             </div>
                         </div> --}}
-
-                        <div class="daftarItem">
-                            @foreach($loker as $l)
-                            <div class="box item loker" data-formodal="{{ $l }}" @if($l->perusahaan) data-perusahaan="{{ $l->perusahaan }}" @endif data-edit="{{ url('admin/loker/edit', base64_encode($l->id_loker)) }}" data-hapus="{{ url('admin/loker/delete', base64_encode($l->id_loker)) }}" data-pelamar="{{ url('admin/loker/daftar_pelamar', base64_encode($l->id_loker)) }}" data-jumlahPelamar="{{ count($l->lamaran) }}">
-                                <img
-                                    @if($l->brosur === 'nophoto.jpg')
-                                        @if($l->perusahaan)
-                                            src="{{ asset('storage/fotoPerusahaan/'.$l->perusahaan->foto) }}"
-                                            alt="{{ $l->perusahaan->nama }}"
+                        @if(count($loker) < 1)
+                            <p class="text-center">Maaf, saat ini belum ada loker.</p>
+                        @else
+                            <div class="daftarItem">
+                                @foreach($loker as $l)
+                                <div class="box item loker" data-formodal="{{ $l }}" @if($l->perusahaan) data-perusahaan="{{ $l->perusahaan }}" @endif data-edit="{{ url('admin/loker/edit', base64_encode($l->id_loker)) }}" data-hapus="{{ url('admin/loker/delete', base64_encode($l->id_loker)) }}" data-pelamar="{{ url('admin/loker/daftar_pelamar', base64_encode($l->id_loker)) }}" data-jumlahPelamar="{{ count($l->lamaran) }}">
+                                    <img
+                                        @if($l->brosur === 'nophoto.jpg')
+                                            @if($l->perusahaan)
+                                                @if($l->perusahaan->foto === 'nophoto.jpg')
+                                                    src="{{ asset('assets/images/BKKSMK Logo.png') }}"
+                                                    alt="bkksmk logo"
+                                                @else
+                                                    src="{{ asset('storage/fotoPerusahaan/'.$l->perusahaan->foto) }}"
+                                                    alt="{{ $l->perusahaan->nama }}"
+                                                @endif
+                                            @else
+                                                src="{{ asset('assets/images/BKKSMK Logo.png') }}"
+                                                alt="bkksmk logo"
+                                            @endif
                                         @else
-                                            src="{{ asset('assets/images/nophoto.jpg') }}"
-                                            alt="nophoto"
+                                            src="{{ asset('storage/brosur/'.$l->brosur) }}"
+                                            alt="{{ $l->judul }}"
                                         @endif
-                                    @else
-                                        src="{{ asset('storage/brosur/'.$l->brosur) }}"
-                                        alt="{{ $l->judul }}"
-                                    @endif
-                                    class="img-fluid"
-                                >
-                                <p class="text-center m-0"><small>{{ $l->judul }}</small></p>
+                                        class="img-fluid"
+                                    >
+                                    <p class="text-center m-0"><small>{{ $l->judul }}</small></p>
+                                </div>
+                                @endforeach
                             </div>
-                            @endforeach
-                        </div>
+                        @endif
                     </div>
                     {{ $loker->links() }}
                 </div>

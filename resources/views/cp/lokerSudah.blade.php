@@ -89,27 +89,38 @@
             <div class="card box btn-square">
                 <div class="card-header h3 text-center">Daftar Lamaran Saya</div>
 
-                <div class="card-body daftarItem" id="daftarLoker">
-                    @foreach ($loker as $index => $l)
-                        <div class="box item loker" data-formodal="{{ $l }}" @if($l->id_perusahaan) data-perusahaan="{{ $l->perusahaan }}" data-urlPerusahaan="{{ url('cp/perusahaan', base64_encode($l->id_perusahaan)) }}" @endif data-jumlahPelamar="{{ count($l->lamaran) }}" data-lamaran="{{ $lamaran[$index] }}" @if($lamaran[$index]->status === 'diterima') style="background-color: #0F0" @elseif($lamaran[$index]->status === 'ditolak') style="background-color: #f44" @endif>
-                            <img
-                                @if($l->brosur === 'nophoto.jpg')
-                                    @if($l->perusahaan)
-                                        src="{{ asset('storage/fotoPerusahaan/'.$l->perusahaan->foto) }}"
-                                        alt="{{ $l->perusahaan->nama }}"
-                                    @else
-                                        src="{{ asset('assets/images/nophoto.jpg') }}"
-                                        alt="nophoto"
-                                    @endif
-                                @else
-                                    src="{{ asset('storage/brosur/'.$l->brosur) }}"
-                                    alt="{{ $l->judul }}"
-                                @endif
-                                class="img-fluid"
-                            >
-                            <p class="text-center m-0"><small>{{ $l->judul }}</small></p>
+                <div class="card-body" id="daftarLoker">
+                    @if(count($loker) < 1)
+                        <p class="text-center">Anda belum pernah melamar ke loker manapun!</p>
+                    @else
+                        <div class="daftarItem">
+                            @foreach ($loker as $index => $l)
+                                <div class="box item loker" data-formodal="{{ $l }}" @if($l->id_perusahaan) data-perusahaan="{{ $l->perusahaan }}" data-urlPerusahaan="{{ url('cp/perusahaan', base64_encode($l->id_perusahaan)) }}" @endif data-jumlahPelamar="{{ count($l->lamaran) }}" data-lamaran="{{ $lamaran[$index] }}" @if($lamaran[$index]->status === 'diterima') style="background-color: #0F0" @elseif($lamaran[$index]->status === 'ditolak') style="background-color: #f44" @endif>
+                                    <img
+                                        @if($l->brosur === 'nophoto.jpg')
+                                            @if($l->perusahaan)
+                                                @if($l->perusahaan->foto !== 'nophoto.jpg')
+                                                    src="{{ asset('storage/fotoPerusahaan/'.$l->perusahaan->foto) }}"
+                                                    alt="{{ $l->perusahaan->nama }}"
+                                                @else
+                                                    src="{{ asset('assets/images/BKKSMK Logo.png') }}"
+                                                    alt="bkksmk logo"
+                                                @endif
+                                            @else
+                                                src="{{ asset('assets/images/BKKSMK Logo.png') }}"
+                                                alt="bkksmk logo"
+                                            @endif
+                                        @else
+                                            src="{{ asset('storage/brosur/'.$l->brosur) }}"
+                                            alt="{{ $l->judul }}"
+                                        @endif
+                                        class="img-fluid"
+                                    >
+                                    <p class="text-center m-0"><small>{{ $l->judul }}</small></p>
+                                </div>
+                            @endforeach
                         </div>
-                    @endforeach
+                    @endif
                     {{ $loker->links() }}
                 </div>
             </div>

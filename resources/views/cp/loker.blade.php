@@ -90,30 +90,41 @@
                     @if(!$cp->cv)
                         <p class="text-center"> Anda belum menambahkan cv ke profil anda. Silahkan <a href="{{ url('cp/settings/datadiri') }}" class="a-normal">klik disini</a> untuk mengubahnya. </p>
                     @else
-                        <section id="daftarLoker" class="daftarItem">
-                            @foreach($loker as $l)
-                                @if($l->status === 'Aktif')
-                                    <div class="box item loker" data-formodal="{{ $l }}" @if($l->perusahaan) data-perusahaan="{{ $l->perusahaan }}" @endif data-lamar="{{ url('cp/lamaran', base64_encode($l->id_loker)) }}" data-jumlahPelamar="{{ count($l->lamaran) }}" data-statusLamaran="{{ $l->lamaran }}" data-status="belum">
-                                        <img
-                                            @if($l->brosur === 'nophoto.jpg')
-                                                @if($l->perusahaan)
-                                                    src="{{ asset('storage/fotoPerusahaan/'.$l->perusahaan->foto) }}"
-                                                    alt="{{ $l->perusahaan->nama }}"
-                                                @else
-                                                    src="{{ asset('assets/images/nophoto.jpg') }}"
-                                                    alt="nophoto"
-                                                @endif
-                                            @else
-                                                src="{{ asset('storage/brosur/'.$l->brosur) }}"
-                                                alt="{{ $l->judul }}"
-                                            @endif
-                                            class="img-fluid"
-                                        >
-                                        <p class="text-center m-0"><small>{{ $l->judul }}</small></p>
-                                        {{-- <p class="text-center m-0"><small>{!! str_limit($l->judul, 40)  !!}</small></p> --}}
-                                    </div>
-                                @endif
-                            @endforeach
+                        <section id="daftarLoker">
+                            @if(count($loker) < 1)
+                                <p class="text-center">Maaf, saat ini belum ada loker.</p>
+                            @else
+                                <div class="daftarItem">
+                                    @foreach($loker as $l)
+                                        @if($l->status === 'Aktif')
+                                            <div class="box item loker" data-formodal="{{ $l }}" @if($l->perusahaan) data-perusahaan="{{ $l->perusahaan }}" @endif data-lamar="{{ url('cp/lamaran', base64_encode($l->id_loker)) }}" data-jumlahPelamar="{{ count($l->lamaran) }}" data-statusLamaran="{{ $l->lamaran }}" data-status="belum">
+                                                <img
+                                                    @if($l->brosur === 'nophoto.jpg')
+                                                        @if($l->perusahaan)
+                                                            @if($l->perusahaan->foto !== 'nophoto.jpg')
+                                                                src="{{ asset('storage/fotoPerusahaan/'.$l->perusahaan->foto) }}"
+                                                                alt="{{ $l->perusahaan->nama }}"
+                                                            @else
+                                                                src="{{ asset('assets/images/BKKSMK Logo.png') }}"
+                                                                alt="bkksmk logo"
+                                                            @endif
+                                                        @else
+                                                            src="{{ asset('assets/images/BKKSMK Logo.png') }}"
+                                                            alt="bkksmk logo"
+                                                        @endif
+                                                    @else
+                                                        src="{{ asset('storage/brosur/'.$l->brosur) }}"
+                                                        alt="{{ $l->judul }}"
+                                                    @endif
+                                                    class="img-fluid"
+                                                >
+                                                <p class="text-center m-0"><small>{{ $l->judul }}</small></p>
+                                                {{-- <p class="text-center m-0"><small>{!! str_limit($l->judul, 40)  !!}</small></p> --}}
+                                            </div>
+                                        @endif
+                                    @endforeach
+                                </div>
+                            @endif
 
                             {{-- @foreach($sudahDiLamar as $l)
                                 <div class="box loker" data-formodal="{{ $l }}" @if($l->perusahaan) data-perusahaan="{{ $l->perusahaan }}" @endif data-jumlahPelamar="{{ count($l->lamaran) }}" data-statusLamaran="{{ $l->lamaran }}" data-status="sudah">

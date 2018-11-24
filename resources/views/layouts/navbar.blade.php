@@ -1,6 +1,7 @@
 <nav class="navbar navbar-expand-md navbar-light bg-2 navbar-laravel" id="navbar">
     <div class="container">
         <a class="navbar-brand" href="{{ url('/') }}">
+            <img src="{{ asset('assets/images/BKKSMK Logo.png') }}" alt="bkksmk logo" style="max-width: 20px;max-height: 20px">
             Bursa Kerja Khusus
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
