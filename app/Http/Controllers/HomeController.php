@@ -7,10 +7,12 @@ use App\DaftarPerusahaan;
 use App\DaftarCP;
 use App\Lamaran;
 use App\Pengaturan;
+use App\User;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+use Socialite;
 use Auth;
 
 class HomeController extends Controller
@@ -62,7 +64,7 @@ class HomeController extends Controller
             return view('home', compact('loker', 'perusahaan', 'pengaturan', 'bidangPekerjaan', 'gaji', 'request'));
         } else if (Auth::user()->id_status === 3) {
             $cp = DaftarCP::where('id_user', Auth::user()->id_user)->get()->first();
-
+            // return dd(Auth::user());
             return view('home', compact('cp', 'pengaturan'));
         } else {
             $loker = Loker::orderBy('created_at', 'descending')->paginate(6);
@@ -80,5 +82,27 @@ class HomeController extends Controller
         $pengaturan = Pengaturan::all()->first();
 
         return view('cp.upload', compact('pengaturan'));
+    }
+
+    public function redirectToGoogleProvider()
+    {
+        $parameters = ['access_type' => 'offline'];
+        return Socialite::driver('google')->scopes(["https://www.googleapis.com/auth/drive"])->with($parameters)->redirect();
+    }
+
+    public function handleProviderGoogleCallback()
+    {
+        $auth_user = Socialite::driver('google')->stateless()->user();
+        // return dd($auth_user);
+        $user = User::find(Auth::user()->id_user);
+        $user->refresh_token = $auth_user->token;
+        $user->save();
+        // $user = User::updateOrCreate(
+        //     ['email' => $auth_user->email],
+        //     ['refresh_token' => $auth_user->token]
+        // );
+
+        // Auth::login($user, true);
+        return redirect()->to('/home'); // Redirect to a secure page
     }
 }

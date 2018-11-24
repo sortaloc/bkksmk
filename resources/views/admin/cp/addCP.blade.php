@@ -95,17 +95,21 @@
                             </div>
 
                             <div class="form-group row">
-                                <label for="cv" class="col-md-4 col-form-label text-md-right">{{ __('CV') }}</label>
+                                <label for="cv" class="col-md-4 col-form-label text-md-right" id="cvLabel">{{ __('CV') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="cv" type="text" class="form-control{{ $errors->has('cv') ? ' is-invalid' : '' }}" name="cv" value="{{ old('cv') }}" autofocus>
-                                    <small id="cvHelpBlock" class="form-text text-muted">Masukkan link Google Drive CV anda. <a href="{{ url('admin/tutorial') }}" class="a-normal">Baca Disini</a></small>
+                                    <div id="realUpload" style="display: none">
+                                        <input type="file" id="cv" class="form-control{{ $errors->has('cv') ? ' is-invalid' : '' }}" name="cv" value="{{ old('cv') }}" autofocus>
+                                        {{-- <input id="cv" type="text" class="form-control{{ $errors->has('cv') ? ' is-invalid' : '' }}" name="cv" value="{{ old('cv') }}" autofocus>
+                                        <small id="cvHelpBlock" class="form-text text-muted">Masukkan link Google Drive CV anda. <a href="{{ url('admin/tutorial') }}" class="a-normal">Baca Disini</a></small> --}}
 
-                                    @if ($errors->has('cv'))
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('cv') }}</strong>
-                                        </span>
-                                    @endif
+                                        @if ($errors->has('cv'))
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $errors->first('cv') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
+                                    <button class="btn btn-primary btn-block" id="fakeUpload" type="button">Upload</button>
                                 </div>
                             </div>
 
@@ -251,6 +255,7 @@
 @section('js')
 @include('layouts.modalGambar')
 <script type="text/javascript" src="{{ asset('js/summernote-bs4.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/bkk-popupGD.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/bkk-summernote.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/bkk-previewImage.js') }}"></script>
 @endsection

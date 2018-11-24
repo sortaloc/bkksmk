@@ -6,15 +6,20 @@
         max-height: 220px;
     }
 
-    #daftarItem {
+    /* #daftarItem {
         display: flex;
         flex-basis: 20%;
         flex-wrap: wrap;
+    } */
+    #daftarItem {
+        display: grid;
+        grid-template-columns: repeat(4, auto);
+        grid-gap: 8px;
     }
     .box.item {
         box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
         transition: 0.3s ease-in-out;
-        margin: 8px;
+        /* margin: 8px; */
     }
     .box.item:hover {
         box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
@@ -22,12 +27,17 @@
     }
     .box.item img {
         max-height: 200px;
+        margin: 0 auto;
+        display: inherit;
     }
     .box.item img:hover,
     #fotoModal:hover {
         opacity: 0.7;
         cursor: pointer;
     }
+    /* .pContainer {
+        background-color: white;
+    } */
 
     .terimaDataToggle {
         border: 1px solid #0f0;
@@ -187,10 +197,12 @@
                                 data-waktu="{{ $l->created_at }}"
                                 data-status="{{ $l->status }}"
                                 data-alasan="{{ $l->alasan }}"
-                                style="background-color: @if($l->status === 'diterima') #0f0 @elseif($l->status === 'ditolak') #f33 @endif"
+                                style="background-color: @if($l->status === 'diterima') rgba(0, 255, 0, 0.8) @elseif($l->status === 'ditolak') #f33 @endif"
                             >
                                 <img @if($l->daftarcp->foto === 'nophoto.jpg') src="{{ asset('assets/images/nophoto.jpg') }}" alt="nophoto" @else src="{{ asset('storage/fotoCP/'.$l->daftarcp->foto) }}" alt="{{ $l->daftarcp->nama }}" @endif class="img-fluid">
-                                <p class="text-center small m-0">{{ $l->daftarcp->nama }}</p>
+                                <div class="pContainer">
+                                    <p class="text-center small m-0">{{ $l->daftarcp->nama }}</p>
+                                </div>
                             </div>
                         @endforeach
                     </div>

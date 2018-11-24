@@ -99,3 +99,14 @@ Route::get('/cp/loker', 'CP\LokerController@daftarCPLoker');
 Route::get('/cp/lamaran', 'CP\LokerController@daftarCPLamaran');
 
 Route::get('/perusahaan/cp/{id}', 'Perusahaan\CPController@profile');
+
+// Drive
+Route::get('/admin/drive', 'Admin\DriveController@getDrive'); // retreive folders
+Route::get('/admin/drive/upload', 'Admin\DriveController@uploadFile'); // File upload form
+Route::post('/admin/drive/upload', 'Admin\DriveController@uploadFile'); // Upload file to Drive from Form
+Route::get('/admin/drive/create', 'Admin\DriveController@create'); // Upload file to Drive from Storage
+Route::get('/admin/drive/delete/{id}', 'Admin\DriveController@deleteFile'); // Delete file or folder
+Route::get('/admin/drive/test', 'Admin\DriveController@test');
+
+Route::get('/google', 'HomeController@redirectToGoogleProvider');
+Route::get('/google/callback', 'HomeController@handleProviderGoogleCallback');

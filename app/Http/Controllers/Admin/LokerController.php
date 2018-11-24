@@ -144,7 +144,7 @@ class LokerController extends Controller
     protected function daftarPelamar($id){
         $pengaturan = Pengaturan::all()->first();
         $loker = Loker::find(base64_decode($id));
-        $lamaran = Lamaran::where('id_loker', $loker->id_loker)->paginate(6);
+        $lamaran = Lamaran::where('id_loker', $loker->id_loker)->paginate(8);
 
         return view('perusahaan.daftarPelamar', compact('loker', 'pengaturan', 'lamaran'));
     }

@@ -23,14 +23,17 @@
                                 <label for="surat_lamaran" class="col-md-4 col-form-label text-md-right">{{ __('Surat Lamaran*') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="surat_lamaran" type="text" class="form-control{{ $errors->has('surat_lamaran') ? ' is-invalid' : '' }}" name="surat_lamaran" value="{{ old('surat_lamaran') }}" required autofocus>
-                                    <small id="surat_lamaranHelpBlock" class="form-text text-muted">Masukkan link Google Drive CV anda. <a href="{{ url('cp/tutorial') }}" class="a-normal">Baca Disini</a></small>
+                                    <div id="realUpload" style="display: none">
+                                        <input id="surat_lamaran" type="file" class="form-control{{ $errors->has('surat_lamaran') ? ' is-invalid' : '' }}" name="surat_lamaran" value="{{ old('surat_lamaran') }}" required autofocus>
+                                        {{-- <small id="surat_lamaranHelpBlock" class="form-text text-muted">Masukkan link Google Drive CV anda. <a href="{{ url('cp/tutorial') }}" class="a-normal">Baca Disini</a></small> --}}
 
-                                    @if ($errors->has('surat_lamaran'))
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('surat_lamaran') }}</strong>
-                                        </span>
-                                    @endif
+                                        @if ($errors->has('surat_lamaran'))
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $errors->first('surat_lamaran') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
+                                    <button class="btn btn-primary btn-block" type="buton" id="fakeUpload">Upload</button>
                                 </div>
                             </div>
 
@@ -64,5 +67,6 @@
 
 @section('js')
 <script type="text/javascript" src="{{ asset('js/summernote-bs4.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/bkk-popupGD.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/bkk-summernote.js') }}"></script>
 @endsection
