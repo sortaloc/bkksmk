@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+    Daftar Pelamar -
+@endsection
+
 @section('css')
 <style>
     .profilPelamar {

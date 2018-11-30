@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+    Tambah Lowongan Kerja -
+@endsection
+
 @section('css')
 <link rel="stylesheet" type="text/css" href="{{ asset('css/summernote-bs4.css') }}">
 @endsection

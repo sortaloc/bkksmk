@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+    {{ $cp->nama }} -
+@endsection
+
 @section('css')
 <style>
     #profile {

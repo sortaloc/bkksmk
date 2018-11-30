@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+    Daftar Mitra -
+@endsection
+
 @section('css')
 <link rel="stylesheet" type="text/css" href="{{ asset('css/bkk-mitra.css') }}">
 @endsection

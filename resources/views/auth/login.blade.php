@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+    Login -
+@endsection
+
 @section('css')
 <style>
     @media only screen and (max-width: 768px) {
