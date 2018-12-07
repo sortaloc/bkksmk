@@ -7,7 +7,7 @@ $("#fakeUpload").on("click", function() {
         y: 250
     };
     signInWin = window.open(
-        "https://accounts.google.com/signin/oauth/oauthchooseaccount?client_id=459195203069-tfcv1690vpi80jdlt22s1foqsat51kuv.apps.googleusercontent.com&as=_AysVRbMi2pIH4p_1MPhlQ&nosignup=1&destination=http%3A%2F%2Flocalhost%3A8000&approval_state=!ChQ0aUZYQXd4UE5OLWNnM0tHcmhPZBIfMDk3RWJqWnVtM2tVOEhuU1JuY2dubXB1Z3A0TmRCWQ%E2%88%99APNbktkAAAAAW_lYIaWibCzOcUvPmWQxw5gjnRb13aHV&oauthgdpr=1&xsrfsig=AHgIfE8Pn1TMqSRT3UIw2clJRgqj5S_IbQ&flowName=GeneralOAuthFlow",
+        "https://accounts.google.com/o/oauth2/v2/auth?scope=https://www.googleapis.com/auth/drive&access_type=offline&include_granted_scopes=true&state=state_parameter_passthrough_value&redirect_uri=http://localhost:8000/google/callback&response_type=code&client_id=459195203069-tfcv1690vpi80jdlt22s1foqsat51kuv.apps.googleusercontent.com",
         "SignIn",
         "width=780,height=410,toolbar=0,scrollbars=0,status=0,resizable=0,location=0,location=0,menuBar=0,left=" +
             pos.x +
