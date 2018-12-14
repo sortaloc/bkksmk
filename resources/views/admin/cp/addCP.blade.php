@@ -113,7 +113,7 @@
                                             </span>
                                         @endif
                                     </div>
-                                    <button class="btn btn-primary btn-block" id="fakeUpload" type="button">Upload</button>
+                                    <button class="btn btn-primary btn-block" id="fakeUpload" type="button" data-link="{{ url('google') }}">Upload</button>
                                 </div>
                             </div>
 
