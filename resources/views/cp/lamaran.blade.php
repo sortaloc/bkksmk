@@ -37,7 +37,7 @@
                                             </span>
                                         @endif
                                     </div>
-                                    <button class="btn btn-primary btn-block" type="buton" id="fakeUpload">Upload</button>
+                                    <button class="btn btn-primary btn-block" type="buton" id="fakeUpload" data-link="{{ url('google') }}">Upload</button>
                                 </div>
                             </div>
 
