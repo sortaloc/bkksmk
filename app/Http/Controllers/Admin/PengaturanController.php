@@ -22,6 +22,17 @@ class PengaturanController extends Controller
         $this->middleware('isAdmin');
     }
 
+    protected function ambil($file){
+        $fileNameFull = $file->getClientOriginalName();
+        $name = pathinfo($fileNameFull, PATHINFO_FILENAME);
+        $extension = $file->getClientOriginalExtension();
+        $nameFinal = $name.'_'.time().'.'.$extension;
+
+        $file->storeAs('public/banner', $nameFinal);
+
+        return $nameFinal;
+    }
+
     public function pengaturanIndex()
     {
         $pengaturan = Pengaturan::all()->first();
