@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 24, 2018 at 12:46 PM
+-- Generation Time: Dec 16, 2018 at 01:46 PM
 -- Server version: 10.1.26-MariaDB
 -- PHP Version: 7.1.9
 
@@ -21,16 +21,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `db_bkk`
 --
-
-DELIMITER $$
---
--- Procedures
---
-CREATE DEFINER=`root`@`localhost` PROCEDURE `loker_yang_sudah_dilamar` (`NIS` VARCHAR(20))  BEGIN
-	SELECT loker.id_loker, loker.id_perusahaan, loker.judul, loker.bidang_pekerjaan, loker.persyaratan, loker.gaji, loker.jam_kerja, loker.keterangan_loker, loker.jadwal_Tes, loker.waktu_tes, loker.tempat_tes, loker.status, loker.brosur, loker.created_at, loker.updated_at FROM lamaran JOIN daftar_cp USING(nis) JOIN loker USING(id_loker) WHERE lamaran.nis = NIS;
-    END$$
-
-DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -94,13 +84,13 @@ CREATE TABLE `daftar_perusahaan` (
 --
 
 CREATE TABLE `kegiatan` (
-  `id_kegiatan` int(11) NOT NULL,
-  `judul_kegiatan` varchar(255) NOT NULL,
-  `foto_kegiatan` varchar(255) NOT NULL,
-  `deskripsi_kegiatan` text NOT NULL,
+  `id_kegiatan` int(10) UNSIGNED NOT NULL,
+  `judul_kegiatan` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `foto_kegiatan` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `deskripsi_kegiatan` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -150,10 +140,10 @@ CREATE TABLE `loker` (
   `persyaratan` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `gaji` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `jam_kerja` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `keterangan_loker` text COLLATE utf8mb4_unicode_ci,
-  `jadwal_tes` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `jadwal_tes` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `waktu_tes` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `tempat_tes` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `keterangan_loker` text COLLATE utf8mb4_unicode_ci,
   `status` varchar(12) COLLATE utf8mb4_unicode_ci NOT NULL,
   `brosur` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -186,7 +176,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (7, '2018_09_19_034851_create_loker_table', 1),
 (8, '2018_09_19_035043_create_lamaran_table', 1),
 (9, '2018_10_18_152443_create_pengaturan', 1),
-(10, '2018_10_25_112423_create_buku_tamu', 1);
+(10, '2018_10_25_112423_create_buku_tamu', 1),
+(11, '2018_11_24_123644_create_kegiatan_table', 1);
 
 -- --------------------------------------------------------
 
@@ -228,7 +219,7 @@ CREATE TABLE `pengaturan` (
 --
 
 INSERT INTO `pengaturan` (`id_pengaturan`, `banner1`, `foto1`, `fitur1`, `fitur2`, `fitur3`, `tentang1`, `tujuan1`, `alamat`, `telp`, `fax`, `email`, `created_at`, `updated_at`) VALUES
-(1, '<h1>BKK SMK</h1><p>Bursa Kerja Khusus SMK adalah sebuah aplikasi yang memudahkan para siswa / calon pegawai untuk mencari lowongan pekerjaan.</p>', 'nophoto.jpg', 'Ada berbagai macam lowongan pekerjaan untuk siswa yang akan lulus.', 'Berbagai lowongan pekerjaan dari berbagai perusahaan - perusahaan ternama.', 'Anda bisa mencari berbagai macam lowongan pekerjaan yang sesuai dengan kemampuan.', '<h1>BKK SMK</h1><p>Bursa Kerja Khusus SMK adalah sebuah aplikasi yang memudahkan para siswa / calon pegawai untuk mencari lowongan pekerjaan.</p>', '<p>Aplikasi ini dibuat dengan tujuan sebagai berikut:</p><ul><li>Untuk memudahkan para siswa untuk mencari lowongan pekerjaan sebelum lulus.</li><li>Dan lain lain.</li></ul>', 'Jalan Budhi Cilember, Sukaraja, Cicendo, Kota Bandung, Jawa Barat 40153', '022-6652442', '022-6613508', 'smkn11bdg@gmail.com', '2018-10-25 09:41:49', '2018-10-25 09:41:49');
+(1, '<h1>BKK SMK</h1><p>Bursa Kerja Khusus SMK adalah sebuah aplikasi yang memudahkan para siswa / calon pegawai untuk mencari lowongan pekerjaan.</p>', 'nophoto.jpg', 'Ada berbagai macam lowongan pekerjaan untuk siswa yang akan lulus.', 'Berbagai lowongan pekerjaan dari berbagai perusahaan - perusahaan ternama.', 'Anda bisa mencari berbagai macam lowongan pekerjaan yang sesuai dengan kemampuan.', '<h1>BKK SMK</h1><p>Bursa Kerja Khusus SMK adalah sebuah aplikasi yang memudahkan para siswa / calon pegawai untuk mencari lowongan pekerjaan.</p>', '<p>Aplikasi ini dibuat dengan tujuan sebagai berikut:</p><ul><li>Untuk memudahkan para siswa untuk mencari lowongan pekerjaan sebelum lulus.</li><li>Dan lain lain.</li></ul>', 'Jalan Budhi Cilember, Sukaraja, Cicendo, Kota Bandung, Jawa Barat 40153', '022-6652442', '022-6613508', 'smkn11bdg@gmail.com', '2018-12-16 06:44:40', '2018-12-16 06:44:40');
 
 -- --------------------------------------------------------
 
@@ -248,9 +239,9 @@ CREATE TABLE `status` (
 --
 
 INSERT INTO `status` (`id_status`, `nama`, `created_at`, `updated_at`) VALUES
-(1, 'admin', '2018-10-25 09:41:44', '2018-10-25 09:41:44'),
-(2, 'perusahaan', '2018-10-25 09:41:44', '2018-10-25 09:41:44'),
-(3, 'cp', '2018-10-25 09:41:44', '2018-10-25 09:41:44');
+(1, 'admin', '2018-12-16 06:44:33', '2018-12-16 06:44:33'),
+(2, 'perusahaan', '2018-12-16 06:44:34', '2018-12-16 06:44:34'),
+(3, 'cp', '2018-12-16 06:44:34', '2018-12-16 06:44:34');
 
 -- --------------------------------------------------------
 
@@ -276,7 +267,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id_user`, `id_status`, `username`, `email`, `email_verified_at`, `password`, `remember_token`, `refresh_token`, `created_at`, `updated_at`) VALUES
-(1, 1, 'laracry', 'emailadmin@gmail.com', NULL, '$2y$10$wlK7.WSI5.uEbTbrUxbRSeLkjYpXxO0rZVBSRxSvuKbQejjkgZtZS', 'hahN8UTYN3l7bxL2EMRVe5bSaE1bBqXPLJFY8MsPHxGcl9KlpOv48CyxdXTn', NULL, '2018-10-25 09:41:42', '2018-11-23 16:44:47');
+(1, 1, 'laracry', 'emailadmin@gmail.com', NULL, '$2y$10$kDU1pT4wEEbVaEQlK7EUZ.Y2L4c2NGip2Dr8.unAp3kazxCBu1E8a', NULL, '$2y$10$oMwXtn.hEyWRAKzs1Bv64eKDTZ2PQxXJxE1MksjVzbVGJH5FTzUFq', '2018-12-16 06:44:31', '2018-12-16 06:44:31');
 
 --
 -- Indexes for dumped tables
@@ -375,7 +366,7 @@ ALTER TABLE `daftar_perusahaan`
 -- AUTO_INCREMENT for table `kegiatan`
 --
 ALTER TABLE `kegiatan`
-  MODIFY `id_kegiatan` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_kegiatan` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `kontak`
@@ -399,7 +390,7 @@ ALTER TABLE `loker`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `pengaturan`
@@ -417,7 +408,7 @@ ALTER TABLE `status`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id_user` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id_user` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
