@@ -109,4 +109,5 @@ Route::get('/admin/drive/delete/{id}', 'Admin\DriveController@deleteFile'); // D
 Route::get('/admin/drive/test', 'Admin\DriveController@test');
 
 Route::get('/google', 'HomeController@redirectToGoogleProvider');
+Route::get('/google/done', 'HomeController@closePopup');
 Route::get('/google/callback', 'HomeController@handleProviderGoogleCallback');

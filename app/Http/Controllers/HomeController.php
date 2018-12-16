@@ -103,6 +103,11 @@ class HomeController extends Controller
         // );
 
         // Auth::login($user, true);
-        return redirect()->to('/home'); // Redirect to a secure page
+        return redirect()->to('/google/done'); // Redirect to a secure page
+    }
+
+    public function closePopUp()
+    {
+        return view('afterRedirect');
     }
 }

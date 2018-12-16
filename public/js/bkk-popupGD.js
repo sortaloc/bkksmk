@@ -1,7 +1,7 @@
 let signInWin;
-let t;
 
 $("#fakeUpload").on("click", function() {
+    sessionStorage.setItem("oauthsuccess", "false");
     let pos = {
         x: 250,
         y: 250
@@ -15,18 +15,19 @@ $("#fakeUpload").on("click", function() {
             ",top=" +
             pos.y
     );
-    t = document.cookie;
     setTimeout(checkLoginStatus, 1000);
     signInWin.focus();
     return false;
 });
 
 function checkLoginStatus() {
-    if (document.cookie != t) {
-        signInWin.close();
+    console.log(localStorage.getItem("oauthsuccess"));
+    if (localStorage.getItem("oauthsuccess") === "true") {
         $("#realUpload").fadeIn();
         $("#fakeUpload").fadeOut();
+        localStorage.setItem("oauthsuccess", "false");
     } else {
+        localStorage.setItem("oauthsuccess", "false");
         setTimeout(checkLoginStatus, 1000);
     }
 }
