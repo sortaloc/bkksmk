@@ -66,6 +66,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="form-group row m-0 p-0">
                             <button type="submit" class="btn btn-primary btn-block btn-square">
                                 <i class="fas fa-plus"></i> {{ __('Tambah Kegiatan') }}

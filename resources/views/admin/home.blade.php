@@ -34,6 +34,18 @@
                 <canvas id="chartKeterima" class="responsiveChart"></canvas>
             </div>
         </div>
+        <div class="card box btn-square">
+            <div class="card-header h3 text-center">Status Alumni</div>
+            <div class="card-body">
+                <canvas id="chartKegiatan" class="responsiveChart"></canvas>
+            </div>
+        </div>
+        <div class="card box btn-square">
+            <div class="card-header h3 text-center">Chart Bidang Pekerjaan/Kuliah</div>
+            <div class="card-body">
+                <canvas id="chartBidang" class="responsiveChart"></canvas>
+            </div>
+        </div>
     </section>
 </div>
 
@@ -42,6 +54,48 @@
 <script type="text/javascript">
     $(document).ready(function(){
         $('.adminmenu_beranda').addClass('active');
+    });
+
+    var dynamicColors = function() {
+        var r = Math.floor(Math.random() * 255);
+        var g = Math.floor(Math.random() * 255);
+        var b = Math.floor(Math.random() * 255);
+        return "rgb(" + r + "," + g + "," + b + ")";
+    };
+
+    let $colors = [];
+
+    for(var i in {!! json_encode($jumlahBidang) !!}){
+        $colors.push(dynamicColors());
+    };
+
+    let $chartBidang = new Chart(document.getElementById('chartBidang'), {
+        type: 'pie',
+        data: {
+            datasets: [{
+                data: {!! json_encode($jumlahBidang) !!},
+                backgroundColor: $colors
+            }],
+            labels: {!! json_encode($labelBidang) !!}
+        },
+        options: {}
+    })
+
+    let $ctxKegiatan = document.getElementById('chartKegiatan');
+    let $dataKegiatan = {
+        datasets: [{
+            data: {!! json_encode($dataKegiatanAlumni) !!},
+            backgroundColor: ['green', 'blue', 'red', 'gray']
+        }],
+        labels: [
+            'Bekerja', 'Kuliah', 'Belum Bekerja/Kuliah', 'Lain-lain'
+        ],
+    }
+    let $optionsKegiatan = {}
+    let $chartKegiatan = new Chart($ctxKegiatan, {
+        type: 'pie',
+        data: $dataKegiatan,
+        options: $optionsKegiatan
     });
 
     let $ctx = document.getElementById('chartKeterima');

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Loker;
 use App\DaftarPerusahaan;
 use App\DaftarCP;
+use App\KegiatanCP;
 use App\Lamaran;
 use App\Pengaturan;
 use App\User;
@@ -68,12 +69,27 @@ class HomeController extends Controller
             return view('home', compact('cp', 'pengaturan'));
         } else {
             $loker = Loker::orderBy('created_at', 'descending')->paginate(6);
+
             $cpKeterima = count(Lamaran::where('status', 'diterima')->get());
             $cpKetolak = count(Lamaran::where('status', 'ditolak')->get());
             $cpPending = count(Lamaran::where('status', 'pending')->get());
             $dataCP = [$cpKeterima, $cpKetolak, $cpPending];
 
-            return view('home', compact('loker', 'pengaturan', 'dataCP'));
+            $alumniBekerja = count(KegiatanCP::where('jenis_kegiatan', 'Bekerja')->get());
+            $alumniKuliah = count(KegiatanCP::where('jenis_kegiatan', 'Kuliah')->get());
+            $alumniBelum = count(KegiatanCP::where('jenis_kegiatan', 'Belum Bekerja/Kuliah')->get());
+            $alumniLain = count(KegiatanCP::where('jenis_kegiatan', 'Lain-lain')->get());
+            $dataKegiatanAlumni = [$alumniBekerja, $alumniKuliah, $alumniBelum, $alumniLain];
+
+            $dataBidang = DB::table('kegiatan_cp')->select('bidang_kegiatan', DB::raw('count(*) as total'))->groupBy('bidang_kegiatan')->get();
+            $labelBidang = [];
+            $jumlahBidang = [];
+            foreach($dataBidang as $dbid){
+                array_push($labelBidang, $dbid->bidang_kegiatan);
+                array_push($jumlahBidang, $dbid->total);
+            }
+
+            return view('home', compact('loker', 'pengaturan', 'dataCP', 'dataKegiatanAlumni', 'labelBidang', 'jumlahBidang'));
         }
     }
 

@@ -6,6 +6,7 @@ use App\Loker;
 use App\DaftarPerusahaan;
 use App\Lamaran;
 use App\DaftarCP;
+use App\KegiatanCP;
 use App\Pengaturan;
 use App\Kontak;
 
@@ -102,6 +103,7 @@ class SettingsController extends Controller
 
         $cp->nama = $request['nama'];
         $cp->alamat = $request['alamat'];
+        $cp->alumni = $request['alumni'];
 
         if($request['cv'] != null && $request['cv'] != $cp->cv){
             $cp->cv = $this->createFile($request['cv']);
@@ -127,6 +129,33 @@ class SettingsController extends Controller
 
             $nameToStore = $this->ambil('public/fotoCP', $request->file('foto'));
             $cp->foto = $nameToStore;
+        }
+
+        if($request['alumni'] === 'Y'){
+            if(KegiatanCP::find($cp->id_kegiatan_cp)){
+                $kegiatancp = KegiatanCP::find($cp->id_kegiatan_cp);
+            }else{
+                $kegiatancp = new KegiatanCP;
+            }
+
+            $kegiatancp->jenis_kegiatan = $request['jenis_kegiatan'];
+            $kegiatancp->tempat_kegiatan = $request['tempat_kegiatan'];
+            $kegiatancp->bidang_kegiatan = $request['bidang_kegiatan'];
+
+            if($request['jenis_kegiatan'] === 'Lain-lain' || $request['jenis_kegiatan'] === 'Belum Bekerja/Kuliah'){
+                $kegiatancp->tempat_kegiatan = null;
+                $kegiatancp->bidang_kegiatan = null;
+            }
+
+            $kegiatancp->save();
+
+            $cp->id_kegiatan_cp = $kegiatancp->id_kegiatan_cp;
+        }else{
+            if(KegiatanCP::find($cp->id_kegiatan_cp)){
+                $kegiatancp = KegiatanCP::find($cp->id_kegiatan_cp);
+                $kegiatancp->delete();
+                $cp->id_kegiatan_cp = null;
+            }
         }
 
         if($cp->save() && $kontak->save()){

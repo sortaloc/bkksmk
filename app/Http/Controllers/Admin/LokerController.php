@@ -61,7 +61,7 @@ class LokerController extends Controller
         $pengaturan = Pengaturan::all()->first();
         $perusahaan = DaftarPerusahaan::where('id_user', Auth::user()->id_user)->get()->first();
 
-        return view('perusahaan.addLoker', compact('perusahaan', 'pengaturan'));
+        return view('perusahaan.loker.addLoker', compact('perusahaan', 'pengaturan'));
     }
 
     protected function addLoker(Request $request){
@@ -112,7 +112,7 @@ class LokerController extends Controller
         $pengaturan = Pengaturan::all()->first();
         $loker = Loker::find(base64_decode($id));
 
-        return view('perusahaan.editLoker', compact('loker', 'pengaturan'));
+        return view('perusahaan.loker.editLoker', compact('loker', 'pengaturan'));
     }
 
     protected function updateLoker(Request $request, $id){

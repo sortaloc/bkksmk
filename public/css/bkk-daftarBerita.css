@@ -1,0 +1,147 @@
+#headline {
+    display: grid;
+    grid-template-columns: repeat(4, 24%);
+    grid-template-rows: repeat(2, auto);
+    grid-gap: 1em;
+    height: 420px;
+}
+
+#big:hover,
+.smallBerita:hover,
+#beritaSisanya > .beritaSisanyaItem:hover {
+    opacity: 0.8;
+}
+
+#big,
+.smallBerita,
+#beritaSisanya > .beritaSisanyaItem {
+    position: relative;
+    overflow: hidden;
+}
+
+#big {
+    grid-column: 1 / 4;
+    grid-row: 1 / 3;
+}
+
+.smallBerita {
+    height: 200px;
+}
+
+#big > a > img,
+.smallBerita > a > img,
+#beritaSisanya > .beritaSisanyaItem > a > img {
+    object-fit: cover;
+    min-height: 100%;
+}
+
+#beritaSisanya {
+    display: grid;
+    grid-template-columns: repeat(4, 24%);
+    grid-gap: 1em;
+    height: 200px;
+}
+
+.judulBerita {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 8px 16px;
+    font-weight: bold;
+    width: 200%;
+    overflow: hidden;
+    height: 54px;
+    color: #bbb;
+}
+
+.judulBerita > small {
+    color: rgba(187, 187, 187, 0.75);
+}
+
+#big > .judulBerita {
+    border-bottom-right-radius: 1em;
+}
+
+.smallBerita > .judulBerita,
+.beritaSisanyaItem > .judulBerita {
+    min-width: 100%;
+}
+
+/* .previewBerita {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    margin-bottom: 0px;
+    background-color: rgba(125, 125, 125, 0.8);
+    padding: 8px 16px;
+    min-width: 100%;
+    text-align: justify;
+} */
+
+#big > .previewBerita {
+    max-height: 78px;
+}
+
+.smallBerita > .previewBerita,
+.beritaSisanyaItem > .previewBerita {
+    max-height: 36px;
+}
+
+/* .readMore {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    padding: 8px 16px;
+    margin-bottom: 0;
+    background-color: rgba(125, 125, 125, 0.8);
+    border-top-left-radius: 1em;
+} */
+
+#big > .judulBerita {
+    max-width: 400px;
+}
+
+@media only screen and (max-width: 1024px) {
+    #beritaSisanya {
+        grid-template-columns: repeat(3, 32%);
+    }
+    #headline {
+        display: grid;
+        grid-template-columns: repeat(4, auto);
+        grid-gap: 1em;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    #beritaSisanya {
+        grid-template-columns: repeat(2, auto);
+    }
+}
+
+@media only screen and (max-width: 576px) {
+    #headline {
+        grid-template-columns: auto;
+        height: calc(150px * 3);
+    }
+
+    #big {
+        grid-column: 1 / 1;
+        grid-row: 1 / 1;
+    }
+
+    .smallBerita {
+        height: auto;
+    }
+
+    /* #big > .previewBerita {
+        max-height: 36px;
+    } */
+
+    #beritaSisanya {
+        grid-template-columns: auto;
+        height: calc(150px * 4);
+    }
+
+    #big > .judulBerita {
+        max-width: 200px;
+    }
+}

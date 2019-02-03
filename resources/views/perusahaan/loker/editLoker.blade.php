@@ -14,7 +14,7 @@
         <div class="col-11">
             <div class="card box btn-square">
                 <div class="card-header text-center h3">
-                    <a @if(Auth::user()->id_status === 2) href="{{ url('/') }}" @elseif(Auth::user()->id_status === 1) href="{{ url('/admin/loker') }}" @endif class="backButton"><i class="fas fa-arrow-left float-left"></i></a>
+                    <a @if(Auth::user()->id_status === 2) href="{{ url('/perusahaan/loker') }}" @elseif(Auth::user()->id_status === 1) href="{{ url('/admin/loker') }}" @endif class="backButton"><i class="fas fa-arrow-left float-left"></i></a>
                     Data Lowongan Kerja
                 </div>
 

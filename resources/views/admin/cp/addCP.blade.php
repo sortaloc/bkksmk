@@ -85,6 +85,26 @@
                             </div>
 
                             <div class="form-group row">
+                                <label for="alumni" class="col-md-4 col-form-label text-md-right">Alumni*</label>
+
+                                <div class="col-md-6 {{ $errors->has('alumni') ? 'border border-danger p-1' : '' }}">
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" name="alumni" id="iya" value="Y" class="custom-control-input" @if(old('alumni') === 'Y') checked @endif>
+                                        <label for="iya" class="custom-control-label">Iya</label>
+                                    </div>
+
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" name="alumni" id="tidak" value="T" class="custom-control-input" @if(old('alumni')) checked @endif>
+                                        <label for="tidak" class="custom-control-label">Bukan</label>
+                                    </div>
+                                </div>
+
+                                @if($errors->has('alumni'))
+                                    <small id="alumniHelp" class="form-text text-danger">{{ $errors->first('alumni') }}</small>
+                                @endif
+                            </div>
+
+                            <div class="form-group row">
                                 <label for="alamat" class="col-md-4 col-form-label text-md-right">{{ __('Alamat') }}</label>
 
                                 <div class="col-md-6">
@@ -129,6 +149,51 @@
                                             <strong>{{ $errors->first('foto') }}</strong>
                                         </span>
                                     @endif
+                                </div>
+                            </div>
+
+                            <div id="formKegiatanCP" style="display: none">
+                                <div class="form-group row">
+                                    <label for="jenis_kegiatan" class="col-md-4 col-form-label text-md-right">Kegiatan Saat Ini</label>
+
+                                    <div class="col-md-6">
+                                        <select class="custom-select" id="jenis_kegiatan" name="jenis_kegiatan" autocomplete="off">
+                                            <option value="Belum Bekerja/Kuliah" @if(old('jenis_kegiatan') == 'Belum Bekerja/Kuliah') selected @endif>Belum Bekerja/Kuliah</option>
+                                            <option value="Bekerja" @if(old('jenis_kegiatan') == 'Bekerja') selected @endif>Bekerja</option>
+                                            <option value="Kuliah" @if(old('jenis_kegiatan') == 'Kuliah') selected @endif>Kuliah</option>
+                                            <option value="Lain-lain" @if(old('jenis_kegiatan') == 'Lain-lain') selected @endif>Lain-lain</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div id="extra-detail" @if(old('jenis_kegiatan') === 'Lain-lain' || old('jenis_kegiatan') === 'Belum Bekerja/Kuliah') style="display: none" @endif>
+                                    <div class="form-group row">
+                                        <label for="tempat_kegiatan" class="col-md-4 col-form-label text-md-right">Tempat Bekerja/Kuliah</label>
+
+                                        <div class="col-md-6">
+                                            <textarea id="tempat_kegiatan" type="text" class="form-control{{ $errors->has('tempat_kegiatan') ? ' is-invalid' : '' }}" name="tempat_kegiatan">{{ old('tempat_kegiatan') }}</textarea>
+
+                                            @if ($errors->has('tempat_kegiatan'))
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $errors->first('tempat_kegiatan') }}</strong>
+                                                </span>
+                                            @endif
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="bidang_kegiatan" class="col-md-4 col-form-label text-md-right">Bekerja / Kuliah di Bidang</label>
+
+                                        <div class="col-md-6">
+                                            <input id="bidang_kegiatan" type="text" class="form-control{{ $errors->has('bidang_kegiatan') ? ' is-invalid' : '' }}" name="bidang_kegiatan" value="{{ old('bidang_kegiatan') }}">
+
+                                            @if ($errors->has('bidang_kegiatan'))
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $errors->first('bidang_kegiatan') }}</strong>
+                                                </span>
+                                            @endif
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -257,6 +322,29 @@
 @endsection
 
 @section('js')
+<script type="text/javascript">
+    $("input[name=alumni]:radio").on('change', function(e){
+        if(e.target.value === 'Y'){
+            $('#formKegiatanCP').fadeIn();
+        }else{
+            $('#formKegiatanCP').fadeOut();
+        }
+
+        if($('#jenis_kegiatan').val() === 'Belum Bekerja/Kuliah' || $('#jenis_kegiatan').val() === 'Lain-lain'){
+            $('#extra-detail').fadeOut();
+        }else{
+            $('#extra-detail').fadeIn();
+        }
+    });
+
+    $('#jenis_kegiatan').on('change', e => {
+        if(e.target.value === 'Belum Bekerja/Kuliah' || e.target.value === 'Lain-lain'){
+            $('#extra-detail').fadeOut();
+        }else{
+            $('#extra-detail').fadeIn();
+        }
+    });
+</script>
 @include('layouts.modalGambar')
 <script type="text/javascript" src="{{ asset('js/summernote-bs4.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/bkk-popupGD.js') }}"></script>

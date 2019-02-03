@@ -2,7 +2,7 @@
 
 @section('css')
 <style>
-    #fitur, #daftarLoker, #daftarMitra {
+    #daftarLoker, #daftarMitra, #berita {
         animation: fadeInFromUp 1s forwards 0s ease;
     }
 
@@ -13,6 +13,7 @@
         margin-bottom: 0;
     }
 </style>
+<link rel="stylesheet" type="text/css" href="{{ asset('css/bkk-daftarBerita.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('css/bkk-lp.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('css/bkk-modal.css') }}">
 @endsection
@@ -52,7 +53,7 @@
         </div>
     </section>
 
-    <section id="gambar-lp" class="position-relative">
+    <section id="gambar-lp" class="position-relative mb-3">
         <img @if($pengaturan->foto1 !== 'nophoto.jpg') src="{{ asset('storage/banner/'.$pengaturan->foto1) }}" alt="{{ $pengaturan->foto1 }}" @else src="{{ asset('assets/images/unsplash1.jpg') }}" alt="banner1" @endif class="img-hero-full">
         <div id="lpContentContainer">
             <i class="fas fa-arrow-left h2 leftArrow responsiveArrow" data-jumlahKegiatan="{{ count($kegiatan) }}" data-arah="left"></i>
@@ -62,7 +63,7 @@
             @foreach($kegiatan as $index => $k)
                 <div class="hero-text slide" id="slide_{{ $index + 1 }}">
                     <div class="isiContainer">
-                        <img @if($k->foto_kegiatan === 'nophoto.jpg') src="{{ asset('assets/images/nophoto.jpg') }}" alt="nophoto" @else src="{{ asset('storage/fotoKegiatan/'.$k->foto_kegiatan) }}" alt="{{ $k->judul_kegiatan }}" @endif class="img-fluid imgZoom">
+                        <img @if($k->foto_kegiatan === 'nophoto.jpg') src="{{ asset('assets/images/nophoto.jpg') }}" alt="nophoto" @else src="{{ asset('storage/fotoKegiatan/'.$k->foto_kegiatan) }}" alt="{{ $k->judul_kegiatan }}" @endif class="img-fluid imgZoom imgKegiatan">
                         <div class="textKegiatan">
                             <h4>{{ $k->judul_kegiatan }}</h4>
                             <small>{{ $k->created_at }}</small><br />
@@ -75,138 +76,40 @@
         </div>
     </section>
 
-    <section id="fitur" class="text-center p-3">
-        <h1>Features</h1>
-        <div class="row justify-content-center m-0">
-            <div class="col-sm-3 p-3 box m-2">
-                <i class="fas fa-briefcase h2"></i>
-                <hr>
-                <p>{{ $pengaturan->fitur1 }}</p>
-            </div>
-            <div class="col-sm-3 p-3 box m-2">
-                <i class="fas fa-user-check h2"></i>
-                <hr>
-                <p>{{ $pengaturan->fitur2 }}</p>
-            </div>
-            <div class="col-sm-3 p-3 box m-2">
-                <i class="fas fa-search h2"></i>
-                <hr>
-                <p>{{ $pengaturan->fitur3 }}</p>
-            </div>
-        </div>
-    </section>
+    @include('daftarBerita')
+    <div class="my-3 text-center">
+        <a href="{{ url('berita') }}" class="btn btn-primary btn-square">Lihat Semua Berita</a>
+    </div>
 
-    <section id="daftarLoker" class="col-md-10 offset-md-1">
+    @include('daftarLoker')
+
+    <section id="chart" class="my-3 col-md-10 offset-md-1">
         <div class="row">
-            <div class="col-lg-3">
+            <div class="col-lg-6">
                 <div class="card box btn-square">
-                    <div class="card-header text-center h3">Filter</div>
-
+                    <div class="card-header h3 text-center">Status Alumni</div>
                     <div class="card-body">
-                        <!-- Filters -->
-                        <form action="{{ route('lp') }}" method="GET">
-                            <select name="bp" id="bp" class="form-control" style="width: 100%">
-                                <option value="">Semua bidang pekerjaan</option>
-                                @foreach ($bidangPekerjaan as $bp)
-                                    <option value="{{ $bp->bidang_pekerjaan }}" @if($request->input('bp') == $bp->bidang_pekerjaan) selected @endif>{{ $bp->bidang_pekerjaan }}</option>
-                                @endforeach
-                            </select>
-
-                            <select name="gaji" id="gaji" class="form-control" style="width: 100%">
-                                <option value="">Semua rentang gaji</option>
-                                @foreach ($gaji as $g)
-                                    <option value="{{ $g->gaji }}" @if($request->input('gaji') == $g->gaji) selected @endif>{{ $g->gaji }}</option>
-                                @endforeach
-                            </select>
-
-                            <select name="np" id="np" class="form-control" style="width: 100%">
-                                <option value="">Semua perusahaan</option>
-                                @foreach ($perusahaanAll as $np)
-                                    @if(count($np->loker) > 0)
-                                        <option value="{{ $np->id_perusahaan }}" @if($request->input('np') == $np->id_perusahaan) selected @endif>{{ $np->nama }}</option>
-                                    @endif
-                                @endforeach
-                            </select>
-
-                            <div class="btn-group btn-block">
-                                <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i></button>
-                                <button class="btn btn-primary btn-block text-left" type="submit">Filter</button>
-                            </div>
-                        </form>
+                        <canvas id="chartKegiatan" class="responsiveChart"></canvas>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-9">
+            <div class="col-lg-6">
                 <div class="card box btn-square">
-                    <div class="card-header text-center h3">Daftar Loker</div>
-
+                    <div class="card-header h3 text-center">Chart Bidang Pekerjaan/Kuliah</div>
                     <div class="card-body">
-                        {{-- <div class="row">
-                            <div class="col-lg-9">
-                                <select class="form-control" style="width: 100%">
-                                    <option value="1">Urutkan berdasarkan tanggal dibuat</option>
-                                </select>
-                            </div>
-                            <div class="col-lg-3">
-                                <select name="" id="" class="form-control">
-                                    <option value="down">Descending</option>
-                                    <option value="up">Ascending</option>
-                                </select>
-                            </div>
-                        </div> --}}
-                        @if(count($loker) < 1)
-                            <p class="text-center">Maaf, saat ini belum ada loker.</p>
-                        @else
-                            <div class="daftarItem">
-                                @foreach($loker as $l)
-                                <div class="box item loker" data-formodal="{{ $l }}" @if($l->perusahaan) data-perusahaan="{{ $l->perusahaan }}" @endif data-edit="{{ url('admin/loker/edit', base64_encode($l->id_loker)) }}" data-hapus="{{ url('admin/loker/delete', base64_encode($l->id_loker)) }}" data-pelamar="{{ url('admin/loker/daftar_pelamar', base64_encode($l->id_loker)) }}" data-jumlahPelamar="{{ count($l->lamaran) }}">
-                                    <img
-                                        @if($l->brosur === 'nophoto.jpg')
-                                            @if($l->perusahaan)
-                                                @if($l->perusahaan->foto === 'nophoto.jpg')
-                                                    src="{{ asset('assets/images/BKKSMK Logo.png') }}"
-                                                    alt="bkksmk logo"
-                                                @else
-                                                    src="{{ asset('storage/fotoPerusahaan/'.$l->perusahaan->foto) }}"
-                                                    alt="{{ $l->perusahaan->nama }}"
-                                                @endif
-                                            @else
-                                                src="{{ asset('assets/images/BKKSMK Logo.png') }}"
-                                                alt="bkksmk logo"
-                                            @endif
-                                        @else
-                                            src="{{ asset('storage/brosur/'.$l->brosur) }}"
-                                            alt="{{ $l->judul }}"
-                                        @endif
-                                        class="img-fluid"
-                                    >
-                                    <p class="text-center m-0"><small>{{ $l->judul }}</small></p>
-                                </div>
-                                @endforeach
-                            </div>
-                        @endif
+                        <canvas id="chartBidang" class="responsiveChart"></canvas>
                     </div>
-                    {{ $loker->links() }}
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="daftarMitra" class="col-md-10 offset-md-1">
-        @if(count($perusahaanAll) > 0)
-        <div class="card box btn-square mt-3">
-            <div class="card-body" id="daftarMitraSlide">
-                @foreach($perusahaanAll as $p)
-                    <img @if($p->foto === 'nophoto.jpg') src="{{ asset('assets/images/nophoto.jpg') }}" alt="nophoto" @else src="{{ asset('storage/fotoPerusahaan/'.$p->foto) }}" alt="{{ $p->nama }}" @endif class="img-custom border imgZoom">
-                @endforeach
-            </div>
-        </div>
-        @endif
-    </section>
+    @include('daftarMitra')
 </main>
 @endsection
 
 @section('js')
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js"></script>
 @include('layouts.modalGambar')
 <script type="text/javascript" src="{{ asset('js/slick.min.js') }}"></script>
 <script type="text/javascript">
@@ -239,6 +142,48 @@
                 }
             }
         ]
+    });
+
+    var dynamicColors = function() {
+        var r = Math.floor(Math.random() * 255);
+        var g = Math.floor(Math.random() * 255);
+        var b = Math.floor(Math.random() * 255);
+        return "rgb(" + r + "," + g + "," + b + ")";
+    };
+
+    let $colors = [];
+
+    for(var i in {!! json_encode($jumlahBidang) !!}){
+        $colors.push(dynamicColors());
+    };
+
+    let $chartBidang = new Chart(document.getElementById('chartBidang'), {
+        type: 'pie',
+        data: {
+            datasets: [{
+                data: {!! json_encode($jumlahBidang) !!},
+                backgroundColor: $colors
+            }],
+            labels: {!! json_encode($labelBidang) !!}
+        },
+        options: {}
+    })
+
+    let $ctxKegiatan = document.getElementById('chartKegiatan');
+    let $dataKegiatan = {
+        datasets: [{
+            data: {!! json_encode($dataKegiatanAlumni) !!},
+            backgroundColor: ['green', 'blue', 'red', 'gray']
+        }],
+        labels: [
+            'Bekerja', 'Kuliah', 'Belum Bekerja/Kuliah', 'Lain-lain'
+        ],
+    }
+    let $optionsKegiatan = {}
+    let $chartKegiatan = new Chart($ctxKegiatan, {
+        type: 'pie',
+        data: $dataKegiatan,
+        options: $optionsKegiatan
     });
 </script>
 <script type="text/javascript" src="{{ asset('js/bkk-lpSlider.js') }}"></script>

@@ -119,4 +119,7 @@
     .isiContainer img {
         justify-self: center;
     }
+    .imgKegiatan {
+        max-height: 200px;
+    }
 }

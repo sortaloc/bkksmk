@@ -6,6 +6,7 @@ use App\User;
 use App\DaftarPerusahaan;
 use App\DaftarCP;
 use App\Kontak;
+use App\KegiatanCP;
 use App\Pengaturan;
 
 use App\Http\Controllers\Controller;
@@ -75,7 +76,7 @@ class RegisterController extends Controller
                 $perusahaan->foto = 'nophoto.jpg';
 
                 if($perusahaan->save()){
-                    return redirect('/')->with('success', 'Pendaftaran berhasil, silahkan login');
+                    return redirect('/login')->with('success', 'Pendaftaran berhasil, silahkan login');
                 }
             }
         }
@@ -107,9 +108,17 @@ class RegisterController extends Controller
                 $cp->nama = $request['nama'];
                 $cp->jenis_kelamin = $request['jk'];
                 $cp->foto = 'nophoto.jpg';
+                $cp->alumni = $request['alumni'];
+
+                if($request['alumni'] === 'Y'){
+                    $kegiatan_cp = new KegiatanCP;
+                    $kegiatan_cp->jenis_kegiatan = 'Lain-lain';
+                    $kegiatan_cp->save();
+                    $cp->id_kegiatan_cp = $kegiatan_cp->id_kegiatan_cp;
+                }
 
                 if($cp->save()){
-                    return redirect('/')->with('success', 'Berhasil mendaftar, Silahkan login.');
+                    return redirect('/login')->with('success', 'Berhasil mendaftar, Silahkan login.');
                 }
             }
         }

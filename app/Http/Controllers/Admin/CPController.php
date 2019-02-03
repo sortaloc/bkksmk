@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\DaftarCP;
+use App\KegiatanCP;
 use App\Kontak;
 use App\User;
 use App\Lamaran;
@@ -111,6 +112,7 @@ class CPController extends Controller
         $cp->alamat = $request['alamat'];
         $cp->jenis_kelamin = $request['jk'];
         $cp->ttl = $request['ttl'];
+        $cp->alumni = $request['alumni'];
 
         if($request['cv'] != null && $request['cv'] != $cp->cv){
             $cp->cv = $this->createFile($request['cv']);
@@ -137,6 +139,35 @@ class CPController extends Controller
             $kontak->kontak_dll = $request['kontak'];
 
             if($kontak->save()){
+                if($request['alumni'] === 'Y'){
+                    if(KegiatanCP::find($cp->id_kegiatan_cp)){
+                        $kegiatancp = KegiatanCP::find($cp->id_kegiatan_cp);
+                    }else{
+                        $kegiatancp = new KegiatanCP;
+                    }
+
+                    $kegiatancp->jenis_kegiatan = $request['jenis_kegiatan'];
+                    $kegiatancp->tempat_kegiatan = $request['tempat_kegiatan'];
+                    $kegiatancp->bidang_kegiatan = $request['bidang_kegiatan'];
+
+                    if($request['jenis_kegiatan'] === 'Belum Bekerja/Kuliah' || $request['jenis_kegiatan'] === 'Lain-lain'){
+                        $kegiatancp->tempat_kegiatan = null;
+                        $kegiatancp->bidang_kegiatan = null;
+                    }
+
+                    $kegiatancp->save();
+
+                    $cp->id_kegiatan_cp = $kegiatancp->id_kegiatan_cp;
+                    $cp->save();
+                }else{
+                    if(KegiatanCP::find($cp->id_kegiatan_cp)){
+                        $kegiatancp = KegiatanCP::find($cp->id_kegiatan_cp);
+                        $kegiatancp->delete();
+                        $cp->id_kegiatan_cp = null;
+                        $cp->save();
+                    }
+                }
+
                 return redirect('/admin/cp')->with('success', 'Data berhasil diubah!');
             }
         }
@@ -184,6 +215,7 @@ class CPController extends Controller
                 $cp->nis = $request['nis'];
                 $cp->id_user = $user->id_user;
                 $cp->id_kontak = $kontak->id_kontak;
+                $cp->alumni = $request['alumni'];
 
                 if($request['cv'] != null){
                     $cp->cv = $this->createFile($request['cv']);
@@ -206,6 +238,19 @@ class CPController extends Controller
                 }
 
                 $cp->foto = $nameToStore;
+
+                if($request['alumni'] === 'Y'){
+                    $kegiatan_cp = new KegiatanCP;
+                    $kegiatan_cp->jenis_kegiatan = $request['jenis_kegiatan'];
+
+                    if($request['jenis_kegiatan'] === 'Bekerja' || $request['jenis_kegiatan'] === 'Kuliah'){
+                        $kegiatan_cp->tempat_kegiatan = $request['tempat_kegiatan'];
+                        $kegiatan_cp->bidang_kegiatan = $request['bidang_kegiatan'];
+                    }
+
+                    $kegiatan_cp->save();
+                    $cp->id_kegiatan_cp = $kegiatan_cp->id_kegiatan_cp;
+                }
 
                 if($cp->save()){
                     return redirect('admin/cp')->with('success', 'Data berhasil ditambahkan!');

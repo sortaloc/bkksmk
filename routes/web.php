@@ -17,6 +17,7 @@ Auth::routes();
 Route::get('/', 'LPController@lp')->name('lp');
 Route::get('/mitra', 'LPController@mitra');
 Route::get('/tentang', 'LPController@tentang');
+Route::get('/berita', 'BeritaController@index');
 Route::get('/kontak', 'LPController@kontak');
 Route::post('/kontak', 'LPController@kirimPesan');
 Route::get('/home', 'HomeController@index')->name('home');
@@ -26,14 +27,20 @@ Route::get('/register', 'Auth\RegisterController@index')->name('register');
 Route::get('/registerCP', 'Auth\RegisterController@showRegisterCP')->name('registerCP');
 Route::post('/registerCP', 'Auth\RegisterController@registerCP');
 
-Route::get('/perusahaan/loker/add', 'Perusahaan\LokerController@index')->name('addLoker');
-Route::post('/perusahaan/loker/add', 'Perusahaan\LokerController@addLoker');
-Route::get('/perusahaan/loker/delete/{id}', 'Perusahaan\LokerController@deleteLoker');
-Route::get('/perusahaan/loker/edit/{id}', 'Perusahaan\LokerController@editLoker');
-Route::post('/perusahaan/loker/edit/{id}', 'Perusahaan\LokerController@updateLoker');
+Route::get('/berita/{slug}', 'LPController@detailBerita');
+
+Route::get('/perusahaan/loker', 'Perusahaan\LokerController@index');
+Route::get('/perusahaan/loker/add', 'Perusahaan\LokerController@add')->name('addLoker');
+Route::post('/perusahaan/loker/add', 'Perusahaan\LokerController@store');
+Route::get('/perusahaan/loker/edit/{id}', 'Perusahaan\LokerController@edit');
+Route::post('/perusahaan/loker/edit/{id}', 'Perusahaan\LokerController@update');
+Route::get('/perusahaan/loker/delete/{id}', 'Perusahaan\LokerController@destroy');
+
 Route::get('/perusahaan/loker/daftar_pelamar/{id}', 'Perusahaan\LokerController@daftarPelamar');
 Route::post('/perusahaan/loker/verif_pelamar/{id}', 'Perusahaan\LokerController@verifPelamar');
 Route::post('/perusahaan/loker/tolak_pelamar/{id}', 'Perusahaan\LokerController@tolakPelamar');
+
+Route::get('/perusahaan/berita', 'Perusahaan\BeritaController@index');
 
 Route::get('/admin/loker', 'Admin\LokerController@indexLoker');
 Route::get('/admin/loker/add', 'Admin\LokerController@index');
@@ -95,8 +102,16 @@ Route::get('/admin/kegiatan/edit/{id}', 'Admin\KegiatanController@edit');
 Route::post('/admin/kegiatan/edit/{id}', 'Admin\KegiatanController@update');
 Route::get('/admin/kegiatan/{id}', 'Admin\KegiatanController@destroy');
 
+Route::get('/admin/berita', 'Admin\BeritaController@index');
+Route::get('/admin/berita/add', 'Admin\BeritaController@add');
+Route::post('/admin/berita/add', 'Admin\BeritaController@store');
+Route::get('/admin/berita/edit/{slug}', 'Admin\BeritaController@edit');
+Route::post('/admin/berita/edit/{id}', 'Admin\BeritaController@update');
+Route::get('/admin/berita/{id}', 'Admin\BeritaController@destroy');
+
 Route::get('/cp/loker', 'CP\LokerController@daftarCPLoker');
 Route::get('/cp/lamaran', 'CP\LokerController@daftarCPLamaran');
+Route::get('/cp/berita', 'CP\BeritaController@index');
 
 Route::get('/perusahaan/cp/{id}', 'Perusahaan\CPController@profile');
 

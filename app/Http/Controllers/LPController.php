@@ -5,10 +5,13 @@ namespace App\Http\Controllers;
 use App\Pengaturan;
 use App\DaftarPerusahaan;
 use App\Loker;
+use App\Berita;
 use App\BukuTamu;
 use App\Kegiatan;
+use App\KegiatanCP;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 use Auth;
 
@@ -42,7 +45,23 @@ class LPController extends Controller
 
         $loker = $loker->paginate(8);
 
-        return view('lp', compact('pengaturan', 'loker', 'perusahaanAll', 'kegiatan', 'bidangPekerjaan', 'gaji', 'request'));
+        $berita = Berita::orderBy('created_at', 'descending')->paginate(7);
+
+        $alumniBekerja = count(KegiatanCP::where('jenis_kegiatan', 'Bekerja')->get());
+        $alumniKuliah = count(KegiatanCP::where('jenis_kegiatan', 'Kuliah')->get());
+        $alumniBelum = count(KegiatanCP::where('jenis_kegiatan', 'Belum Bekerja/Kuliah')->get());
+        $alumniLain = count(KegiatanCP::where('jenis_kegiatan', 'Lain-lain')->get());
+        $dataKegiatanAlumni = [$alumniBekerja, $alumniKuliah, $alumniBelum, $alumniLain];
+
+        $dataBidang = DB::table('kegiatan_cp')->select('bidang_kegiatan', DB::raw('count(*) as total'))->groupBy('bidang_kegiatan')->get();
+        $labelBidang = [];
+        $jumlahBidang = [];
+        foreach($dataBidang as $dbid){
+            array_push($labelBidang, $dbid->bidang_kegiatan);
+            array_push($jumlahBidang, $dbid->total);
+        }
+
+        return view('lp', compact('pengaturan', 'loker', 'perusahaanAll', 'kegiatan', 'bidangPekerjaan', 'gaji', 'request', 'berita', 'labelBidang', 'jumlahBidang', 'dataKegiatanAlumni'));
     }
 
     public function mitra()
@@ -79,5 +98,13 @@ class LPController extends Controller
         if($bukutamu->save()){
             return back()->with('success', 'Terima kasih telah mengirim pesan kepada kami.');
         }
+    }
+
+    public function detailBerita($slug){
+        $pengaturan = Pengaturan::all()->first();
+        $berita = Berita::where('slug', $slug)->first();
+        $beritaTerbaru = Berita::orderBy('created_at', 'descending')->get()->whereNotIn('slug', $berita->slug)->take(4);
+
+        return view('berita', compact('berita', 'beritaTerbaru', 'pengaturan'));
     }
 }

@@ -27,6 +27,10 @@
                         <a href="{{ url('/tentang') }}" class="nav-link"><i class="fas fa-info-circle"></i> Tentang</a>
                     </li>
 
+                    <li class="nav-item nav-custom" id="menuBerita">
+                        <a href="{{ url('/berita') }}" class="nav-link"><i class="fas fa-newspaper"></i> Berita</a>
+                    </li>
+
                     <li class="nav-item nav-custom" id="mitra">
                         <a href="{{ url('/mitra') }}" class="nav-link"><i class="fas fa-industry"></i> Mitra Perusahaan</a>
                     </li>

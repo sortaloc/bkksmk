@@ -17,12 +17,14 @@ class CreateDaftarCpTable extends Migration
             $table->string('nis', 20)->primary('nis');
             $table->integer('id_user')->references('id_user')->on('users');
             $table->integer('id_kontak')->references('id_kontak')->on('kontak');
+            $table->integer('id_kegiatan_cp')->references('id_kegiatan_cp')->on('kegiatan_cp')->nullable();
             $table->string('nama', 50);
             $table->string('jenis_kelamin', 25);
             $table->string('cv', 255)->nullable();
             $table->text('alamat')->nullable();
             $table->string('ttl', 50)->nullable();
             $table->string('foto', 250)->nullable();
+            $table->char('alumni', 1);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();
         });

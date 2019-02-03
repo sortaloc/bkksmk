@@ -10,6 +10,11 @@
                 <a href="{{ url('/') }}" class="btn btn-primary btn-block text-left btn-square cpmenu_beranda btn-desc">Beranda</a>
             </div>
 
+            <div class="btn-group btn-block cpmenu_berita">
+                <a href="{{ url('cp/berita/') }}" class="btn btn-primary btn-square cpmenu_berita"><i class="fas fa-newspaper"></i></a>
+                <a href="{{ url('cp/berita/') }}" class="btn btn-primary btn-block text-left btn-square cpmenu_berita btn-desc">Berita</a>
+            </div>
+
             <div class="btn-group btn-block cpmenu_loker">
                 <a href="{{ url('cp/loker/') }}" class="btn btn-primary btn-square cpmenu_loker"><i class="fas fa-briefcase"></i></a>
                 <a href="{{ url('cp/loker/') }}" class="btn btn-primary btn-block text-left btn-square cpmenu_loker btn-desc">Lowongan Kerja</a>

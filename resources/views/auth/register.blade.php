@@ -127,6 +127,26 @@
                         </div>
 
                         <div class="form-group col-md-10 offset-md-1">
+                            <label for="alumni">Alumni</label>
+                            <br>
+                            <div class="{{ $errors->has('alumni') ? 'border border-danger p-1' : '' }}">
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" name="alumni" id="iya" value="Y" class="custom-control-input" @if(old('alumni') === 'Y') checked @endif>
+                                    <label for="iya" class="custom-control-label">Iya</label>
+                                </div>
+
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" name="alumni" id="tidak" value="T" class="custom-control-input" @if(old('alumni')) checked @endif>
+                                    <label for="tidak" class="custom-control-label">Bukan</label>
+                                </div>
+                            </div>
+
+                            @if($errors->has('alumni'))
+                                <small id="alumniHelp" class="form-text text-danger">{{ $errors->first('alumni') }}</small>
+                            @endif
+                        </div>
+
+                        <div class="form-group col-md-10 offset-md-1">
                             <label for="no_hp_cp">No HP</label>
                             <input type="text" class="form-control{{ $errors->has('no_hp_cp') ? ' is-invalid' : '' }}" name="no_hp_cp" id="no_hp_cp" value="{{ old('no_hp_cp') }}" placeholder="087825418390" required autofocus>
 

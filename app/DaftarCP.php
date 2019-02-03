@@ -13,7 +13,7 @@ class DaftarCP extends Model
     protected $primaryKey = "nis";
 
     protected $fillable = [
-        'nis', 'id_user', 'id_kontak', 'nama', 'alamat', 'ttl', 'foto',
+        'nis', 'id_user', 'id_kontak', 'id_kegiatan_cp', 'nama', 'alamat', 'ttl', 'foto', 'alumni'
     ];
 
     // Memberitahu laravel bahwa table ini tidak memiliki kolom created_at & updated_at
@@ -25,6 +25,10 @@ class DaftarCP extends Model
 
     public function kontak(){
         return $this->belongsTo('App\Kontak', 'id_kontak');
+    }
+
+    public function kegiatanCP(){
+        return $this->belongsTo('App\KegiatanCP', 'id_kegiatan_cp');
     }
 
     public function lamaran(){

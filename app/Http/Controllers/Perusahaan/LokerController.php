@@ -33,14 +33,33 @@ class LokerController extends Controller
         return $nameFinal;
     }
 
-    protected function index(){
+    protected function index(Request $request){
         $pengaturan = Pengaturan::all()->first();
         $perusahaan = DaftarPerusahaan::where('id_user', Auth::user()->id_user)->get()->first();
 
-        return view('perusahaan.addLoker', compact('perusahaan', 'pengaturan'));
+        $bidangPekerjaan = Loker::select('bidang_pekerjaan')->where('id_perusahaan', $perusahaan->id_perusahaan)->groupBy('bidang_pekerjaan')->get();
+        $gaji = Loker::select('gaji')->where('id_perusahaan', $perusahaan->id_perusahaan)->groupBy('gaji')->get();
+
+        $loker = Loker::where('id_perusahaan', $perusahaan->id_perusahaan)->orderBy('created_at', 'descending');
+        if($request->input('bp')){
+            $loker = $loker->where('bidang_pekerjaan', $request->input('bp'));
+        }
+        if($request->input('gaji')){
+            $loker = $loker->where('gaji', $request->input('gaji'));
+        }
+        $loker = $loker->paginate(8);
+
+        return view('perusahaan.loker.loker', compact('loker', 'perusahaan', 'pengaturan', 'bidangPekerjaan', 'gaji', 'request'));
     }
 
-    protected function addLoker(AddLokerRequest $request){
+    protected function add(){
+        $pengaturan = Pengaturan::all()->first();
+        $perusahaan = DaftarPerusahaan::where('id_user', Auth::user()->id_user)->get()->first();
+
+        return view('perusahaan.loker.addLoker', compact('perusahaan', 'pengaturan'));
+    }
+
+    protected function store(AddLokerRequest $request){
         $loker = new Loker;
         $perusahaan = DaftarPerusahaan::where('id_user', Auth::user()->id_user)->get()->first();
 
@@ -71,7 +90,7 @@ class LokerController extends Controller
         }
     }
 
-    protected function deleteLoker($id){
+    protected function destroy($id){
         $loker = Loker::find(base64_decode($id));
 
         if(count($loker->lamaran) > 0){
@@ -82,19 +101,19 @@ class LokerController extends Controller
             }
 
             if($loker->delete()){
-                return redirect('/home')->with('success', 'Data berhasil dihapus!');
+                return redirect('/perusahaan/loker')->with('success', 'Data berhasil dihapus!');
             }
         }
     }
 
-    protected function editLoker($id){
+    protected function edit($id){
         $pengaturan = Pengaturan::all()->first();
         $loker = Loker::find(base64_decode($id));
 
-        return view('perusahaan.editLoker', compact('loker', 'pengaturan'));
+        return view('perusahaan.loker.editLoker', compact('loker', 'pengaturan'));
     }
 
-    protected function updateLoker(AddLokerRequest $request, $id){
+    protected function update(AddLokerRequest $request, $id){
         $loker = Loker::find(base64_decode($id));
         $loker->judul = $request['judul'];
         $loker->persyaratan = $request['persyaratan'];
