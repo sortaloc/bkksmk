@@ -83,25 +83,29 @@
                         <div class="card-header text-center h3">Daftar Berita</div>
 
                         <div class="card-body">
-                            <div id="beritaItemContainer" class="my-3">
-                                @foreach($berita as $b)
-                                    <a href="{{ url('berita', $b->slug) }}">
-                                        <div class="beritaItem box">
-                                            <div class="leftSide">
-                                                <img @if($b->foto_berita === 'nophoto.jpg') src="{{ asset('assets/images/nophoto.jpg') }}" @else src="{{ asset('storage/fotoBerita/'.$b->foto_berita) }}" @endif alt="{{ $b->judul_berita }}" class="img-fluid imgBerita">
+                            @if(count($berita) > 0)
+                                <div id="beritaItemContainer" class="my-3">
+                                    @foreach($berita as $b)
+                                        <a href="{{ url('berita', $b->slug) }}">
+                                            <div class="beritaItem box">
+                                                <div class="leftSide">
+                                                    <img @if($b->foto_berita === 'nophoto.jpg') src="{{ asset('assets/images/nophoto.jpg') }}" @else src="{{ asset('storage/fotoBerita/'.$b->foto_berita) }}" @endif alt="{{ $b->judul_berita }}" class="img-fluid imgBerita">
+                                                </div>
+                                                <div class="rightSide p-3">
+                                                    <h1 class="judulBerita2">{{ $b->judul_berita }}</h1>
+                                                    <small class="tanggalBerita"><i>{{ date_format($b->created_at, 'd M Y') }} · <b>{{ $b->penulis }}</b></i></small>
+                                                    {{-- <p class="text-justify">{!! Str::words($b->isi_berita, 40, '...') !!}</p> --}}
+                                                </div>
                                             </div>
-                                            <div class="rightSide p-3">
-                                                <h1 class="judulBerita2">{{ $b->judul_berita }}</h1>
-                                                <small class="tanggalBerita"><i>{{ date_format($b->created_at, 'd M Y') }} · <b>{{ $b->penulis }}</b></i></small>
-                                                {{-- <p class="text-justify">{!! Str::words($b->isi_berita, 40, '...') !!}</p> --}}
-                                            </div>
-                                        </div>
-                                    </a>
-                                @endforeach
-                            </div>
-                            <div class="my-3">
-                                {{ $berita->links() }}
-                            </div>
+                                        </a>
+                                    @endforeach
+                                </div>
+                                <div class="my-3">
+                                    {{ $berita->links() }}
+                                </div>
+                            @else
+                                <p class="text-center">Maaf, saat ini belum ada berita.</p>
+                            @endif
                         </div>
                     </div>
                 </div>

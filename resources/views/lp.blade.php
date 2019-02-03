@@ -76,10 +76,15 @@
         </div>
     </section>
 
-    @include('daftarBerita')
-    <div class="my-3 text-center">
-        <a href="{{ url('berita') }}" class="btn btn-primary btn-square">Lihat Semua Berita</a>
-    </div>
+    @if(count($berita) > 0)
+        @include('daftarBerita')
+        <div class="my-3 text-center">
+            <a href="{{ url('berita') }}" class="btn btn-primary btn-square">Lihat Semua Berita</a>
+        </div>
+    @else
+        <h1 style="border-bottom: 3px solid grey;width: fit-content;">Daftar Berita</h1>
+        <p class="text-center">Maaf, saat ini belum ada berita.</p>
+    @endif
 
     @include('daftarLoker')
 
