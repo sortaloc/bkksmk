@@ -18,11 +18,17 @@ class BeritaController extends Controller
         $this->middleware('isCP');
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $pengaturan = Pengaturan::all()->first();
-        $berita = Berita::orderBy('created_at', 'descending')->paginate(8);
+        $statusSearch = false;
+        $berita = Berita::orderBy('created_at', 'descending');
+        if($request->input('search')){
+            $statusSearch = true;
+            $berita = $berita->where('judul_berita', 'like', '%'.$request->input('search').'%');
+        }
+        $berita = $berita->paginate(4);
 
-        return view('cp.daftarBerita', compact('pengaturan', 'berita'));
+        return view('cp.daftarBerita', compact('pengaturan', 'berita', 'statusSearch', 'request'));
     }
 }

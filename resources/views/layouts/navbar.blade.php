@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md navbar-light bg-2 navbar-laravel" id="navbar">
+<nav class="navbar navbar-expand-lg navbar-light bg-2 navbar-laravel" id="navbar">
     <div class="container">
         <a class="navbar-brand" href="{{ url('/') }}">
             <img src="{{ asset('assets/images/BKKSMK Logo.png') }}" alt="bkksmk logo" style="max-width: 20px;max-height: 20px">
@@ -23,10 +23,6 @@
                         </a>
                     </li>
 
-                    <li class="nav-item nav-custom" id="tentang">
-                        <a href="{{ url('/tentang') }}" class="nav-link"><i class="fas fa-info-circle"></i> Tentang</a>
-                    </li>
-
                     <li class="nav-item nav-custom" id="menuBerita">
                         <a href="{{ url('/berita') }}" class="nav-link"><i class="fas fa-newspaper"></i> Berita</a>
                     </li>
@@ -37,6 +33,10 @@
 
                     <li class="nav-item nav-custom mr-2" id="kontak">
                         <a href="{{ url('/kontak') }}" class="nav-link"><i class="fas fa-address-book"></i> Kontak</a>
+                    </li>
+
+                    <li class="nav-item nav-custom" id="tentang">
+                        <a href="{{ url('/tentang') }}" class="nav-link"><i class="fas fa-info-circle"></i> Tentang</a>
                     </li>
 
                     <li class="nav-item nav-custom" id="login">

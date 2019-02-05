@@ -38,11 +38,17 @@ class BeritaController extends Controller
     }
 
     // Prebuilt Function
-    protected function index(){
+    protected function index(Request $request){
         $pengaturan = Pengaturan::all()->first();
-        $berita = Berita::orderBy('created_at', 'descending')->paginate(8);
+        $statusSearch = false;
+        $berita = Berita::orderBy('created_at', 'descending');
+        if($request->input('search')){
+            $statusSearch = true;
+            $berita = $berita->where('judul_berita', 'like', '%'.$request->input('search').'%');
+        }
+        $berita = $berita->paginate(4);
 
-        return view('admin.berita.berita', compact('berita', 'pengaturan'));
+        return view('admin.berita.berita', compact('berita', 'statusSearch', 'request', 'pengaturan'));
     }
 
     protected function add(){

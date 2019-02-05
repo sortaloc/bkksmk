@@ -17,7 +17,7 @@ class CreateKegiatanCPTable extends Migration
             $table->increments('id_kegiatan_cp');
             $table->string('jenis_kegiatan', 255);
             $table->text('tempat_kegiatan')->nullable();
-            $table->string('bidang_kegiatan', 255)->nullable();
+            $table->string('bidang_kegiatan', 255)->nullable()->default('Lain-lain');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();
         });

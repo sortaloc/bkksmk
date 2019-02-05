@@ -1,6 +1,6 @@
 <section id="daftarLoker" class="col-md-10 offset-md-1">
     <div class="row">
-        <div class="col-lg-3">
+        <div class="col-lg-3" id="filters">
             <div class="card box btn-square">
                 <div class="card-header text-center h3">Filter</div>
 

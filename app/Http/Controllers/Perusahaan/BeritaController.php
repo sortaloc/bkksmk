@@ -20,12 +20,19 @@ class BeritaController extends Controller
         $this->middleware('isPerusahaan');
     }
 
-    protected function index()
+    protected function index(Request $request)
     {
         $pengaturan = Pengaturan::all()->first();
         $perusahaan = DaftarPerusahaan::where('id_user', Auth::user()->id_user)->get()->first();
-        $berita = Berita::orderBy('created_at', 'descending')->paginate(8);
 
-        return view('perusahaan.daftarBerita', compact('pengaturan', 'berita', 'perusahaan'));
+        $statusSearch = false;
+        $berita = Berita::orderBy('created_at', 'descending');
+        if($request->input('search')){
+            $statusSearch = true;
+            $berita = $berita->where('judul_berita', 'like', '%'.$request->input('search').'%');
+        }
+        $berita = $berita->paginate(4);
+
+        return view('perusahaan.daftarBerita', compact('pengaturan', 'berita', 'statusSearch', 'request', 'perusahaan'));
     }
 }

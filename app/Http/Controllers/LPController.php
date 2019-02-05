@@ -103,7 +103,7 @@ class LPController extends Controller
     public function detailBerita($slug){
         $pengaturan = Pengaturan::all()->first();
         $berita = Berita::where('slug', $slug)->first();
-        $beritaTerbaru = Berita::orderBy('created_at', 'descending')->get()->whereNotIn('slug', $berita->slug)->take(4);
+        $beritaTerbaru = Berita::orderBy('created_at', 'descending')->get()->whereNotIn('slug', $berita->slug)->take(6);
 
         return view('berita', compact('berita', 'beritaTerbaru', 'pengaturan'));
     }

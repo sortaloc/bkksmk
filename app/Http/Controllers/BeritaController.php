@@ -14,16 +14,25 @@ use Auth;
 
 class BeritaController extends Controller
 {
-    public function index(){
+    public function index(Request $request){
         $pengaturan = Pengaturan::all()->first();
+
         $latestBerita = Berita::orderBy('created_at', 'descending')->take(4)->get();
         $latestBeritaID = [];
         foreach($latestBerita as $lb){
             array_push($latestBeritaID, $lb->id_berita);
         }
+        $berita = Berita::whereNotIn('id_berita', $latestBeritaID)->orderBy('created_at', 'descending')->paginate(4);
+        $jumlahBerita = count(Berita::all());
 
-        $berita = Berita::whereNotIn('id_berita', $latestBeritaID)->orderBy('created_at', 'descending')->paginate(8);
+        $statusSearch = false;
+        $searchBerita = Berita::orderBy('created_at', 'descending');
+        if($request->input('search')){
+            $statusSearch = true;
+            $searchBerita = $searchBerita->where('judul_berita', 'like', '%'.$request->input('search').'%');
+        }
+        $searchBerita = $searchBerita->paginate(4);
 
-        return view('beritaLP', compact('berita', 'latestBerita', 'pengaturan'));
+        return view('beritaLP', compact('berita', 'latestBerita', 'jumlahBerita', 'searchBerita', 'statusSearch', 'request', 'pengaturan'));
     }
 }

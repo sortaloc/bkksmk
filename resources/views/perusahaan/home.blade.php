@@ -1,13 +1,3 @@
-@section('css')
-<style>
-    @media only screen and (max-width: 992px) {
-        #fotoProfil {
-            display: none;
-        }
-    }
-</style>
-@endsection
-
 <div class="row">
     @include('layouts.perusahaanmenu')
     <section class="col-lg-9" id="dashboard">

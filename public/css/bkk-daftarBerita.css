@@ -24,22 +24,24 @@
     grid-row: 1 / 3;
 }
 
-.smallBerita {
+.smallBerita,
+#beritaSisanya > .beritaSisanyaItem {
     height: 200px;
 }
 
-#big > a > img,
-.smallBerita > a > img,
-#beritaSisanya > .beritaSisanyaItem > a > img {
+#big > img,
+.smallBerita > img,
+#beritaSisanya > .beritaSisanyaItem > img {
     object-fit: cover;
     min-height: 100%;
+    min-width: 100%;
 }
 
 #beritaSisanya {
     display: grid;
     grid-template-columns: repeat(4, 24%);
     grid-gap: 1em;
-    height: 200px;
+    /* height: 200px; */
 }
 
 .judulBerita {
@@ -49,7 +51,6 @@
     font-weight: bold;
     width: 200%;
     overflow: hidden;
-    height: 54px;
     color: #bbb;
 }
 
@@ -66,17 +67,6 @@
     min-width: 100%;
 }
 
-/* .previewBerita {
-    position: absolute;
-    bottom: 0px;
-    left: 0px;
-    margin-bottom: 0px;
-    background-color: rgba(125, 125, 125, 0.8);
-    padding: 8px 16px;
-    min-width: 100%;
-    text-align: justify;
-} */
-
 #big > .previewBerita {
     max-height: 78px;
 }
@@ -86,62 +76,64 @@
     max-height: 36px;
 }
 
-/* .readMore {
-    position: absolute;
-    bottom: 0px;
-    right: 0px;
-    padding: 8px 16px;
-    margin-bottom: 0;
-    background-color: rgba(125, 125, 125, 0.8);
-    border-top-left-radius: 1em;
-} */
-
 #big > .judulBerita {
     max-width: 400px;
 }
 
 @media only screen and (max-width: 1024px) {
     #beritaSisanya {
-        grid-template-columns: repeat(3, 32%);
+        grid-template-columns: repeat(2, auto);
+        grid-gap: 1em 0;
+    }
+    #beritaSisanya > .beritaSisanyaItem:nth-child(1),
+    #beritaSisanya > .beritaSisanyaItem:nth-child(3) {
+        margin-right: 1em;
     }
     #headline {
         display: grid;
-        grid-template-columns: repeat(4, auto);
-        grid-gap: 1em;
-    }
-}
-
-@media only screen and (max-width: 768px) {
-    #beritaSisanya {
         grid-template-columns: repeat(2, auto);
+        grid-gap: 1em 0;
+    }
+    #headline > .smallBerita:nth-child(2) {
+        margin-right: 1em;
     }
 }
 
 @media only screen and (max-width: 576px) {
     #headline {
-        grid-template-columns: auto;
-        height: calc(150px * 3);
+        grid-template-columns: repeat(2, auto);
     }
-
-    #big {
-        grid-column: 1 / 1;
-        grid-row: 1 / 1;
-    }
-
-    .smallBerita {
-        height: auto;
-    }
-
-    /* #big > .previewBerita {
-        max-height: 36px;
-    } */
-
     #beritaSisanya {
-        grid-template-columns: auto;
-        height: calc(150px * 4);
+        grid-template-columns: repeat(2, auto);
     }
-
     #big > .judulBerita {
         max-width: 200px;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    #headline {
+        grid-template-columns: auto;
+        grid-gap: 1em;
+        height: auto;
+    }
+    #headline > .smallBerita:nth-child(2) {
+        margin-right: 0;
+    }
+    #big {
+        grid-row: 1 / 1;
+        grid-column: 1 / 1;
+        height: 200px;
+    }
+    #big > .judulBerita {
+        max-width: 100%;
+        border-radius: 0;
+    }
+    #beritaSisanya {
+        grid-template-columns: auto;
+    }
+    #beritaSisanya > .beritaSisanyaItem:nth-child(1),
+    #beritaSisanya > .beritaSisanyaItem:nth-child(3) {
+        margin-right: 0;
     }
 }

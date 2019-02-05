@@ -92,7 +92,7 @@
 
     <section id="chart" class="my-3 col-md-10 offset-md-1">
         <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-6" id="statusAlumni">
                 <div class="card box btn-square">
                     <div class="card-header h3 text-center">Status Alumni</div>
                     <div class="card-body">

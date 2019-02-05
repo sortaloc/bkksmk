@@ -16,12 +16,6 @@
         grid-gap: 1em;
     }
 
-    #isiBerita > .imgBerita {
-        max-height: 250px;
-        min-width: 100%;
-        object-fit: cover;
-    }
-
     #berita > #isiBerita {
         grid-column: 1 / 4;
         padding: 1em;
@@ -29,26 +23,26 @@
         height: fit-content;
     }
 
-    #beritaTerbaru > .beritaSisanyaItem {
+    #beritaTerbaru > a > .beritaSisanyaItem {
         position: relative;
         overflow: hidden;
     }
 
-    #beritaTerbaru > .beritaSisanyaItem:hover {
+    #beritaTerbaru > a > .beritaSisanyaItem:hover {
         opacity: 0.8;
     }
 
-    #beritaTerbaru > .beritaSisanyaItem > .judulBerita {
+    #beritaTerbaru > a > .beritaSisanyaItem > .judulBerita {
         min-width: 100%;
     }
 
-    #beritaTerbaru > .beritaSisanyaItem > a > .imgBeritaTerbaru {
+    #beritaTerbaru > a > .beritaSisanyaItem > a > .imgBeritaTerbaru {
         max-height: 200px;
         min-width: 100%;
         object-fit: cover;
     }
 
-    @media only screen and (max-width: 1024px){
+    @media only screen and (min-width: 768px) and (max-width: 1024px){
         #berita {
             grid-template-columns: auto;
         }
@@ -66,7 +60,7 @@
             grid-gap: 1em;
         }
 
-        #beritaTerbaru > .beritaSisanyaItem {
+        #beritaTerbaru > a > .beritaSisanyaItem {
             max-height: 100px;
             overflow: hidden;
         }
@@ -76,7 +70,7 @@
         }
     }
 
-    @media only screen and (max-width: 768px){
+    @media only screen and (min-width: 576px) and (max-width: 768px){
         #beritaTerbaru {
             grid-template-columns: repeat(2, auto);
         }
@@ -90,9 +84,12 @@
         #beritaTerbaru {
             grid-template-columns: auto;
         }
+        #berita {
+            grid-template-columns: 100%;
+        }
 
-        #headlineBerita {
-            grid-column: 1 / 2;
+        #berita > #isiBerita {
+            grid-column: 1 / 1;
         }
     }
 </style>
@@ -103,39 +100,25 @@
 @section('content')
 <div class="container" id="berita">
     <section id="isiBerita">
-        <a
-            @if(Auth::user())
-                @if(Auth::user()->id_status === 2)
-                    href="{{ url('perusahaan/berita') }}"
-                @elseif(Auth::user()->id_status === 3)
-                    href="{{ url('cp/berita') }}"
-                @endif
-            @else
-                href="{{ url('/berita') }}"
-            @endif
-            class="backButton"
-        >
-            <i class="fas fa-arrow-left"></i>
-            Kembali
-        </a>
+        <small class="text-muted"><i>{{ date_format($berita->created_at, 'd F Y, H:i ') }}WIB</i></small>
+        <h1 class="m-0"> {{ $berita->judul_berita }}</h1>
+        <small class="text-muted" style="font-size: 12px;">Diposting oleh: <b>{{ $berita->penulis }}</b></small>
 
         @if($berita->foto_berita !== 'nophoto.jpg')
-            <img src="{{ asset('storage/fotoBerita/'.$berita->foto_berita) }}" alt="{{ $berita->judul_berita }}" class="img-fluid imgZoom imgBerita my-2" />
+            <img src="{{ asset('storage/fotoBerita/'.$berita->foto_berita) }}" alt="{{ $berita->judul_berita }}" class="img-fluid imgZoom imgBerita my-2" style="width: 100%"/>
         @endif
-        <small><i>{{ date_format($berita->created_at, 'd M Y') }} · <b>{{ $berita->penulis }}<b/></i></small>
-        <h1> {{ $berita->judul_berita }} </h1>
         <p class="text-justify"> {!! $berita->isi_berita !!} </p>
     </section>
 
     <section id="beritaTerbaru">
         <h3 style="border-bottom: 3px solid grey;width: fit-content" id="headlineBerita"> Berita Terbaru </h3>
         @foreach($beritaTerbaru as $bt)
-            <div class="beritaSisanyaItem">
-                <p class="judulBerita"> {{ $bt->judul_berita }} <br /> <small>{{ date_format($bt->created_at, 'd/m/Y H:i:s') }}</small></p>
-                <a href="{{ url('berita', $bt->slug) }}">
+            <a href="{{ url('berita', $bt->slug) }}">
+                <div class="beritaSisanyaItem">
+                    <p class="judulBerita"> {{ str_limit($bt->judul_berita, 31) }} <br /> <small>{{ date_format($bt->created_at, 'd F Y, H:i ') }}WIB</small></p>
                     <img @if($bt->foto_berita === 'nophoto.jpg') src="{{ asset('assets/images/nophoto.jpg') }}" alt="nophoto" @else src="{{ asset('storage/fotoBerita/'.$bt->foto_berita) }}" alt="{{ $bt->judul_berita }}" @endif class="img-fluid imgBeritaTerbaru mb-2 box" />
-                </a>
-            </div>
+                </div>
+            </a>
         @endforeach
     </section>
 </div>
