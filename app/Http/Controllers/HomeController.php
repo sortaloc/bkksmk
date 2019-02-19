@@ -126,4 +126,17 @@ class HomeController extends Controller
     {
         return view('afterRedirect');
     }
+
+    public function uploadCMSFile(Request $request) {
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $fileNameFull = $file->getClientOriginalName();
+            $name = pathinfo($fileNameFull, PATHINFO_FILENAME);
+            $extension = $file->getClientOriginalExtension();
+            $nameFinal = $name.'_'.time().'.'.$extension;
+
+            $store = $file->storeAs('public/images', $nameFinal);
+        }
+        return response()->json($request->root() . '/storage/images/' . $nameFinal);
+    }
 }

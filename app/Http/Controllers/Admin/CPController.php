@@ -149,6 +149,9 @@ class CPController extends Controller
                     $kegiatancp->jenis_kegiatan = $request['jenis_kegiatan'];
                     $kegiatancp->tempat_kegiatan = $request['tempat_kegiatan'];
                     $kegiatancp->bidang_kegiatan = $request['bidang_kegiatan'];
+                    if(!$request['bidang_kegiatan'] || $request['bidang_kegiatan'] === ""){
+                        $kegiatancp->bidang_kegiatan = "Lain-lain";
+                    }
 
                     if($request['jenis_kegiatan'] === 'Belum Bekerja/Kuliah' || $request['jenis_kegiatan'] === 'Lain-lain'){
                         $kegiatancp->tempat_kegiatan = null;
@@ -246,6 +249,9 @@ class CPController extends Controller
                     if($request['jenis_kegiatan'] === 'Bekerja' || $request['jenis_kegiatan'] === 'Kuliah'){
                         $kegiatan_cp->tempat_kegiatan = $request['tempat_kegiatan'];
                         $kegiatan_cp->bidang_kegiatan = $request['bidang_kegiatan'];
+                        if(!$request['bidang_kegiatan'] || $request['bidang_pekerjaan'] === ""){
+                            $kegiatan_cp->bidang_kegiatan = "Lain-lain";
+                        }
                     }
 
                     $kegiatan_cp->save();

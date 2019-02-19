@@ -115,6 +115,8 @@ Route::get('/cp/berita', 'CP\BeritaController@index');
 
 Route::get('/perusahaan/cp/{id}', 'Perusahaan\CPController@profile');
 
+Route::post('/uploadCMSFile', 'HomeController@uploadCMSFile');
+
 // Drive
 Route::get('/admin/drive', 'Admin\DriveController@getDrive'); // retreive folders
 Route::get('/admin/drive/upload', 'Admin\DriveController@uploadFile'); // File upload form
