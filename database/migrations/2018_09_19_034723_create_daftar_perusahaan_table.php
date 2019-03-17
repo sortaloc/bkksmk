@@ -21,6 +21,9 @@ class CreateDaftarPerusahaanTable extends Migration
             $table->text('alamat')->nullable();
             $table->text('bio')->nullable();
             $table->string('foto', 255)->nullable();
+            $table->string('noSurat', 50);
+            $table->string('suratKerjasama', 255);
+            $table->boolean('terverifikasi')->default(false);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();
         });

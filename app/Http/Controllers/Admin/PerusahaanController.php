@@ -16,15 +16,25 @@ use App\Http\Requests\DataDiriPerusahaanRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\File;
 
+use Google_Client;
+use Google_Service_Drive;
+use Google_Service_Drive_DriveFile;
+use Google_Service_Drive_Permission;
 use Auth;
 
 class PerusahaanController extends Controller
 {
-    public function __construct()
+    public function __construct(Google_Client $client)
     {
         $this->middleware('auth');
         $this->middleware('isAdmin');
+        $this->middleware(function ($request, $next) use ($client) {
+            session('refreshToken') ? $client->refreshToken(session('refreshToken')) : $client->refreshToken(bcrypt(rand(0, 200)));
+            $this->drive = new Google_Service_Drive($client);
+            return $next($request);
+        });
     }
 
     protected function ambil($path, $file){
@@ -37,12 +47,50 @@ class PerusahaanController extends Controller
 
         return $nameFinal;
     }
+    protected function createFile($file, $parent_id = null) {
+        // Creating a folder
+        // $folderMetadata = new Google_Service_Drive_DriveFile([
+        //     'name' => 'BKKSMK',
+        //     'mimeType' => 'application/vnd.google-apps.folder'
+        // ]);
+        // $folder = $this->drive->files->create($folderMetadata, ['fields' => 'id']);
+
+        // Creating a file
+        $name = gettype($file) === 'object' ? $file->getClientOriginalName() : $file;
+        $fileMetadata = new Google_Service_Drive_DriveFile([
+            'name' => time().'_'.$name,
+            'parent' => $parent_id ? $parent_id : 'root'
+            // 'parent' => $parent_id ? $parent_id : 'array($folder->id)
+        ]);
+
+        $content = gettype($file) === 'object' ?  File::get($file) : Storage::get($file);
+        $mimeType = gettype($file) === 'object' ? File::mimeType($file) : Storage::mimeType($file);
+
+        $file = $this->drive->files->create($fileMetadata, [
+            'data' => $content,
+            'mimeType' => $mimeType,
+            'uploadType' => 'multipart',
+            'fields' => 'id'
+        ]);
+
+        // Changing file permission.
+        $userPermission = new Google_Service_Drive_Permission(array(
+            'type' => 'anyone',
+            'role' => 'reader'
+        ));
+
+        $request = $this->drive->permissions->create($file->id, $userPermission, array('fields' => 'id'));
+        if($request){
+            return "https://drive.google.com/file/d/".$file->id."/preview";
+        }
+    }
 
     protected function index(){
         $pengaturan = Pengaturan::all()->first();
-        $perusahaan = DaftarPerusahaan::orderBy('created_at', 'descending')->get();
+        $perusahaanVerified = DaftarPerusahaan::orderBy('created_at', 'descending')->where('terverifikasi', true)->get();
+        $perusahaanUnverified = DaftarPerusahaan::orderBy('created_at', 'descending')->where('terverifikasi', false)->get();
 
-        return view('admin.perusahaan.perusahaan', compact('perusahaan', 'pengaturan'));
+        return view('admin.perusahaan.perusahaan', compact('perusahaanVerified', 'perusahaanUnverified', 'pengaturan'));
     }
 
     protected function edit($id){
@@ -59,6 +107,10 @@ class PerusahaanController extends Controller
         $perusahaan->nama = $request['nama_perusahaan'];
         $perusahaan->alamat = $request['alamat'];
         $perusahaan->bio = $request['bio'];
+        $perusahaan->noSurat = $request['noSurat'];
+        if($request['suratKerjasama'] != null && $request['suratKerjasama'] != $perusahaan->suratKerjasama){
+            $perusahaan->suratKerjasama = $this->createFile($request['suratKerjasama']);
+        }
 
         $kontak->no_hp = $request['no_hp'];
         $kontak->no_telepon = $request['no_telepon'];
@@ -179,6 +231,15 @@ class PerusahaanController extends Controller
                     // }
                 }
             // }
+        }
+    }
+
+    protected function verifikasiAkun(Request $request, $id) {
+        $perusahaan = DaftarPerusahaan::find(base64_decode($id));
+        $perusahaan->terverifikasi = true;
+
+        if($perusahaan->save()){
+            return redirect()->back()->with('success', 'Akun berhasil diverifikasi!');
         }
     }
 }

@@ -81,6 +81,36 @@
                                 </div>
                             </div>
 
+                            <div class="form-group row">
+                                <label for="noSurat" class="col-md-4 col-form-label text-md-right">No Surat MoU (Naskah Kerjasama)</label>
+
+                                <div class="col-md-6">
+                                    <input type="text" id="noSurat" class="form-control{{ $errors->has('noSurat') ? ' is-invalid' : '' }}" name="noSurat" value="{{ $perusahaan->noSurat }}" required/>
+
+                                    @if ($errors->has('noSurat'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('noSurat') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="suratKerjasama" class="col-md-4 col-form-label text-md-right">File Surat MoU (Naskah Kerjasama)</label>
+                                <div class="col-md-6">
+                                    <div id="realUpload" style="display: none">
+                                        <input type="file" name="suratKerjasama" id="suratKerjasama" class="form-control{{ $errors->has('suratKerjasama') ? ' is-invalid' : '' }}" />
+                                    </div>
+                                    <button class="btn btn-primary btn-block" type="button" id="fakeUpload" data-link="{{ url('google') }}">Upload</button>
+
+                                    @if ($errors->has('suratKerjasama'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('suratKerjasama') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+
                             <hr>
 
                             <div class="form-group row">
@@ -151,7 +181,7 @@
         </div>
 
         <div class="col-md-4">
-            <div class="card box btn-square">
+            <div class="card box btn-square mb-2">
                 <div class="card-header text-center h3">Ganti Password</div>
                 <div class="card-body p-0">
                     <div class="p-3">
@@ -189,6 +219,43 @@
                     </form>
                 </div>
             </div>
+
+            <div class="card box btn-square mb-2">
+                <div class="embed-responsive embed-responsive-16by9 box mb-2">
+                    <iframe src="{{ $perusahaan->suratKerjasama }}" class="embed-responsive-item"></iframe>
+                </div>
+                <div class="card-body p-0">
+                    <div class="p-3">
+                        <form method="POST" action="{{ url('admin/perusahaan/edit/verifikasi', base64_encode($perusahaan->id_perusahaan)) }}">
+                            @csrf
+                            <div class="form-group row">
+                                <label for="noSurat" class="col-md-12 col-form-label text-center">No Surat MoU (Naskah Kerjasama)</label>
+
+                                <div class="col-md-12">
+                                    <input type="text" id="noSurat" class="form-control{{ $errors->has('noSurat') ? ' is-invalid' : '' }}" name="noSurat" value="{{ $perusahaan->noSurat }}" readonly/>
+
+                                    @if ($errors->has('noSurat'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('noSurat') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group m-0 p-0">
+                            @if(!$perusahaan->terverifikasi)
+                                <button type="submit" class="btn btn-primary btn-block btn-square">
+                                    <i class="fas fa-check"></i> - {{ __('Verifikasi Akun Ini') }}
+                                </button>
+                            @else
+                                <button type="submit" class="btn btn-success btn-block btn-square" disabled>
+                                    <i class="fas fa-check"></i> - {{ __('Sudah Terverifikasi') }}
+                                </button>
+                            @endif
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -196,6 +263,7 @@
 
 @section('js')
 @include('layouts.modalGambar')
+<script type="text/javascript" src="{{ asset('js/bkk-popupGD.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/summernote-bs4.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/bkk-summernote.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/bkk-previewImage.js') }}"></script>

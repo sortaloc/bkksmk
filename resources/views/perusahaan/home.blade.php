@@ -1,14 +1,26 @@
 <div class="row">
-    @include('layouts.perusahaanmenu')
-    <section class="col-lg-9" id="dashboard">
-        <div class="card box btn-square">
-            <div class="card-header h3 text-center">Beranda</div>
+    @if($perusahaan->terverifikasi)
+        @include('layouts.perusahaanmenu')
+        <section class="col-lg-9" id="dashboard">
+            <div class="card box btn-square">
+                <div class="card-header h3 text-center">Beranda</div>
 
-            <div class="card-body pb-0">
-                <h1 class="text-center">Selamat Datang di BKK-SMK.</h1>
+                <div class="card-body pb-0">
+                    <h1 class="text-center">Selamat datang di BKKSMK!</h1>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
+    @else
+        <section class="col-lg-12" id="dashboard">
+            <div class="card box btn-square">
+                <div class="card-header h3 text-center">Beranda</div>
+
+                <div class="card-body pb-0">
+                    <h1 class="text-center">Akun anda belum terverifikasi.</h1>
+                </div>
+            </div>
+        </section>
+    @endif
 </div>
 
 @section('js')

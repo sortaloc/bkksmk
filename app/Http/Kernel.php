@@ -63,6 +63,7 @@ class Kernel extends HttpKernel
         'isAdmin' => \App\Http\Middleware\CheckAdmin::class,
         'isCP' => \App\Http\Middleware\CheckCP::class,
         'isPerusahaan' => \App\Http\Middleware\CheckPerusahaan::class,
+        'isVerifiedPerusahaan' => \App\Http\Middleware\CheckVerifikasiPerusahaan::class,
     ];
 
     /**

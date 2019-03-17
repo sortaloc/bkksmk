@@ -82,6 +82,27 @@
                                 </div>
                             </div>
 
+                            <div class="form-group row">
+                                <label for="noSurat" class="col-md-3 col-form-label text-md-right">No Surat MoU (Naskah Kerjasama)</label>
+
+                                <div class="col-md-8">
+                                    <input type="text" id="noSurat" class="form-control{{ $errors->has('noSurat') ? ' is-invalid' : '' }}" name="noSurat" value="{{ $perusahaan->noSurat }}" readonly/>
+
+                                    @if($errors->has('noSurat'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('noSurat') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="suratKerjasama" class="col-md-3 col-form-label text-md-right">File Surat MoU (Naskah Kerjasama)</label>
+                                <div class="embed-responsive embed-responsive-16by9 box col-md-8">
+                                    <iframe src="{{ $perusahaan->suratKerjasama }}" class="embed-responsive-item"></iframe>
+                                </div>
+                            </div>
+
                             <hr />
 
                             <div class="form-group row">

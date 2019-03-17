@@ -18,6 +18,7 @@ class BeritaController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('isPerusahaan');
+        $this->middleware('isVerifiedPerusahaan');
     }
 
     protected function index(Request $request)

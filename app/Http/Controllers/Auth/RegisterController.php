@@ -13,6 +13,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterCPRequest;
 use App\Http\Requests\RegisterPerusahaanRequest;
 
+use Google_Client;
+use Google_Service_Drive;
+use Google_Service_Drive_DriveFile;
+use Google_Service_Drive_Permission;
+
+use Illuminate\Support\Facades\File;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -46,9 +52,62 @@ class RegisterController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Google_Client $client)
     {
         $this->middleware('guest');
+        $this->middleware(function ($request, $next) use ($client) {
+            session('refreshToken') ? $client->refreshToken(session('refreshToken')) : $client->refreshToken(bcrypt(rand(0, 200)));
+            $this->drive = new Google_Service_Drive($client);
+            return $next($request);
+        });
+    }
+
+    protected function ambil($path, $file){
+        $fileNameFull = $file->getClientOriginalName();
+        $name = pathinfo($fileNameFull, PATHINFO_FILENAME);
+        $extension = $file->getClientOriginalExtension();
+        $nameFinal = $name.'_'.time().'.'.$extension;
+
+        $file->storeAs($path, $nameFinal);
+
+        return $nameFinal;
+    }
+
+    protected function createFile($file, $parent_id = null) {
+        // Creating a folder
+        // $folderMetadata = new Google_Service_Drive_DriveFile([
+        //     'name' => 'BKKSMK',
+        //     'mimeType' => 'application/vnd.google-apps.folder'
+        // ]);
+        // $folder = $this->drive->files->create($folderMetadata, ['fields' => 'id']);
+
+        // Creating a file
+        $name = gettype($file) === 'object' ? $file->getClientOriginalName() : $file;
+        $fileMetadata = new Google_Service_Drive_DriveFile([
+            'name' => time().'_'.$name,
+            'parent' => $parent_id ? $parent_id : 'root'
+        ]);
+
+        $content = gettype($file) === 'object' ?  File::get($file) : Storage::get($file);
+        $mimeType = gettype($file) === 'object' ? File::mimeType($file) : Storage::mimeType($file);
+
+        $file = $this->drive->files->create($fileMetadata, [
+            'data' => $content,
+            'mimeType' => $mimeType,
+            'uploadType' => 'multipart',
+            'fields' => 'id'
+        ]);
+
+        // Changing file permission.
+        $userPermission = new Google_Service_Drive_Permission(array(
+            'type' => 'anyone',
+            'role' => 'reader'
+        ));
+
+        $request = $this->drive->permissions->create($file->id, $userPermission, array('fields' => 'id'));
+        if($request){
+            return "https://drive.google.com/file/d/".$file->id."/preview";
+        }
     }
 
     protected function index()
@@ -74,6 +133,8 @@ class RegisterController extends Controller
                 $perusahaan->id_kontak = $kontak->id_kontak;
                 $perusahaan->nama = $request['nama_perusahaan'];
                 $perusahaan->foto = 'nophoto.jpg';
+                $perusahaan->noSurat = $request['noSurat'];
+                $perusahaan->suratKerjasama = $this->createFile($request->file('suratKerjasama'));
 
                 if($perusahaan->save()){
                     return redirect('/login')->with('success', 'Pendaftaran berhasil, silahkan login');

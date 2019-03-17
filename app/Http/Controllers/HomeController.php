@@ -36,7 +36,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        // $this->middleware('auth');
     }
 
     /**
@@ -110,9 +110,12 @@ class HomeController extends Controller
     {
         $auth_user = Socialite::driver('google')->stateless()->user();
         // return dd($auth_user);
-        $user = User::find(Auth::user()->id_user);
-        $user->refresh_token = $auth_user->token;
-        $user->save();
+        if(Auth::user()){
+            $user = User::find(Auth::user()->id_user);
+            $user->refresh_token = $auth_user->token;
+            $user->save();
+        }
+        session(['refreshToken' => $auth_user->token]);
         // $user = User::updateOrCreate(
         //     ['email' => $auth_user->email],
         //     ['refresh_token' => $auth_user->token]

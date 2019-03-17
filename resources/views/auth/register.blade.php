@@ -19,7 +19,7 @@
                 </div>
 
                 <div class="card-body collapse show p-0 pt-3" id="perusahaan">
-                    <form method="POST" action="{{ url('register') }}" >
+                    <form method="POST" action="{{ url('register') }}" enctype="multipart/form-data">
                         {{ csrf_field() }}
 
                         <div class="form-group col-md-10 offset-md-1">
@@ -33,10 +33,31 @@
 
                         <div class="form-group col-md-10 offset-md-1">
                             <label for="no_hp">No HP</label>
-                            <input type="text" class="form-control{{ $errors->has('no_hp') ? ' is-invalid' : '' }}" name="no_hp" id="no_hp" value="{{ old('no_hp') }}" placeholder="087825418390" required autofocus>
+                            <input type="text" class="form-control{{ $errors->has('no_hp') ? ' is-invalid' : '' }}" name="no_hp" id="no_hp" value="{{ old('no_hp') }}" placeholder="087825418390" required>
 
                             @if($errors->has('no_hp'))
                                 <small id="noHPHelp" class="form-text text-danger">{{ $errors->first('no_hp') }}</small>
+                            @endif
+                        </div>
+
+                        <div class="form-group col-md-10 offset-md-1">
+                            <label for="noSurat">No Surat MoU (Naskah Kerjasama)</label>
+                            <input type="text" name="noSurat" id="noSurat" class="form-control{{ $errors->first('noSurat') }}" value="{{ old('noSurat')}}" placeholder="019/VII/OS/2016" required>
+
+                            @if($errors->has('noSurat'))
+                                <small id="noSuratHelp" class="form-text text-danger">{{ $errors->first('noSurat') }}</small>
+                            @endif
+                        </div>
+
+                        <div class="form-group col-md-10 offset-md-1">
+                            <label for="suratKerjasama">File Surat MoU (Naskah Kerjasama)</label>
+                            <div id="realUpload" style="display: none">
+                                <input id="suratKerjasama" type="file" class="form-control{{ $errors->has('suratKerjasama') ? ' is-invalid' : '' }}" name="suratKerjasama" required />
+                            </div>
+                            <button class="btn btn-primary btn-block" type="button" id="fakeUpload" data-link="{{ url('google') }}">Upload</button>
+
+                            @if($errors->has('suratKerjasama'))
+                                <small id="suratKerjasamaHelp" class="form-text text-danger">{{ $errors->first('suratKerjasama') }}</small>
                             @endif
                         </div>
 
@@ -208,5 +229,6 @@
 <script type="text/javascript">
     $('#daftar').addClass('active');
 </script>
+<script type="text/javascript" src="{{ asset('js/bkk-popupGD.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/bkk-registerToggle.js') }}"></script>
 @endsection

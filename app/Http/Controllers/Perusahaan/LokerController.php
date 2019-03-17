@@ -20,6 +20,7 @@ class LokerController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('isPerusahaan');
+        $this->middleware('isVerifiedPerusahaan');
     }
 
     protected function ambil($file){

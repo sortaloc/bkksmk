@@ -96,7 +96,7 @@
 
                         <div class="card-body" id="daftarLoker">
                             @if(count($loker) < 1)
-                                <p class="text-center">Maaf, saat ini belum ada loker.<br />
+                                <p class="text-center">Anda belum membuat loker.<br />
                                     Silakan <a href="{{ url('perusahaan/loker/add') }}" class="altLink"> klik disini </a> atau klik tombol <i class="fas fa-plus"></i> / Buat Loker di menu untuk membuat loker.
                                 </p>
                             @else

@@ -56,6 +56,7 @@ Route::get('/admin/perusahaan', 'Admin\PerusahaanController@index');
 Route::get('/admin/perusahaan/edit/{id}', 'Admin\PerusahaanController@edit');
 Route::post('/admin/perusahaan/edit/{id}', 'Admin\PerusahaanController@update');
 Route::post('/admin/perusahaan/edit/password/{id}', 'Admin\PerusahaanController@updatePassword');
+Route::post('/admin/perusahaan/edit/verifikasi/{id}', 'Admin\PerusahaanController@verifikasiAkun');
 Route::get('/admin/perusahaan/add', 'Admin\PerusahaanController@add');
 Route::post('/admin/perusahaan/add', 'Admin\PerusahaanController@store');
 Route::get('/admin/perusahaan/{id}', 'Admin\PerusahaanController@destroy');

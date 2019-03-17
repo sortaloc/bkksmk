@@ -24,7 +24,7 @@ class LPController extends Controller
         }
 
         $pengaturan = Pengaturan::all()->first();
-        $perusahaanAll = DaftarPerusahaan::all();
+        $perusahaanAll = DaftarPerusahaan::where('terverifikasi', true)->get();
         $kegiatan = Kegiatan::all();
         $bidangPekerjaan = Loker::select('bidang_pekerjaan')->groupBy('bidang_pekerjaan')->get();
         $gaji = Loker::select('gaji')->groupBy('gaji')->get();
@@ -67,9 +67,9 @@ class LPController extends Controller
     public function mitra()
     {
         $pengaturan = Pengaturan::all()->first();
-        $perusahaan = DaftarPerusahaan::paginate(6);
+        $perusahaan = DaftarPerusahaan::where('terverifikasi', true)->paginate(6);
 
-        return view('mitra', compact('pengaturan', 'perusahaan', 'perusahaanAll'));
+        return view('mitra', compact('pengaturan', 'perusahaan'));
     }
 
     public function tentang()
