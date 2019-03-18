@@ -51,7 +51,7 @@
                             </div>
 
                             <div class="form-group row">
-                                <label for="angkatan" class="col-md-3 col-form-label text-md-right">Tahun Angkatan Masuk</label>
+                                <label for="angkatan" class="col-md-3 col-form-label text-md-right">Tahun Angkatan Lulus</label>
 
                                 <div class="col-md-8">
                                     <div class="row">

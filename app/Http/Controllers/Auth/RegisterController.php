@@ -162,7 +162,7 @@ class RegisterController extends Controller
             }
 
             if($isValid){
-                if(((int)date('Y') - substr($daftarAlumni[$indeks]->angkatan, 0, 4)) <= 5){
+                if(((int)date('Y') - substr($daftarAlumni[$indeks]->angkatan, 0, 4)) <= 3){
                     $user = new User;
                     $user->id_status = 3;
                     $user->username = $request['usernameCP'];
