@@ -8,6 +8,7 @@ use App\DaftarCP;
 use App\Kontak;
 use App\KegiatanCP;
 use App\Pengaturan;
+use App\Alumni;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterCPRequest;
@@ -150,36 +151,89 @@ class RegisterController extends Controller
     }
 
     protected function registerCP(RegisterCPRequest $request){
-        $user = new User;
-        $user->id_status = 3;
-        $user->username = $request['usernameCP'];
-        $user->email = $request['emailCP'];
-        $user->password = Hash::make($request['passwordCP']);
-        $user->refresh_token = Hash::make('asdasd');
-
-        if($user->save()){
-            $kontak = new Kontak;
-            $kontak->no_hp = $request['no_hp_cp'];
-
-            if($kontak->save()){
-                $cp = new DaftarCP;
-                $cp->nis = $request['nis'];
-                $cp->id_user = $user->id_user;
-                $cp->id_kontak = $kontak->id_kontak;
-                $cp->nama = $request['nama'];
-                $cp->jenis_kelamin = $request['jk'];
-                $cp->foto = 'nophoto.jpg';
-                $cp->alumni = $request['alumni'];
-
-                if($request['alumni'] === 'Y'){
-                    $kegiatan_cp = new KegiatanCP;
-                    $kegiatan_cp->jenis_kegiatan = 'Lain-lain';
-                    $kegiatan_cp->save();
-                    $cp->id_kegiatan_cp = $kegiatan_cp->id_kegiatan_cp;
+        $daftarAlumni = Alumni::all();
+        $isValid = false;
+        if($request['alumni'] === "Y"){
+            foreach($daftarAlumni as $index => $da){
+                if($da->nis == $request['nis']){
+                   $isValid = true;
+                   $indeks = $index;
                 }
+            }
 
-                if($cp->save()){
-                    return redirect('/login')->with('success', 'Berhasil mendaftar, Silahkan login.');
+            if($isValid){
+                if(((int)date('Y') - substr($daftarAlumni[$indeks]->angkatan, 0, 4)) <= 5){
+                    $user = new User;
+                    $user->id_status = 3;
+                    $user->username = $request['usernameCP'];
+                    $user->email = $request['emailCP'];
+                    $user->password = Hash::make($request['passwordCP']);
+                    $user->refresh_token = Hash::make('asdasd');
+
+                    if($user->save()){
+                        $kontak = new Kontak;
+                        $kontak->no_hp = $request['no_hp_cp'];
+
+                        if($kontak->save()){
+                            $cp = new DaftarCP;
+                            $cp->nis = $request['nis'];
+                            $cp->id_user = $user->id_user;
+                            $cp->id_kontak = $kontak->id_kontak;
+                            $cp->nama = $request['nama'];
+                            $cp->jenis_kelamin = $request['jk'];
+                            $cp->foto = 'nophoto.jpg';
+                            $cp->alumni = $request['alumni'];
+
+                            if($request['alumni'] === 'Y'){
+                                $kegiatan_cp = new KegiatanCP;
+                                $kegiatan_cp->jenis_kegiatan = 'Lain-lain';
+                                $kegiatan_cp->save();
+                                $cp->id_kegiatan_cp = $kegiatan_cp->id_kegiatan_cp;
+                            }
+
+                            if($cp->save()){
+                                return redirect('/login')->with('success', 'Berhasil mendaftar, Silahkan login.');
+                            }
+                        }
+                    }
+                } else {
+                    return redirect('/register')->with('warning', 'Alumni yang bisa mendaftar hanya lulusan 2 tahun terakhir.');
+                }
+            } else {
+                return redirect('/register')->with('warning', 'NIS tidak terdaftar.');
+            }
+        } else {
+            $user = new User;
+            $user->id_status = 3;
+            $user->username = $request['usernameCP'];
+            $user->email = $request['emailCP'];
+            $user->password = Hash::make($request['passwordCP']);
+            $user->refresh_token = Hash::make('asdasd');
+
+            if($user->save()){
+                $kontak = new Kontak;
+                $kontak->no_hp = $request['no_hp_cp'];
+
+                if($kontak->save()){
+                    $cp = new DaftarCP;
+                    $cp->nis = $request['nis'];
+                    $cp->id_user = $user->id_user;
+                    $cp->id_kontak = $kontak->id_kontak;
+                    $cp->nama = $request['nama'];
+                    $cp->jenis_kelamin = $request['jk'];
+                    $cp->foto = 'nophoto.jpg';
+                    $cp->alumni = $request['alumni'];
+
+                    if($request['alumni'] === 'Y'){
+                        $kegiatan_cp = new KegiatanCP;
+                        $kegiatan_cp->jenis_kegiatan = 'Lain-lain';
+                        $kegiatan_cp->save();
+                        $cp->id_kegiatan_cp = $kegiatan_cp->id_kegiatan_cp;
+                    }
+
+                    if($cp->save()){
+                        return redirect('/login')->with('success', 'Berhasil mendaftar, Silahkan login.');
+                    }
                 }
             }
         }

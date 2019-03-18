@@ -30,6 +30,11 @@
             </div>
 
             <div class="btn-group btn-block">
+                <a href="{{ url('admin/alumni') }}" class="btn btn-primary btn-square adminmenu_alumni" style="width: 48px"><i class="fas fa-user-graduate"></i></a>
+                <a href="{{ url('admin/alumni') }}" class="btn btn-primary btn-block text-left btn-square adminmenu_alumni btn-desc">Alumni</a>
+            </div>
+
+            <div class="btn-group btn-block">
                 <a href="{{ url('admin/bukutamu') }}" class="btn btn-primary btn-square adminmenu_bukutamu" style="width: 48px"><i class="fas fa-inbox"></i></a>
                 <a href="{{ url('admin/bukutamu') }}" class="btn btn-primary btn-block text-left btn-square adminmenu_bukutamu btn-desc">Buku Tamu</a>
             </div>

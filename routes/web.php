@@ -69,6 +69,13 @@ Route::get('/admin/cp/add', 'Admin\CPController@add');
 Route::post('/admin/cp/add', 'Admin\CPController@store');
 Route::get('/admin/cp/{id}', 'Admin\CPController@destroy');
 
+Route::get('/admin/alumni', 'Admin\AlumniController@index');
+Route::get('/admin/alumni/edit/{id}', 'Admin\AlumniController@edit');
+Route::post('/admin/alumni/edit/{id}', 'Admin\AlumniController@update');
+Route::get('/admin/alumni/add', 'Admin\AlumniController@create');
+Route::post('/admin/alumni/add', 'Admin\AlumniController@store');
+Route::get('/admin/alumni/{id}', 'Admin\AlumniController@destroy');
+
 Route::get('/admin/settings/password', 'SettingController@index');
 Route::get('/perusahaan/settings/password', 'SettingController@index');
 Route::get('/cp/settings/password', 'SettingController@index');
