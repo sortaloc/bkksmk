@@ -80,6 +80,36 @@
                                 </div>
                             </div>
 
+                            <div class="form-group row">
+                                <label for="noSurat" class="col-md-4 col-form-label text-md-right">No Surat MoU (Naskah Kerjasama)</label>
+
+                                <div class="col-md-6">
+                                    <input type="text" id="noSurat" class="form-control{{ $errors->has('noSurat') ? ' is-invalid' : '' }}" name="noSurat" value="{{ old('noSurat') }}" required/>
+
+                                    @if ($errors->has('noSurat'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('noSurat') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="suratKerjasama" class="col-md-4 col-form-label text-md-right">File Surat MoU (Naskah Kerjasama)</label>
+                                <div class="col-md-6">
+                                    <div id="realUpload" style="display: none">
+                                        <input type="file" name="suratKerjasama" id="suratKerjasama" class="form-control{{ $errors->has('suratKerjasama') ? ' is-invalid' : '' }}" />
+                                    </div>
+                                    <button class="btn btn-primary btn-block" type="button" id="fakeUpload" data-link="{{ url('google') }}">Upload</button>
+
+                                    @if ($errors->has('suratKerjasama'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('suratKerjasama') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+
                             <hr>
 
                             <div class="form-group row">
@@ -206,6 +236,7 @@
 
 @section('js')
 @include('layouts.modalGambar')
+<script type="text/javascript" src="{{ asset('js/bkk-popupGD.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/summernote-bs4.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/bkk-summernote.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/bkk-previewImage.js') }}"></script>
