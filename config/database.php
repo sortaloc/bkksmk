@@ -74,7 +74,7 @@ return [
             'host' => env('DB_HOST', 'sql305.epizy.com'),
             'port' => env('DB_PORT', '3306'),
             'database' => env('DB_DATABASE', 'epiz_21270590_bkk_smk'),
-            'username' => env('DB_USERNAME', 'epiz_21270590 '),
+            'username' => env('DB_USERNAME', 'epiz_21270590'),
             'password' => env('DB_PASSWORD', 'yanuar123'),
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => 'utf8mb4',
