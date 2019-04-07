@@ -172,6 +172,10 @@ class PerusahaanController extends Controller
                 $perusahaan->nama = $request['nama_perusahaan'];
                 $perusahaan->alamat = $request['alamat'];
                 $perusahaan->bio = $request['bio'];
+                $perusahaan->noSurat = $request['noSurat'];
+                if($request['suratKerjasama'] != null && $request['suratKerjasama'] != $perusahaan->suratKerjasama){
+                    $perusahaan->suratKerjasama = $this->createFile($request['suratKerjasama']);
+                }
 
                 if($request->file('foto')){
                     $nameToStore = $this->ambil('public/fotoPerusahaan', $request->file('foto'));
